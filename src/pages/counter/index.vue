@@ -147,7 +147,7 @@ export default {
   .left-wrapper
     width 30%
     background #eee
-    height 90vh
+    height 600px
     .left-item
       background #ccc
       margin-top 5px
@@ -156,5 +156,5 @@ export default {
   .right-wrapper
     width 70%
     background #eee
-    height 90vh
+    height 600px
 </style>
