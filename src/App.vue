@@ -5,11 +5,14 @@ export default {
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
-    console.log('app created and cache logs by setStorageSync')
+    console.log('当前环境为：', process.env.NODE_ENV)
   }
 }
 </script>
 
-<style>
+<style lang="stylus">
+page 
+  width 100vw
+  min-height 100vh
+  overflow hidden
 </style>
