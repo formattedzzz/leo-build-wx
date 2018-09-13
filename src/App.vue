@@ -11,5 +11,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="css">
+@import url('../static/weui.wxss');
 </style>

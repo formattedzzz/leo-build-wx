@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-
+// import '/static/weui.'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -13,9 +13,9 @@ export default {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: ['^pages/index/main', 'pages/counter/main'],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '鲨鱼记账',
       navigationBarTextStyle: 'black'
     }
   }

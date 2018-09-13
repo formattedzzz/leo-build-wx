@@ -21,12 +21,12 @@
     </div> -->
   <scroll-view scroll-y class="left-wrapper" id="left">
     <div
-    class="left-item"
-    v-for="(item, index) in leftMenu"
-    :key="index"
-    @click="tabMenu(index)"
-    :class="{'active': index === activeIndex}" >
-      模块{{item}}
+      class="left-item"
+      v-for="(item, index) in menuList"
+      :key="index"
+      @click="tabMenu(index)"
+      :class="{'active': index === activeIndex}" >
+      {{item}}
     </div>
     <!--这里是左侧的类型选择-->
   </scroll-view>
@@ -34,17 +34,27 @@
   <scroll-view
     class="right-wrapper"
     scroll-y
+    :scroll-into-view="currentId"
     @scroll="scrolling"
-    :scroll-into-view="conId"
-    @scrolltolower="scrollend"
-    scroll-top="30"
     id="right">
-    <div class="con-lists" v-for="(item, index) in rightCon" :key="index" :id="'con' + item">
-      <div style="background: orange;margin-top: 5px;" class="type-title">
-        这里是第{{item}}个sticky-title
+    <div class="con-lists" v-for="(item, index) in menuList" :key="index" :id="'list-item' + index">
+      <div class="list-title">
+        {{item}}
       </div>
-      <div class="content">
-        <div> 
+      <div class="list-content">
+        <div>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
@@ -62,15 +72,28 @@
 <script>
 // Use Vuex
 import store from '@/store'
-
+// let throttle = function (func, delay) {
+//   var timer = null
+//   return function () {
+//     var context = this
+//     var args = arguments
+//     if (!timer) {
+//       timer = setTimeout(function () {
+//         func.apply(context, args)
+//         timer = null
+//       }, delay)
+//     }
+//   }
+// }
+// let timer = null
 export default {
   data () {
     return {
-      leftMenu: [1, 2, 3, 4, 5, 6],
+      menuList: ['分类一', '分类二', '分类三', '分类四', '分类五', '分类六'],
       activeIndex: 0,
-      rightCon: [11, 22, 33, 44, 55, 66],
-      conId: '',
-      currentTop: 0
+      currentId: '',
+      currentTop: 0,
+      mark: 1
     }
   },
   computed: {
@@ -78,48 +101,41 @@ export default {
       return store.state.count
     }
   },
+  ooLoad () {
+    // this.throttleFire = throttle(this.getAllRects('.con-lists'), 500)
+    // this.getAllRects('.con-lists')
+  },
   methods: {
-    toView (e) {
-      console.log(e)
-    },
     tabMenu (index) {
       this.activeIndex = index
-      this.conId = 'con' + (index + 1) + (index + 1)
+      this.currentId = 'list-item' + index
     },
     scrolling (e) {
-      console.log(e)
-      // if (e.currentTarget.id === 'right') {
-      //   // 判断滚动的方向
-      //   let top = e.detail.scrollTop
-      //   this.dir = this.currentTop < top ? 'down' : 'up'
-      //   this.currentTop = top
-      //   // 判断当前滚动条所在区域，如果不在当前区域则进行跳转
-      //   if (top > this.scrollTops[this.getNextView()] &&
-      //       this.dir === 'down' &&
-      //       this.checked < this.types.length - 1) {
-      //     this.setChecked(this.checked + 1)
-      //   }
-      //   if (top < this.scrollTops[this.toView] &&
-      //       this.dir === 'up' &&
-      //       this.checked > 0) {
-      //     this.setChecked(this.checked - 1)
-      //   }
-      // }
+      if (this.mark) {
+        this.mark = 0
+        setTimeout(() => {
+          this.getAllRects('.con-lists')
+          this.mark = 1
+        }, 300)
+      }
     },
-    scrollend (e) {
-      console.log('scrollend')
-      this.getRect('#con44')
-    },
-    getRect: function (id) {
+    getRect (id) {
       wx.createSelectorQuery().select(id).boundingClientRect(function (rect) {
         // console.log(rect)
       }).exec()
     },
-    getAllRects: function (selector) {
+    getAllRects (selector) {
+      let vm = this
       wx.createSelectorQuery().selectAll(selector).boundingClientRect(function (rects) {
-        rects.forEach(function (rect) {
-          // console.log(rects)
+        rects.forEach((rect, index) => {
+          if (rect.top < -40 && rects[index + 1].top > 0) {
+            vm.activeIndex = index + 1
+          }
         })
+        if (rects[0].top >= 0) {
+          vm.activeIndex = 0
+        }
+        vm.currentId = ''
       }).exec()
     },
     increment () {
@@ -133,28 +149,56 @@ export default {
 </script>
 
 <style lang="stylus">
-.title 
-  background #ccc 
-  position sticky
-  height 40px
-  top 0px
-  z-index 9
-.content
-  position relative
-  background #eee
+// .title 
+//   background #ccc
+//   position sticky
+//   height 40px
+//   top 0px
+//   z-index 9
+// .content
+//   position relative
+//   background #eee
+*
+  box-sizing border-box
 .container
   display flex 
   .left-wrapper
-    width 30%
-    background #eee
-    height 90vh
+    width 25%
+    background #fff
+    height 100vh
+    box-shadow 1px 0 4px #ccc
+    overflow hidden
+    box-sizing border-box
+    border-right 1px solid #eee
     .left-item
-      background #ccc
-      margin-top 5px
-    .active 
-      background orange
+      background #eee
+      height 60px
+      font-weight 300
+      color #555
+      line-height 60px
+      text-align center
+      margin 5px
+      border-radius 6px
+    .active
+      background #fff
   .right-wrapper
-    width 70%
+    width 75%
     background #eee
-    height 90vh
+    height 100vh
+    background #fff
+    .list-title
+      position relative
+      background #32BEBC
+      width 100%
+      height 40px
+      line-height 40px
+      text-align center 
+      font-weight 300
+      font-size 18px
+      color #fff
+    .list-content
+      padding 10px
+      font-size 14px
+      color #626262
+
 </style>

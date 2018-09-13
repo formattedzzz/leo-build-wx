@@ -2,7 +2,6 @@ require('./check-versions')()
 
 var config = require('../config')
 console.log('process.env.NODE_ENV是:', process.env.NODE_ENV)
-console.log(process.argv) 
 // const [nodeparam, pathparam, ...argv] = process.argv
 // console.log(argv)
 if (!process.env.NODE_ENV) {
