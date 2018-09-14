@@ -2,6 +2,12 @@
   <div class="container">
 
     <a href="/pages/counter/main"><h5>Relative</h5></a>
+    <span class="icon-pen"></span><span>字体图片</span>
+    <span class="icon-windows8"></span><span>字体图片</span><br>
+    <span class="icon-share2"></span><span>字体图片</span>
+    <span class="icon-cart"></span><span>字体图片</span>
+    <img style="width: 100%;" mode="widthFix" v-if="baseURL" :src="baseURL + '/static/img/full1.jpg'">
+    <button open-type="getUserInfo" @getuserinfo="onGotUserInfo">获取用户信息</button>
     <div class="menu-container">
       <div class="panel" v-for="(item, index) in menuList" :key="index">
         <div class="panel-title" @click="toggle(index)" :style="{background: item.color}">
@@ -60,19 +66,41 @@ export default {
   },
   components: {
   },
-  onLoad () {},
+  computed: {
+    baseURL () {
+      return this.baseURL
+    }
+  },
+  onLoad () {
+    wx.checkSession({
+      success (res) {
+        console.log('page onload', res)
+      },
+      fail (res) {
+        console.log('page onload', res)
+      }
+    })
+  },
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
+    onGotUserInfo (e) {
+      let vm = this
+      console.log(e)
+      if (e.target.errMsg === 'getUserInfo:fail auth deny') return
+      this.userInfo = e.target.userInfo
+      let { encryptedData, iv, signature } = e.target
       wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
+        success: (res) => {
+          vm.req({
+            url: '/wx/login',
+            data: {
+              code: res.code,
+              encryptedData,
+              iv,
+              signature
+            },
+            menthod: 'GET',
+            success (data) {
+              console.log(data)
             }
           })
         }
@@ -121,7 +149,7 @@ page
     &:hover
       opacity 0.7
   .panel-con
-    max-height 0px
+    height 0
     transform translateY(-44px)
     -webkit-transform translateY(-44px)
     opacity 0

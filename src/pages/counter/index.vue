@@ -1,24 +1,5 @@
 <template>
   <div class="container">
-
-    <!-- <div class="wrap">
-      <h5 class="title">标题一</h5>
-      <div class="content">
-        1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
-      </div>
-      <h5 class="title">标题二</h5>
-      <div class="content">
-        1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
-      </div>
-      <h5 class="title">标题三</h5>
-      <div class="content">
-        1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
-      </div>
-      <h5 class="title">标题四</h5>
-      <div class="content">
-        1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>
-      </div>
-    </div> -->
   <scroll-view scroll-y class="left-wrapper" id="left">
     <div
       class="left-item"
@@ -46,46 +27,17 @@
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
-          这里是需要展示具体的列表项<br>
+          <img style="width: 100%;" mode="widthFix" :src="baseURL + '/static/img/full1.jpg'">
         </div>
       </div>
     </div>
   </scroll-view>
-
   </div>
 </template>
 
 <script>
 // Use Vuex
 import store from '@/store'
-// let throttle = function (func, delay) {
-//   var timer = null
-//   return function () {
-//     var context = this
-//     var args = arguments
-//     if (!timer) {
-//       timer = setTimeout(function () {
-//         func.apply(context, args)
-//         timer = null
-//       }, delay)
-//     }
-//   }
-// }
-// let timer = null
 export default {
   data () {
     return {
@@ -99,11 +51,20 @@ export default {
   computed: {
     count () {
       return store.state.count
+    },
+    baseURL () {
+      return this.baseURL
     }
   },
-  ooLoad () {
+  onShow () {
     // this.throttleFire = throttle(this.getAllRects('.con-lists'), 500)
     // this.getAllRects('.con-lists')
+    this.req({
+      url: '/api/admin',
+      success (res) {
+        console.log(res)
+      }
+    })
   },
   methods: {
     tabMenu (index) {
@@ -149,15 +110,6 @@ export default {
 </script>
 
 <style lang="stylus">
-// .title 
-//   background #ccc
-//   position sticky
-//   height 40px
-//   top 0px
-//   z-index 9
-// .content
-//   position relative
-//   background #eee
 *
   box-sizing border-box
 .container
