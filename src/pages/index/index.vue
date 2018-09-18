@@ -6,8 +6,8 @@
     <span class="icon-windows8"></span><span>字体图片</span><br>
     <span class="icon-share2"></span><span>字体图片</span>
     <span class="icon-cart"></span><span>字体图片</span>
-    <img style="width: 100%;" mode="widthFix" v-if="baseURL" :src="baseURL + '/static/img/full1.jpg'">
-    <button open-type="getUserInfo" @getuserinfo="onGotUserInfo">获取用户信息</button>
+    <img @click="toProfile" style="width: 100%;" mode="widthFix" v-if="baseURL" :src="baseURL + '/static/img/full1.jpg'">
+    
     <div class="menu-container">
       <div class="panel" v-for="(item, index) in menuList" :key="index">
         <div class="panel-title" @click="toggle(index)" :style="{background: item.color}">
@@ -74,38 +74,24 @@ export default {
   onLoad () {
     wx.checkSession({
       success (res) {
-        console.log('page onload', res)
+        if (wx.getStorageSync('sessionID')) {
+          console.log('onLaunch session_key、sessionID有效', res)
+        } else {
+          console.log('sessionID失效', res)
+          wx.switchTab({
+            url: '/pages/profile/main'
+          })
+        }
       },
       fail (res) {
-        console.log('page onload', res)
+        console.log('onLaunch session_key失效', res)
+        wx.switchTab({
+          url: '/pages/profile/main'
+        })
       }
     })
   },
   methods: {
-    onGotUserInfo (e) {
-      let vm = this
-      console.log(e)
-      if (e.target.errMsg === 'getUserInfo:fail auth deny') return
-      this.userInfo = e.target.userInfo
-      let { encryptedData, iv, signature } = e.target
-      wx.login({
-        success: (res) => {
-          vm.req({
-            url: '/wx/login',
-            data: {
-              code: res.code,
-              encryptedData,
-              iv,
-              signature
-            },
-            menthod: 'GET',
-            success (data) {
-              console.log(data)
-            }
-          })
-        }
-      })
-    },
     toggle (idx) {
       let menuList = this.menuList
       menuList.forEach((item, index) => {
@@ -114,6 +100,11 @@ export default {
         } else {
           // item.open = false
         }
+      })
+    },
+    toProfile () {
+      wx.switchTab({
+        url: '/pages/profile/main'
       })
     }
   },

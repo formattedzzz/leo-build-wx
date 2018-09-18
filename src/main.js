@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App'
 import Event from './utils/event'
-// import '/static/weui.'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -14,7 +13,7 @@ Vue.prototype.req = function (config) {
     data: config.data,
     method: config.method || 'GET',
     header: {
-      Cookie: wx.getStorageSync('Cookie')
+      sessionID: wx.getStorageSync('sessionID')
     },
     success: function (res) {
       if (res.statusCode === 500 || res.statusCode === 404) {
@@ -47,15 +46,33 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-  // 这个字段走 app.json
   config: {
-    // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ['^pages/index/main', 'pages/counter/main'],
+    pages: ['^pages/index/main', 'pages/counter/main', 'pages/profile/main'],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '鲨鱼记账',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      'color': '#666666',
+      'selectedColor': '#E9981B',
+      'borderStyle': 'black',
+      'backgroundColor': '#fff',
+      'list': [
+        {
+          'text': '首页',
+          'pagePath': 'pages/index/main',
+          'iconPath': '/static/img/tab-index1.png',
+          'selectedIconPath': '/static/img/tab-index2.png'
+        },
+        {
+          'text': '我的',
+          'pagePath': 'pages/profile/main',
+          'iconPath': '/static/img/tab-my1.png',
+          'selectedIconPath': '/static/img/tab-my2.png'
+        }
+      ]
     }
   }
 }
