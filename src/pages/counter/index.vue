@@ -37,6 +37,7 @@
 
 <script>
 // Use Vuex
+import IO from '@/../static/weapp.socket.io.js'
 import store from '@/store'
 export default {
   data () {
@@ -56,6 +57,13 @@ export default {
       return this.baseURL
     }
   },
+  onLoad () {
+    const socket = IO('http://localhost:7003')
+    socket.on('systeminfo', function (data) {
+      console.log(data)
+      socket.emit('custominfo', 'this is data from weapp client')
+    })
+  },
   onShow () {
     // this.throttleFire = throttle(this.getAllRects('.con-lists'), 500)
     // this.getAllRects('.con-lists')
@@ -67,6 +75,13 @@ export default {
     })
   },
   methods: {
+    sendSocketMessage (msg) {
+      // if (socketOpen) {
+      //   wx.sendSocketMessage({data: msg})
+      // } else {
+      //   socketMsgQueue.push(msg)
+      // }
+    },
     tabMenu (index) {
       this.activeIndex = index
       this.currentId = 'list-item' + index
