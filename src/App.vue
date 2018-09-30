@@ -15,8 +15,6 @@ export default {
 @import url('../static/icon-font.wxss');
 </style>
 <style lang="stylus">
-page 
-  width 100vw
-  min-height 100vh
-  overflow hidden
+button:before, button:after
+  border none
 </style>

@@ -27,7 +27,7 @@
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
-          <img style="width: 100%;" mode="widthFix" :src="baseURL + '/static/img/full1.jpg'">
+          <!-- <img style="width: 100%;" mode="widthFix" :src="baseURL + '/static/img/full1.jpg'"> -->
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
 
 <script>
 // Use Vuex
-import IO from '@/../static/weapp.socket.io.js'
+// import IO from '@/../static/weapp.socket.io.js'
 import store from '@/store'
 export default {
   data () {
@@ -58,17 +58,21 @@ export default {
     }
   },
   onLoad () {
-    const socket = IO('http://localhost:7003')
-    socket.on('systeminfo', function (data) {
-      console.log(data)
-      socket.emit('custominfo', 'this is data from weapp client')
-    })
+    // const socket = IO('http://localhost:7003')
+    // socket.on('systeminfo', function (data) {
+    //   console.log(data)
+    //   socket.emit('custominfo', 'this is data from weapp client')
+    // })
+    // this.req({
+    //   url: '/api/admin',
+    //   success (res) {
+    //     console.log(res)
+    //   }
+    // })
   },
   onShow () {
-    // this.throttleFire = throttle(this.getAllRects('.con-lists'), 500)
-    // this.getAllRects('.con-lists')
-    this.req({
-      url: '/api/admin',
+    wx.downloadFile({
+      url: 'http://localhost:7003/static/img/full1.jpg',
       success (res) {
         console.log(res)
       }
@@ -76,15 +80,27 @@ export default {
   },
   methods: {
     sendSocketMessage (msg) {
-      // if (socketOpen) {
-      //   wx.sendSocketMessage({data: msg})
-      // } else {
-      //   socketMsgQueue.push(msg)
-      // }
+    },
+    uploadFiles () {
+      wx.chooseImage({
+        success (res) {
+          const tempFilePaths = res.tempFilePaths
+          console.log(tempFilePaths)
+          wx.uploadFile({
+            url: 'http://localhost:7003/api/v1', // 上传的接口
+            filePath: tempFilePaths[0],
+            name: 'uploadfile', // 上传的后端可接受字段，不能随意更改
+            success (res) {
+              console.log(res) // res.code被微信转为了string
+            }
+          })
+        }
+      })
     },
     tabMenu (index) {
       this.activeIndex = index
       this.currentId = 'list-item' + index
+      this.uploadFiles()
     },
     scrolling (e) {
       if (this.mark) {

@@ -2,12 +2,6 @@
   <div class="container">
 
     <a href="/pages/counter/main"><h5>Relative</h5></a>
-    <span class="icon-pen"></span><span>字体图片</span>
-    <span class="icon-windows8"></span><span>字体图片</span><br>
-    <span class="icon-share2"></span><span>字体图片</span>
-    <span class="icon-cart"></span><span>字体图片</span>
-    <img @click="toProfile" style="width: 100%;" mode="widthFix" v-if="baseURL" :src="baseURL + '/static/img/full1.jpg'">
-    
     <div class="menu-container">
       <div class="panel" v-for="(item, index) in menuList" :key="index">
         <div class="panel-title" @click="toggle(index)" :style="{background: item.color}">
