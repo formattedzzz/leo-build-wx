@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-
-    <a href="/pages/counter/main"><h5>Relative</h5></a>
     <div class="menu-container">
       <div class="panel" v-for="(item, index) in menuList" :key="index">
         <div class="panel-title" @click="toggle(index)" :style="{background: item.color}">
@@ -66,24 +64,6 @@ export default {
     }
   },
   onLoad () {
-    wx.checkSession({
-      success (res) {
-        if (wx.getStorageSync('sessionID')) {
-          console.log('onLaunch session_key、sessionID有效', res)
-        } else {
-          console.log('sessionID失效', res)
-          wx.switchTab({
-            url: '/pages/profile/main'
-          })
-        }
-      },
-      fail (res) {
-        console.log('onLaunch session_key失效', res)
-        wx.switchTab({
-          url: '/pages/profile/main'
-        })
-      }
-    })
   },
   methods: {
     toggle (idx) {
@@ -95,24 +75,14 @@ export default {
           // item.open = false
         }
       })
-    },
-    toProfile () {
-      wx.switchTab({
-        url: '/pages/profile/main'
-      })
     }
   },
-
   created () {
-    // 调用应用实例的方法获取全局数据
-    // this.getUserInfo()
   }
 }
 </script>
 
 <style lang="stylus">
-page 
-  background #eee
 .menu-container
   padding 0 20px
 .panel

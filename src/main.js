@@ -47,7 +47,14 @@ app.$mount()
 
 export default {
   config: {
-    pages: ['^pages/index/main', 'pages/counter/main', 'pages/profile/main'],
+    pages: [
+      '^pages/account-index/main',
+      'pages/account-charts/main',
+      'pages/account-more/main',
+      'pages/account-center/main',
+      'pages/component-page/toggle-panel/main',
+      'pages/component-page/slide-list/main'
+    ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
@@ -61,16 +68,28 @@ export default {
       'backgroundColor': '#fff',
       'list': [
         {
-          'text': '首页',
-          'pagePath': 'pages/index/main',
-          'iconPath': '/static/img/tab-index1.png',
-          'selectedIconPath': '/static/img/tab-index2.png'
+          'text': '账单',
+          'pagePath': 'pages/account-index/main',
+          'iconPath': '/static/tabbar-img/tab1.png',
+          'selectedIconPath': '/static/tabbar-img/tab1-picked.png'
+        },
+        {
+          'text': '图表',
+          'pagePath': 'pages/account-charts/main',
+          'iconPath': '/static/tabbar-img/tab2.png',
+          'selectedIconPath': '/static/tabbar-img/tab2-picked.png'
+        },
+        {
+          'text': '发现',
+          'pagePath': 'pages/account-more/main',
+          'iconPath': '/static/tabbar-img/tab3.png',
+          'selectedIconPath': '/static/tabbar-img/tab3-picked.png'
         },
         {
           'text': '我的',
-          'pagePath': 'pages/profile/main',
-          'iconPath': '/static/img/tab-my1.png',
-          'selectedIconPath': '/static/img/tab-my2.png'
+          'pagePath': 'pages/account-center/main',
+          'iconPath': '/static/tabbar-img/tab4.png',
+          'selectedIconPath': '/static/tabbar-img/tab4-picked.png'
         }
       ]
     }

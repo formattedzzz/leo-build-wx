@@ -71,12 +71,12 @@ export default {
     // })
   },
   onShow () {
-    wx.downloadFile({
-      url: 'http://localhost:7003/static/img/full1.jpg',
-      success (res) {
-        console.log(res)
-      }
-    })
+    // wx.downloadFile({
+    //   url: 'http://localhost:7003/static/img/full1.jpg',
+    //   success (res) {
+    //     console.log(res)
+    //   }
+    // })
   },
   methods: {
     sendSocketMessage (msg) {

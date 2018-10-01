@@ -17,4 +17,6 @@ export default {
 <style lang="stylus">
 button:before, button:after
   border none
+page
+  background #fefefe
 </style>
