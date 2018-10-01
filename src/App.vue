@@ -19,4 +19,6 @@ button:before, button:after
   border none
 page
   background #fefefe
+div
+  box-sizing border-box
 </style>

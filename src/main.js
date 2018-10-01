@@ -4,7 +4,8 @@ import Event from './utils/event'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const baseURL = 'http://localhost:7003'
+// const baseURL = 'http://localhost:7003'
+const baseURL = 'http://192.168.5.190:7003'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.req = function (config) {
   let base = baseURL
@@ -56,15 +57,16 @@ export default {
       'pages/component-page/slide-list/main'
     ],
     window: {
-      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '鲨鱼记账',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
+      backgroundColor: '#eeeeee',
+      backgroundTextStyle: 'dark'
     },
     tabBar: {
-      'color': '#666666',
-      'selectedColor': '#E9981B',
-      'borderStyle': 'black',
+      'color': '#999999',
+      'selectedColor': '#45B64A',
+      'borderStyle': '#999999',
       'backgroundColor': '#fff',
       'list': [
         {

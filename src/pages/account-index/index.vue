@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    ZHE是首页，记账详情页
+    ZHE是首页，记账详情
+    <img src="http://192.168.5.190:7003/static/img/full1.jpg">
+    {{userinfo}}
   </div>
 </template>
 
@@ -9,6 +11,7 @@
 export default {
   data () {
     return {
+      userinfo: ''
     }
   },
   components: {
