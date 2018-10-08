@@ -1,8 +1,10 @@
 <template>
 <div class="container">
-<scroll-view class="scroll-view" scroll-y="true" scroll-x="true" @touchmove="moveTouch" @touchend="endTouch">
-  <img src="/static/img/md2.jpg" style="width: 300px;height: 600px;" @touchmove="imgMove" @touchend="imgEnd">
+<scroll-view class="scroll-view" scroll-y="true" scroll-x="true">
+  <img class="img" src="/static/img/md2.jpg" style="width: 300px;height: 600px;" >
 </scroll-view>
+<button type="primary" style="margin: 40rpx;" @click="getRect">获取RECT</button>
+{{x}}----{{y}}
 </div>
 </template>
 
@@ -10,6 +12,8 @@
   export default {
     data () {
       return {
+        x: 0,
+        y: 0
       }
     },
     computed: {
@@ -18,17 +22,12 @@
 
     },
     methods: {
-      moveTouch (e) {
-        console.log(e)
-      },
-      endTouch (e) {
-        console.log(e)
-      },
-      imgMove (e) {
-        console.log('img', e)
-      },
-      imgEnd (e) {
-        console.log(e)
+      getRect () {
+        let _this = this
+        wx.createSelectorQuery().select('.img').boundingClientRect(function (rect) {
+          _this.x = Math.abs(rect.left)
+          _this.y = Math.abs(rect.top)
+        }).exec()
       }
     }
   }
