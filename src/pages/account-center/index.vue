@@ -2,28 +2,36 @@
 <div class="login-page">
   <img mode="widthFix" class="page-bg" src="/static/img/account-center-bg.png">
   <div class="userinfo">
-    <div class="userinfo-t">
+    <span class="setting-btn">
+      <button open-type="openSetting" style="margin-top: 20px;"></button>
+    </span>
+    <div v-if="needLogin" class="userinfo-t">
       <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl">
-      <h5 v-if="userInfo.nickName" class="user-nickname"><span >Hi, {{userInfo.nickName}}</span></h5>
-      <h5 v-else><span class="login-btn">授权登录</span></h5>
+      <h5 class="user-nickname"><span >Hi, {{userInfo.nickName}}</span></h5>
     </div>
+    <button v-else class="login-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
     <div class="userinfo-b"></div>
   </div>
   <div class="btn-panel">
-    <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" type="primary">获取用户信息授权登录</button>
-    <button open-type="openSetting" style="margin-top: 20px;">打开授权设置页</button>
     
   </div>
-  <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div>
+  <!-- <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div> -->
 </div>
 </template>
 
 <script>
+  import store from '@/store'
   export default {
     data () {
       return {
         userInfo: {},
-        userInfostr: ''
+        userInfostr: '',
+        needLogin: true
+      }
+    },
+    computed: {
+      needLogin () {
+        return store.state.needLogin
       }
     },
     onLoad () {
@@ -40,7 +48,6 @@
     methods: {
       onGotUserInfo (e) {
         let vm = this
-        console.log(e)
         if (e.target.errMsg === 'getUserInfo:fail auth deny') return
         this.userInfo = e.target.userInfo
         wx.setStorageSync('userInfo', e.target.userInfo)
@@ -88,26 +95,47 @@
   position relative
   .userinfo-t
     text-align center
+    position relative
     .user-avatar
       width 64px
       height 64px
-      margin 30px
+      margin-top 30px
       border-radius 50%
     .user-nickname
       font-size 20px
       font-weight 300
       color #fff
-    .login-btn
-      margin-top 70px
-      display inline-block
-      background #45B64A
-      width 100px
-      height 30px
-      border-radius 15px
-      font-size 16px
-      color #fff 
-      line-height 30px
-      text-align center
+  .login-btn
+    position absolute
+    display inline-block
+    background #45B64A
+    width 100px
+    height 30px
+    left 50%
+    top 50%
+    transform translateX(-50%) translateY(-50%)
+    border-radius 15px
+    font-size 16px
+    color #fff
+    line-height 30px
+    text-align center
+  .setting-btn
+    position absolute
+    display inline-block
+    background #45B64A
+    width 30px
+    height 30px
+    right 10px
+    top 10px
+    border-radius 15px
+    z-index 9
+    button 
+      width 100%
+      height 100%
+      position absolute
+      left 0
+      right 0
+      opacity 0
 .btn-panel
   margin 20px 0
   width 100%

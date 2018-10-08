@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     ZHE是首页，记账详情
-    <img src="http://192.168.5.190:7003/static/img/full1.jpg">
+    <!-- <img src="http://192.168.5.190:7003/static/img/full1.jpg"> -->
     {{userinfo}}
   </div>
 </template>
 
 <script>
-
+import store from '@/store'
 export default {
   data () {
     return {
@@ -26,6 +26,7 @@ export default {
       success (res) {
         if (wx.getStorageSync('sessionID')) {
           console.log('onLaunch session_key、sessionID有效', res)
+          store.commit('shiftNeedLogin', {msg: '触发shiftLogin'})
         } else {
           console.log('sessionID失效', res)
           wx.switchTab({

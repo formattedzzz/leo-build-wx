@@ -29,12 +29,25 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
+					"id": 0,
+					"name": "preview",
+					"pathName": "pages/course-preview/main",
+					"query": ""
+				},
+				{
 					"id": -1,
-					"name": "counter",
-					"pathName": "pages/counter/main"
+					"name": "summary",
+					"pathName": "pages/course-summary/main",
+					"query": ""
+				},
+				{
+					"id": 2,
+					"name": "img-cut",
+					"pathName": "pages/component-page/img-cut/main",
+					"query": ""
 				}
 			]
 		}
