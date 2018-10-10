@@ -5,15 +5,16 @@
     </div>
     <div class="container">
       <img mode="widthFix" class="layout-bg" src="https://i.loli.net/2018/09/27/5bac9b7f6bc98.png">
-      <div style="background: transparent;height: 80rpx;"></div>
-      <div style="background: #fff;height: auto;border-radius: 0 0 16rpx 16rpx;padding-bottom: 106rpx;">
+      <div style="background: transparent;height: 40px;"></div>
+      <div style="background: #fff;height: auto;border-radius: 0 0 8px 8px;padding-bottom: 53px;">
         <h5 class="stu-name">小林</h5>
         <h5 class="session-txt">篮球体验课</h5>
+        <h5 class="content-title">
+          <img src="/static/img/vipcard-title.png">
+          <span>课堂总结</span>
+        </h5>
         <div class="summary-content">
           <div class="summary-content-copy">
-            本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。
-            本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。
-            本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。
             本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。
             本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。本堂课niky表现非常好。大部分 动作非常到位，而且很活泼。
             <h5 class="signature">

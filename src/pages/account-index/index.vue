@@ -26,7 +26,7 @@ export default {
       success (res) {
         if (wx.getStorageSync('sessionID')) {
           console.log('onLaunch session_key、sessionID有效', res)
-          store.commit('shiftNeedLogin', {msg: '触发shiftLogin'})
+          store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
         } else {
           console.log('sessionID失效', res)
           wx.switchTab({

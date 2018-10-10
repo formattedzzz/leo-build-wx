@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     },
     shiftNeedLogin: (state, data) => {
       const obj = state
-      obj.needLogin = true
+      obj.needLogin = false
       console.log(data.msg)
     }
   }

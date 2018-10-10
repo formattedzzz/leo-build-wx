@@ -3,11 +3,13 @@
   <img mode="widthFix" class="page-bg" src="/static/img/account-center-bg.png">
   <div class="userinfo">
     <span class="setting-btn">
-      <button open-type="openSetting" style="margin-top: 20px;"></button>
+      <img src="/static/svg/make-group.svg">
+      <button open-type="openSetting">
+      </button>
     </span>
-    <div v-if="needLogin" class="userinfo-t">
+    <div v-if="!needLogin" class="userinfo-t">
       <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl">
-      <h5 class="user-nickname"><span >Hi, {{userInfo.nickName}}</span></h5>
+      <h5 class="user-nickname"><span >Hi， {{userInfo.nickName}}！</span></h5>
     </div>
     <button v-else class="login-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
     <div class="userinfo-b"></div>
@@ -26,7 +28,7 @@
       return {
         userInfo: {},
         userInfostr: '',
-        needLogin: true
+        logining: false // 登陆中的标志
       }
     },
     computed: {
@@ -48,6 +50,9 @@
     methods: {
       onGotUserInfo (e) {
         let vm = this
+        if (vm.logining === true) {
+          return
+        }
         if (e.target.errMsg === 'getUserInfo:fail auth deny') return
         this.userInfo = e.target.userInfo
         wx.setStorageSync('userInfo', e.target.userInfo)
@@ -66,11 +71,16 @@
               success (response) {
                 let data = response.data
                 if (data.code) {
+                  store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
                   wx.setStorageSync('sessionID', data.sessionID)
                   wx.showToast({
                     title: data.message
                   })
                 }
+                vm.logining = false
+              },
+              complete () {
+                vm.logining = false
               }
             })
           }
@@ -122,19 +132,22 @@
   .setting-btn
     position absolute
     display inline-block
-    background #45B64A
     width 30px
     height 30px
     right 10px
     top 10px
     border-radius 15px
     z-index 9
+    img 
+      width 20px
+      height 20px
+      margin 5px
     button 
       width 100%
       height 100%
       position absolute
       left 0
-      right 0
+      top 0
       opacity 0
 .btn-panel
   margin 20px 0
