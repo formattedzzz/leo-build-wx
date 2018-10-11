@@ -1,5 +1,5 @@
 <template>
-<div class="login-page">
+<div class="charts-page">
   <video 
     id="testVideo" 
     src="https://vodkgeyttp8.vod.126.net/cloudmusic/JDEgISEzICEgYiEiIDEwMg==/mv/389297/efc3c21176b701f412d22b8dac45a1ae.mp4?wsSecret=31d744b3ea5485d6c7e0f52de54507fd&wsTime=1538965413"

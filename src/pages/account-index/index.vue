@@ -2,7 +2,7 @@
   <div class="container">
     ZHE是首页，记账详情
     <!-- <img src="http://192.168.5.190:7003/static/img/full1.jpg"> -->
-    {{userinfo}}
+    <button @click="toAccountPanel" class="account-btn"></button>
   </div>
 </template>
 
@@ -43,6 +43,11 @@ export default {
     })
   },
   methods: {
+    toAccountPanel () {
+      wx.navigateTo({
+        url: '/pages/account-panel/main'
+      })
+    }
   },
 
   created () {
@@ -53,4 +58,14 @@ export default {
 </script>
 
 <style lang="stylus">
+.account-btn
+  width 50px
+  height 50px
+  border-radius 50%
+  background #1aad15
+  position fixed
+  bottom 10px
+  left 50%
+  transform translateX(-50%)
+  box-shadow 0 0 4px #ddd
 </style>

@@ -7,7 +7,7 @@ export default {
   config: {
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '课程报告',
+    navigationBarTitleText: '个人中心',
     navigationBarTextStyle: 'black'
   }
 }

@@ -54,6 +54,7 @@ export default {
       'pages/account-more/main',
       'pages/account-center/main',
       'pages/component-page/toggle-panel/main',
+      'pages/component-page/img-cut/main',
       'pages/component-page/slide-list/main'
     ],
     window: {

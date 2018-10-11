@@ -14,9 +14,6 @@
     <button v-else class="login-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
     <div class="userinfo-b"></div>
   </div>
-  <div class="btn-panel">
-    
-  </div>
   <!-- <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div> -->
 </div>
 </template>
@@ -98,7 +95,7 @@
   top 0
   z-index 0
 .userinfo
-  margin 20px
+  margin 10px
   height 200px
   background rgba(0, 0, 0, 0.5)
   border-radius 8px

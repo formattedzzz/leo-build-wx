@@ -27,6 +27,15 @@
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
           这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
+          这里是需要展示具体的列表项<br>
           <!-- <img style="width: 100%;" mode="widthFix" :src="baseURL + '/static/img/full1.jpg'"> -->
         </div>
       </div>
@@ -100,7 +109,7 @@ export default {
     tabMenu (index) {
       this.activeIndex = index
       this.currentId = 'list-item' + index
-      this.uploadFiles()
+      // this.uploadFiles()
     },
     scrolling (e) {
       if (this.mark) {

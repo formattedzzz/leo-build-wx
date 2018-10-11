@@ -28,7 +28,6 @@
   <canvas
     canvas-id="my-canvas"
     @click="tapcanvas"
-
     :style="'width:' + width + 'px;height:' + height + 'px;'">
     <cover-view @click="tapcanvas" class="canvas-cover">
 

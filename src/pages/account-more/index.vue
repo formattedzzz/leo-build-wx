@@ -1,6 +1,15 @@
 <template>
   <div class="container">
-    ZHE是发现页面，多个小功能入口
+    <div class="weui-cells weui-cells_after-title">
+      <navigator url="/pages/component-page/slide-list/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+        <div class="weui-cell__bd">跳转标题1</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+      <navigator url="/pages/component-page/img-cut/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+        <div class="weui-cell__bd">跳转标题2</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+    </div>
   </div>
 </template>
 
@@ -31,5 +40,7 @@ export default {
 </script>
 
 <style lang="stylus">
-
+.weui-cells
+  margin-top 20px
+  font-weight 300
 </style>
