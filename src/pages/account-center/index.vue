@@ -11,7 +11,7 @@
       <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl">
       <h5 class="user-nickname"><span >Hi， {{userInfo.nickName}}！</span></h5>
     </div>
-    <button v-else class="login-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
+    <button v-else class="login-btn css1516558dbe1e46f" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
     <div class="userinfo-b"></div>
   </div>
   <!-- <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div> -->
@@ -116,15 +116,15 @@
     position absolute
     display inline-block
     background #45B64A
-    width 100px
-    height 30px
+    width 120px
+    height 40px
     left 50%
     top 50%
     transform translateX(-50%) translateY(-50%)
-    border-radius 15px
-    font-size 16px
+    border-radius 20px
+    font-size 20px
     color #fff
-    line-height 30px
+    line-height 40px
     text-align center
   .setting-btn
     position absolute

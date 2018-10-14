@@ -40,6 +40,7 @@ export default {
 </script>
 
 <style lang="stylus">
+
 .weui-cells
   margin-top 20px
   font-weight 300

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    ZHE是首页，记账详情
+    <span>ZHE是首页，记账详情 </span>
     <!-- <img src="http://192.168.5.190:7003/static/img/full1.jpg"> -->
-    <button @click="toAccountPanel" class="account-btn"></button>
+    <div hover-class="hover-class" @click="toAccountPanel" class="account-btn"><img src="/static/svg/account-add.svg"></div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ import store from '@/store'
 export default {
   data () {
     return {
-      userinfo: ''
+      userinfo: 'ZHE是首页，\n记账详情'
     }
   },
   components: {
@@ -68,4 +68,8 @@ export default {
   left 50%
   transform translateX(-50%)
   box-shadow 0 0 4px #ddd
+  img 
+    width 50%
+    height 50%
+    margin 25%
 </style>

@@ -13,6 +13,7 @@ export default {
 <style lang="css">
 @import url('../static/weui.wxss');
 @import url('../static/icon-font.wxss');
+@import url('../static/font.css');
 </style>
 <style lang="stylus">
 button:before, button:after
@@ -23,4 +24,6 @@ page
   box-sizing border-box
 div
   box-sizing border-box
+.hover-class
+  opacity 0.8
 </style>

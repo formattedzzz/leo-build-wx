@@ -71,25 +71,25 @@ export default {
       'backgroundColor': '#fff',
       'list': [
         {
-          'text': '账单',
+          'text': 'Account',
           'pagePath': 'pages/account-index/main',
           'iconPath': '/static/tabbar-img/tab1.png',
           'selectedIconPath': '/static/tabbar-img/tab1-picked.png'
         },
         {
-          'text': '图表',
+          'text': 'Charts',
           'pagePath': 'pages/account-charts/main',
           'iconPath': '/static/tabbar-img/tab2.png',
           'selectedIconPath': '/static/tabbar-img/tab2-picked.png'
         },
         {
-          'text': '发现',
+          'text': 'Discover',
           'pagePath': 'pages/account-more/main',
           'iconPath': '/static/tabbar-img/tab3.png',
           'selectedIconPath': '/static/tabbar-img/tab3-picked.png'
         },
         {
-          'text': '我的',
+          'text': 'About',
           'pagePath': 'pages/account-center/main',
           'iconPath': '/static/tabbar-img/tab4.png',
           'selectedIconPath': '/static/tabbar-img/tab4-picked.png'
