@@ -24,6 +24,6 @@ page
   box-sizing border-box
 div
   box-sizing border-box
-.hover-class
-  opacity 0.8
+// .hover-class
+//   opacity 0.8
 </style>
