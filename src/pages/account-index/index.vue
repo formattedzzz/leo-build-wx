@@ -62,7 +62,7 @@ export default {
   width 50px
   height 50px
   border-radius 50%
-  background #1aad15
+  background #0c0
   position fixed
   bottom 10px
   left 50%

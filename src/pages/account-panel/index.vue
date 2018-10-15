@@ -1,5 +1,5 @@
 <template>
-<div class="panel-page">
+<div class="panel-page" :class="{'panel-page-up': panelShow}">
   <h5 class="type-title">支出</h5>
   <div class="type-list">
     <div class="type-item" v-for="(item, index) in outcomeList" :key="index" @click="pick(item)">
@@ -28,11 +28,11 @@
       <span class="css1516558dbe1e46f">{{item.typedesc}}</span>
     </div>    
   </div>
-  <div class="calc-panel">
+  <div class="calc-panel" :class="{'calc-panel-show': panelShow}">
     <div class="panel-res">
       <span class="comment-txt">备注:</span>
       <input class="comment-val" placeholder="点击写备注..." type="text">
-      <input disabled class="fund-val" v-model="fundVal" type="text">
+      <input disabled class="fund-val" placeholder="输入金额..." v-model="fundVal" type="text">
     </div>
     <div class="key-board">
       <div class="key-item" @click="pushval('1')" hover-class="hover-key" hover-start-time="0" hover-stay-time="40">1</div>
@@ -85,8 +85,14 @@
         return /\w[+|-]\w/.test(this.fundVal) ? '=' : '完成'
       },
       dateTxt () {
-        return this.pickDate === nowDate ? '今天' : this.pickDate.replace(/-/, '/').replace(/^\S{2}/, '')
+        return this.pickDate === nowDate ? '今天' : this.pickDate.replace(/-/g, '/').replace(/^\S{2}/, '')
       }
+    },
+    onLoad () {
+
+    },
+    onUnload () {
+      this.panelShow = false
     },
     onReady () {
     },
@@ -100,7 +106,6 @@
         }
       },
       dateChange (e) {
-        console.log(e.target)
         this.pickDate = e.target.value
       },
       pushval (val) {
@@ -181,6 +186,8 @@ svg
   fill #ffffff
 .panel-page
   min-height 100vh
+.panel-page-up
+  padding-bottom 250px
 .type-title
   font-weight 300
   font-size 20px
@@ -205,13 +212,14 @@ svg
     height 56px
     border-radius 50%
     overflow hidden
-    background #f0f0f0
+    background #eee
+    transition all 0.4s ease-out
     padding 15px
     img
       width 100%
       height 100%
   .img-con-active
-    background #ff0
+    background #00cc00
 // 面板样式
 .input-placeholder
   color #aaa
@@ -223,6 +231,10 @@ svg
   height 240px
   bottom 0
   left 0
+  transition all 0.4s ease-out
+  transform translateY(100%)
+.calc-panel-show
+  transform translateY(0)
 .panel-res
   display flex
   height 40px
