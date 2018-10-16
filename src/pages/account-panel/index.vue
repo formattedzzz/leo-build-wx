@@ -12,21 +12,7 @@
     <div class="type-item" v-for="(item, index) in incomeList" :key="index" @click="pick(item)">
       <div class="img-con" :class="{'img-con-active': item.typeid === activeId}"><img :src="item.typeicon"></div>
       <span class="css1516558dbe1e46f">{{item.typedesc}}</span>
-    </div>    
-  </div>
-  <h5 class="type-title">支出</h5>
-  <div class="type-list">
-    <div class="type-item" v-for="(item, index) in outcomeList" :key="index" @click="pick(item)">
-      <div class="img-con" :class="{'img-con-active': item.typeid === activeId}"><img :src="item.typeicon"></div>
-      <span class="css1516558dbe1e46f">{{item.typedesc}}</span>
-    </div>    
-  </div>
-  <h5 class="type-title">收入</h5>
-  <div class="type-list" style="justify-content: flex-start;">
-    <div class="type-item" v-for="(item, index) in incomeList" :key="index" @click="pick(item)">
-      <div class="img-con" :class="{'img-con-active': item.typeid === activeId}"><img :src="item.typeicon"></div>
-      <span class="css1516558dbe1e46f">{{item.typedesc}}</span>
-    </div>    
+    </div>
   </div>
   <div class="calc-panel" :class="{'calc-panel-show': panelShow}">
     <div class="panel-res">
@@ -55,7 +41,9 @@
       <div class="key-item" @click="pushval('.')" hover-class="hover-key" hover-start-time="0" hover-stay-time="40">.</div>
       <div class="key-item" @click="pushval('0')" hover-class="hover-key" hover-start-time="0" hover-stay-time="40">0</div>
       <div class="key-item" @click="subval" hover-class="hover-key" hover-start-time="0" hover-stay-time="40">DEL</div>
-      <div class="key-item" @click="calcOrSave" hover-class="hover-save" hover-start-time="0" hover-stay-time="40">{{saveBtnTxt}}</div>
+      <div class="key-item" @click="calcOrSave" hover-class="hover-save" hover-start-time="0" hover-stay-time="40">
+        {{saveBtnTxt}}
+      </div>
     </div>
   </div>
 </div>
@@ -286,12 +274,12 @@ svg
     &:nth-child(8)
       font-size 20px
     &:nth-child(12)
-      border-color #f60
+      border-color #0C0
       font-size 20px
     &:nth-child(15)
-      border-color #f60
+      border-color #0C0
     &:nth-child(16)
-      background #f60
+      background #0C0
       color #fff
   .hover-key
     background #dddddd
