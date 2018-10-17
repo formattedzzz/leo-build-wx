@@ -90,22 +90,6 @@ export default {
   methods: {
     sendSocketMessage (msg) {
     },
-    uploadFiles () {
-      wx.chooseImage({
-        success (res) {
-          const tempFilePaths = res.tempFilePaths
-          console.log(tempFilePaths)
-          wx.uploadFile({
-            url: 'http://localhost:7003/api/v1', // 上传的接口
-            filePath: tempFilePaths[0],
-            name: 'uploadfile', // 上传的后端可接受字段，不能随意更改
-            success (res) {
-              console.log(res) // res.code被微信转为了string
-            }
-          })
-        }
-      })
-    },
     tabMenu (index) {
       this.activeIndex = index
       this.currentId = 'list-item' + index

@@ -14,6 +14,7 @@
   </video>
   <button @click="sendDanmu" style="margin: 10px;" type="primary">发送弹幕</button> -->
   <video
+    v-if="tempath"
     :src="tempath"
     class="video"
     :danmu-list="danmuList"
@@ -41,6 +42,10 @@
     danmu-btn
     controls>
   </video>
+  <button @click="uploadImages" style="margin: 10px;" type="primary">上传图片</button>
+  <div v-if="imgrespath.length">
+    <img style="width: 50%;" mode="widthFix" v-for="(item, index) in imgrespath" :key="index" :src="baseURL + item">    
+  </div>
 </div>
 </template>
 
@@ -70,8 +75,9 @@
           }
         ],
         videoContext: null,
-        tempath: 'http://localhost:7003/upload/test.mp4',
-        respath: ''
+        tempath: '',
+        respath: '',
+        imgrespath: []
       }
     },
     computed: {
@@ -109,12 +115,33 @@
       uploadVideo () {
         let tempath = this.tempath
         wx.uploadFile({
-          url: 'http://localhost:7003/upload/upload',
+          url: 'http://localhost:7003/upload/video',
           filePath: tempath,
           name: 'video',
           success: (res) => {
             console.log(res.data)
-            this.respath = JSON.parse(res.data).imgurls[0]
+            this.respath = JSON.parse(res.data).path
+          }
+        })
+      },
+      uploadImages () {
+        wx.chooseImage({
+          success: (res) => {
+            const tempFilePaths = res.tempFilePaths
+            console.log(tempFilePaths)
+            wx.uploadFile({
+              url: 'http://localhost:7003/upload/image', // 上传的接口
+              filePath: tempFilePaths[0],
+              name: 'image', // 上传的后端可接受字段，不能随意更改
+              success: (res) => {
+                console.log(res) // res.code被微信转为了string
+                let path = JSON.parse(res.data).path
+                path.forEach((item, index) => {
+                  path[index] = item.replace(/\\{2}/g, '\\')
+                })
+                this.imgrespath = path
+              }
+            })
           }
         })
       }
