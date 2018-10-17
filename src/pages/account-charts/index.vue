@@ -1,15 +1,46 @@
 <template>
 <div class="charts-page">
-  <video 
+  <!-- <video 
     id="testVideo" 
-    src="https://vodkgeyttp8.vod.126.net/cloudmusic/JDEgISEzICEgYiEiIDEwMg==/mv/389297/efc3c21176b701f412d22b8dac45a1ae.mp4?wsSecret=31d744b3ea5485d6c7e0f52de54507fd&wsTime=1538965413"
-    binderror="videoErrorCallback"
+    class="video"
+    src="https://vodkgeyttp8.vod.126.net/cloudmusic/JDQgMCAlMCBkMCQgMDAgIA==/mv/5500070/517910b2413896785f271f89e36001ce.mp4?wsSecret=cc889e42c3fbce17cd2df3574e9c3a0d&wsTime=1539762297"
     :danmu-list="danmuList"
     enable-danmu
+    @waiting="videoWating"
+    @error="videoError"
+    custom-cache="false"
     danmu-btn
     controls>
   </video>
-  <button @click="sendDanmu" style="margin: 10px;" type="primary">发送弹幕</button>
+  <button @click="sendDanmu" style="margin: 10px;" type="primary">发送弹幕</button> -->
+  <video
+    :src="tempath"
+    class="video"
+    :danmu-list="danmuList"
+    enable-danmu
+    @waiting="videoWating"
+    @error="videoError"
+    custom-cache="false"
+    danmu-btn
+    controls>
+  </video>
+  <button @click="chooseVideo" style="margin: 10px;" type="primary">选择视频</button>
+  <button @click="uploadVideo" style="margin: 10px;" type="primary">上传</button>
+  <h5 v-if="respath">
+    返回URL：{{baseURL + respath}}
+  </h5>
+  <video
+    v-if="respath"
+    :src="baseURL + respath"
+    class="video"
+    :danmu-list="danmuList"
+    enable-danmu
+    @waiting="videoWating"
+    @error="videoError"
+    custom-cache="false"
+    danmu-btn
+    controls>
+  </video>
 </div>
 </template>
 
@@ -38,7 +69,9 @@
             time: 3
           }
         ],
-        videoContext: null
+        videoContext: null,
+        tempath: 'http://localhost:7003/upload/test.mp4',
+        respath: ''
       }
     },
     computed: {
@@ -55,13 +88,44 @@
           text: '这是实验弹幕',
           color: getRandomColor()
         })
+      },
+      videoWating (res) {
+        console.log(res)
+      },
+      videoError (err) {
+        console.log(err)
+      },
+      chooseVideo () {
+        wx.chooseVideo({
+          sourceType: ['album', 'camera'],
+          maxDuration: 60,
+          camera: 'back',
+          success: (res) => {
+            console.log(res.tempFilePath)
+            this.tempath = res.tempFilePath
+          }
+        })
+      },
+      uploadVideo () {
+        let tempath = this.tempath
+        wx.uploadFile({
+          url: 'http://localhost:7003/upload/upload',
+          filePath: tempath,
+          name: 'video',
+          success: (res) => {
+            console.log(res.data)
+            this.respath = JSON.parse(res.data).imgurls[0]
+          }
+        })
       }
     }
   }
 </script>
 
 <style lang="stylus">
-#testVideo
+.charts-page
+  height 2000px
+.video
   width 100%
   height 240px
 </style>

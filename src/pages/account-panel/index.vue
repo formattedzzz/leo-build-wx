@@ -201,7 +201,7 @@ svg
     border-radius 50%
     overflow hidden
     background #eee
-    transition all 0.4s ease-out
+    transition all 0.2s ease-out
     padding 15px
     img
       width 100%
@@ -211,7 +211,7 @@ svg
 // 面板样式
 .input-placeholder
   color #aaa
-  font-size 12px
+  font-size 14px
   font-weight 300
 .calc-panel
   position fixed
@@ -219,7 +219,7 @@ svg
   height 240px
   bottom 0
   left 0
-  transition all 0.4s ease-out
+  transition all 0.3s ease-out
   transform translateY(100%)
 .calc-panel-show
   transform translateY(0)
@@ -228,7 +228,7 @@ svg
   height 40px
   justify-content space-between
   border-bottom 1rpx solid #ddd
-  font-size 12px
+  font-size 14px
   color #888
   font-weight 300
   line-height 40px

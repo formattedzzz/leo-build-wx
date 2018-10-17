@@ -2,6 +2,7 @@
   <div class="container">
     <span>ZHE是首页，记账详情 </span>
     <!-- <img src="http://192.168.5.190:7003/static/img/full1.jpg"> -->
+    <img src="http://134.175.168.18:7003/static/img/full1.jpg">
     <div hover-class="hover-class" @click="toAccountPanel" class="account-btn"><img src="/static/svg/account-add.svg"></div>
   </div>
 </template>

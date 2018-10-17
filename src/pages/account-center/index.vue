@@ -14,7 +14,7 @@
     <button v-else class="login-btn css1516558dbe1e46f" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">授权登录</button>
     <div class="userinfo-b"></div>
   </div>
-  <!-- <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div> -->
+  <div style="color: #fff;text-align: center;position: relative;">{{userInfostr}}</div>
 </div>
 </template>
 
