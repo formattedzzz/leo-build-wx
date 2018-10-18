@@ -133,11 +133,15 @@
               url: 'http://localhost:7003/upload/image', // 上传的接口
               filePath: tempFilePaths[0],
               name: 'image', // 上传的后端可接受字段，不能随意更改
+              formData: {
+                user: 'test'
+              },
+              user: 'test',
               success: (res) => {
                 console.log(res) // res.code被微信转为了string
                 let path = JSON.parse(res.data).path
                 path.forEach((item, index) => {
-                  path[index] = item.replace(/\\{2}/g, '\\')
+                  path[index] = item.replace(/\\/g, '/') // 处理window下返回路径为\的问题
                 })
                 this.imgrespath = path
               }
