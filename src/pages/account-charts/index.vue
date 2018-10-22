@@ -119,7 +119,7 @@
           filePath: tempath,
           name: 'video',
           success: (res) => {
-            console.log(res.data)
+            // console.log(res.data)
             this.respath = JSON.parse(res.data).path
           }
         })
@@ -138,7 +138,7 @@
               },
               user: 'test',
               success: (res) => {
-                console.log(res) // res.code被微信转为了string
+                // console.log(res) // res.code被微信转为了string
                 let path = JSON.parse(res.data).path
                 path.forEach((item, index) => {
                   path[index] = item.replace(/\\/g, '/') // 处理window下返回路径为\的问题
