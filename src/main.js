@@ -4,8 +4,8 @@ import Event from './utils/event'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const baseURL = 'http://localhost:7003'
-// const baseURL = 'http://134.175.168.18:7003'
+// const baseURL = 'http://localhost:7003'
+const baseURL = 'https://wx.nnleo.cn'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.req = function (config) {
   let base = baseURL

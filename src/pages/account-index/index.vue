@@ -19,6 +19,7 @@
       :src="videoSrc"
       :show-center-play-btn="false"
       :show-play-btn="false"
+      muted
       @ended="videoEnd"
       controls>
     </video>

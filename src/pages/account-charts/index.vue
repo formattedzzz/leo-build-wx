@@ -114,13 +114,16 @@
       },
       uploadVideo () {
         let tempath = this.tempath
+        wx.showLoading()
         wx.uploadFile({
-          url: 'http://localhost:7003/upload/video',
+          url: this.baseURL + '/upload/video',
+          // url: 'https://wx.nnleo.cn/upload/video',
           filePath: tempath,
           name: 'video',
           success: (res) => {
             // console.log(res.data)
             this.respath = JSON.parse(res.data).path
+            wx.hideLoading()
           }
         })
       },
@@ -130,7 +133,8 @@
             const tempFilePaths = res.tempFilePaths
             console.log(tempFilePaths)
             wx.uploadFile({
-              url: 'http://localhost:7003/upload/image', // 上传的接口
+              url: this.baseURL + '/upload/image', // 上传的接口
+              // url: 'https://wx.nnleo.cn/upload/image',
               filePath: tempFilePaths[0],
               name: 'image', // 上传的后端可接受字段，不能随意更改
               formData: {
@@ -156,6 +160,7 @@
 <style lang="stylus">
 .charts-page
   height 2000px
+  overflow hidden
 .video
   width 100%
   height 240px

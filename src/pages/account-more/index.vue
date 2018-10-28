@@ -10,6 +10,9 @@
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
     </div>
+    <img src="http://wx.nnleo.cn/static/img/full1.jpg">
+    -----
+    <img src="http://134.175.168.18:7003/static/img/full1.jpg">
   </div>
 </template>
 
