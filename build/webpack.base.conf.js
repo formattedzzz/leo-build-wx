@@ -3,6 +3,7 @@ var fs = require('fs')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var MpvuePlugin = require('webpack-mpvue-asset-plugin')
 var glob = require('glob')
 
@@ -103,6 +104,14 @@ module.exports = {
     ]
   },
   plugins: [
+    // copy文件的插件可以移到base.conf.js当中
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.build.assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ]),
     new MpvuePlugin()
   ]
 }

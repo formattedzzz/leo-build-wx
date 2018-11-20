@@ -114,6 +114,13 @@
       },
       uploadVideo () {
         let tempath = this.tempath
+        if (tempath === '') {
+          wx.showToast({
+            title: '请选择视频',
+            icon: 'none'
+          })
+          return
+        }
         wx.showLoading()
         wx.uploadFile({
           url: this.baseURL + '/upload/video',

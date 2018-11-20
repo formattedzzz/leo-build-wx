@@ -47,7 +47,7 @@
 <script>
 // Use Vuex
 // import IO from '@/../static/weapp.socket.io.js'
-import store from '@/store'
+// import store from '@/store'
 export default {
   data () {
     return {
@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     count () {
-      return store.state.count
+      return this.store.state.count
     },
     baseURL () {
       return this.baseURL
@@ -124,10 +124,10 @@ export default {
       }).exec()
     },
     increment () {
-      store.commit('increment')
+      this.store.commit('increment')
     },
     decrement () {
-      store.commit('decrement')
+      this.store.commit('decrement')
     }
   }
 }

@@ -12,14 +12,12 @@ export default {
 
 <style lang="css">
 @import url('../static/weui.wxss');
-@import url('../static/icon-font.wxss');
-@import url('../static/font.wxss');
 </style>
 <style lang="stylus">
 button:before, button:after
   border none
 page
-  background #fefefe
+  background #fff
 * 
   box-sizing border-box
 div

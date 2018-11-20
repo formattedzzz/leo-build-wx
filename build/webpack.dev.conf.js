@@ -9,7 +9,7 @@ var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 // copy from ./webpack.prod.conf.js
 var path = require('path')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+// var CopyWebpackPlugin = require('copy-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 // add hot-reload related code to entry chunks
@@ -68,13 +68,13 @@ module.exports = merge(baseWebpackConfig, {
       chunks: ['vendor']
     }),
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ]),
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../static'),
+    //     to: config.build.assetsSubDirectory,
+    //     ignore: ['.*']
+    //   }
+    // ]),
 
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     // new webpack.HotModuleReplacementPlugin(),

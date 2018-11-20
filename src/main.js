@@ -1,48 +1,66 @@
 import Vue from 'vue'
 import App from './App'
 import Event from './utils/event'
+import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-// const baseURL = 'http://localhost:7003'
-const baseURL = 'https://wx.nnleo.cn'
+const baseURL = 'http://localhost:7003'
+// const baseURL = 'https://wx.nnleo.cn'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.req = function (config) {
-  let base = baseURL
-  wx.request({
-    url: base + config.url,
-    data: config.data,
-    method: config.method || 'GET',
-    header: {
-      sessionID: wx.getStorageSync('sessionID')
-    },
-    success: function (res) {
-      if (res.statusCode === 500 || res.statusCode === 404) {
-        wx.showToast({
-          title: `err: ${res.statusCode}`,
-          icon: 'none'
-        })
-        return
+  return new Promise((resolve, reject) => {
+    let base = baseURL
+    wx.request({
+      url: base + config.url,
+      data: config.data,
+      method: config.method || 'GET',
+      header: {
+        sessionID: wx.getStorageSync('sessionID')
+      },
+      success: function (res) {
+        if (res.statusCode === 500 || res.statusCode === 404) {
+          wx.showToast({
+            title: `err: ${res.statusCode}`,
+            icon: 'none'
+          })
+          reject(new Error(`err: ${res.statusCode}`))
+          return
+        }
+        if (res.data.code === -1) {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'none'
+          })
+          wx.clearStorageSync()
+          store.state.needLogin = true
+          wx.switchTab({
+            url: '/pages/account-center/main'
+          })
+        }
+        config.success && config.success(res)
+        resolve(res)
+      },
+      fail: function (res) {
+        if (config.fail) {
+          config.fail(res)
+          reject(res)
+        } else {
+          wx.showToast({
+            title: '网络好像不太好诶',
+            icon: 'none'
+          })
+          reject(new Error('网络好像不太好诶'))
+        }
+      },
+      complete: function () {
+        config.complete && config.complete()
       }
-      config.success && config.success(res)
-    },
-    fail: function (res) {
-      if (config.fail) {
-        config.fail(res)
-      } else {
-        wx.showToast({
-          title: '加载出错,请检查网络',
-          icon: 'none'
-        })
-      }
-    },
-    complete: function () {
-      wx.stopPullDownRefresh()
-      config.complete && config.complete()
-    }
+    })
   })
 }
-Vue.prototype.event = new Event()
+Vue.prototype.eventBus = new Event()
+Vue.prototype.store = store
 const app = new Vue(App)
 app.$mount()
 
@@ -55,14 +73,15 @@ export default {
       'pages/account-center/main',
       'pages/component-page/toggle-panel/main',
       'pages/component-page/img-cut/main',
+      'pages/component-page/video-test/main',
       'pages/component-page/slide-list/main'
     ],
     window: {
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '鲨鱼记账',
-      navigationBarTextStyle: 'black',
-      backgroundColor: '#eeeeee',
-      backgroundTextStyle: 'dark'
+      'navigationBarBackgroundColor': '#fff',
+      'navigationBarTitleText': '鲨鱼记账',
+      'navigationBarTextStyle': 'black',
+      'backgroundColor': '#eeeeee',
+      'backgroundTextStyle': 'dark'
     },
     tabBar: {
       'color': '#999999',

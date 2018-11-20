@@ -5,7 +5,7 @@ var config = require('../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-var CopyWebpackPlugin = require('copy-webpack-plugin')
+// var CopyWebpackPlugin = require('copy-webpack-plugin')
 // var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
@@ -83,15 +83,15 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    }),
+    })
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../static'),
+    //     to: config.build.assetsSubDirectory,
+    //     ignore: ['.*']
+    //   }
+    // ])
   ]
 })
 

@@ -9,10 +9,15 @@
         <div class="weui-cell__bd">跳转标题2</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
+      <navigator url="/pages/component-page/toggle-panel/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+        <div class="weui-cell__bd">跳转标题3</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+      <navigator url="/pages/component-page/video-test/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+        <div class="weui-cell__bd">跳转标题4</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
     </div>
-    <img src="http://wx.nnleo.cn/static/img/full1.jpg">
-    -----
-    <img src="http://134.175.168.18:7003/static/img/full1.jpg">
   </div>
 </template>
 
@@ -32,6 +37,18 @@ export default {
   },
   onLoad () {
   },
+  onShow () {
+    this.userInfo = wx.getStorageSync('userInfo')
+    this.req({
+      url: '/api/admin'
+    }).then((res, data) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
+  onHide () {
+  },
   methods: {
   },
 
@@ -47,4 +64,6 @@ export default {
 .weui-cells
   margin-top 20px
   font-weight 300
+.video
+  width 100%
 </style>

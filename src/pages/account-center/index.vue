@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import store from '@/store'
+  // import store from '@/store'
   export default {
     data () {
       return {
@@ -30,17 +30,8 @@
     },
     computed: {
       needLogin () {
-        return store.state.needLogin
+        return this.store.state.needLogin
       }
-    },
-    onLoad () {
-      this.userInfo = wx.getStorageSync('userInfo')
-      this.req({
-        url: '/api/admin',
-        success: (res) => {
-          this.userInfostr = JSON.stringify(res.data)
-        }
-      })
     },
     onShareAppMessage () {
     },
@@ -51,12 +42,15 @@
           return
         }
         if (e.target.errMsg === 'getUserInfo:fail auth deny') return
+        wx.showLoading({
+          title: '登录ing..'
+        })
         this.userInfo = e.target.userInfo
         wx.setStorageSync('userInfo', e.target.userInfo)
         let { encryptedData, iv, signature } = e.target
         wx.login({
           success: (res) => {
-            vm.req({
+            this.req({
               url: '/wx/login',
               data: {
                 code: res.code,
@@ -65,19 +59,20 @@
                 signature
               },
               menthod: 'GET',
-              success (response) {
+              success: (response) => {
                 let data = response.data
                 if (data.code) {
-                  store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
+                  wx.hideLoading()
+                  this.store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
                   wx.setStorageSync('sessionID', data.sessionID)
                   wx.showToast({
                     title: data.message
                   })
                 }
-                vm.logining = false
+                this.logining = false
               },
-              complete () {
-                vm.logining = false
+              complete: () => {
+                this.logining = false
               }
             })
           }
