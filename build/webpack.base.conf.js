@@ -105,12 +105,18 @@ module.exports = {
   },
   plugins: [
     // copy文件的插件可以移到base.conf.js当中
+    new CopyWebpackPlugin([{
+      from: '**/img/*.png',
+      to: ''
+    }], {
+      context: 'src/'
+    }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
-      }
+      },
     ]),
     new MpvuePlugin()
   ]

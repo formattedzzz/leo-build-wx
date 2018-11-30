@@ -6,8 +6,8 @@ app.$mount()
 export default {
   config: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#fff',
+    navigationBarBackgroundColor: '#e50',
     navigationBarTitleText: '我的账单',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'white'
   }
 }

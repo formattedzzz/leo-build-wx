@@ -5,9 +5,11 @@ import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const baseURL = 'http://localhost:7003'
-// const baseURL = 'https://wx.nnleo.cn'
+// const baseURL = 'http://localhost:7003'
+const baseURL = 'https://wx.nnleo.cn'
 Vue.prototype.baseURL = baseURL
+Vue.prototype.eventBus = new Event()
+Vue.prototype.store = store
 Vue.prototype.req = function (config) {
   return new Promise((resolve, reject) => {
     let base = baseURL
@@ -16,9 +18,9 @@ Vue.prototype.req = function (config) {
       data: config.data,
       method: config.method || 'GET',
       header: {
-        sessionID: wx.getStorageSync('sessionID')
+        token: wx.getStorageSync('token')
       },
-      success: function (res) {
+      success: (res) => {
         if (res.statusCode === 500 || res.statusCode === 404) {
           wx.showToast({
             title: `err: ${res.statusCode}`,
@@ -33,10 +35,7 @@ Vue.prototype.req = function (config) {
             icon: 'none'
           })
           wx.clearStorageSync()
-          store.state.needLogin = true
-          wx.switchTab({
-            url: '/pages/account-center/main'
-          })
+          Vue.prototype.eventBus.$emit('revokeLogin', true)
         }
         config.success && config.success(res)
         resolve(res)
@@ -59,8 +58,6 @@ Vue.prototype.req = function (config) {
     })
   })
 }
-Vue.prototype.eventBus = new Event()
-Vue.prototype.store = store
 const app = new Vue(App)
 app.$mount()
 
@@ -74,7 +71,8 @@ export default {
       'pages/component-page/toggle-panel/main',
       'pages/component-page/img-cut/main',
       'pages/component-page/video-test/main',
-      'pages/component-page/slide-list/main'
+      'pages/component-page/slide-list/main',
+      'pages/component-page/video-list-test/main'
     ],
     window: {
       'navigationBarBackgroundColor': '#fff',

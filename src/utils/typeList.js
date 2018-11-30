@@ -33,6 +33,7 @@ export let incomeList = [
     typeicon: '/static/svg/stock-in.svg'
   }
 ]
+export let totalTpye = outcomeList.concat(incomeList)
 export let getNowFormatDate = function () {
   var date = new Date()
   var seperator1 = '-'

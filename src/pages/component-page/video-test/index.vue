@@ -63,7 +63,7 @@ let posters = JSON.parse(`[
   "https://p3.pstatp.com/large/7f96000ae35564d6eb29.jpg",
   "https://p98.pstatp.com/large/7f080010e13e7ee1b0d0.jpg",
   "https://p3.pstatp.com/large/7ed8000fbcc5af0cd7ed.jpg",
-  "https://p98.pstatp.com/large/7c5a0014fd70966dfd11.jpg"]`)
+  "https://p98.pstatp.com/large/7c5a0014fd70966dfd11.jpg"]`).slice(0, 4)
 let videos = JSON.parse(`[
   "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200fa70000bem3b6k0gfkid6lf7l8g&line=0",
   "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200f3e0000bekgvs7a1havabobd8m0&line=0",
@@ -85,8 +85,8 @@ let videos = JSON.parse(`[
   "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=e1ab5cfe11a34bc0b2fbaab81c63a3fe&line=0",
   "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=ffdff4b381ed468bb427f4478e30d62a&line=0",
   "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=adea447668dc48bbb82bddd12c6c44ab&line=0",
-  "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=ff6727c979a84cf5bffc1ef82c6262c9&line=0"]`)
-let startY, disY
+  "https://aweme.snssdk.com/aweme/v1/playwm/?video_id=ff6727c979a84cf5bffc1ef82c6262c9&line=0"]`).slice(0, 4)
+// let startY, disY
 export default {
   data () {
     return {
@@ -126,19 +126,25 @@ export default {
   },
   methods: {
     touchStart (e) {
-      startY = e.clientY
+      if (e.touches.length === 1) {
+        this.startY = e.touches[0].clientY
+        this.startT = e.timeStamp
+      }
     },
     touchMove (e) {
-      disY = e.clientY - startY
+      if (e.touches.length === 1) {
+        this.disY = e.touches[0].clientY - this.startY
+        this.disT = e.timeStamp - this.startT
+      }
     },
     touchEnd (e) {
-      let ruleLength = 100
       let direct = ''
-      if (Math.abs(disY) > ruleLength) {
-        if (disY > ruleLength) {
+      if (Math.abs(this.disX) <= 5) return
+      if (Math.abs(this.disT / this.disY) < 2) {
+        if (this.disY > 0) {
           direct = 'down'
         }
-        if (disY < -ruleLength) {
+        if (this.disY < 0) {
           direct = 'up'
         }
         this.videoHide = true
@@ -147,6 +153,8 @@ export default {
         if (this.shifting === false) {
           this.shiftVideo(direct)
         }
+        this.disY = 0
+        this.disT = 0
       }
     },
     shiftVideo (direct) {
@@ -163,8 +171,6 @@ export default {
     },
     slideEnd () {
       this.shifting = false
-      startY = 0
-      disY = 0
       this.videoHide = false
       this.videoCtx.play()
       this.playing = true

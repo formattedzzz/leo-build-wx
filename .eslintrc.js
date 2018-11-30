@@ -19,11 +19,15 @@ module.exports = {
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
+    'camelcase': 0,
     // allow async-await
+    'padded-blocks': 'off',
+    'arrow-spacing': 'off',
+    'space-before-function-paren': 'off',
+    'no-trailing-spaces': 'off',
     'generator-star-spacing': 0,
-    'no-debugger': 0
     // allow debugger during development
-    // 'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   },
   globals: {
     App: true,

@@ -45,8 +45,8 @@
 				},
 				{
 					"id": 2,
-					"name": "img-cut",
-					"pathName": "pages/component-page/video-test/main",
+					"name": "video-list-test",
+					"pathName": "pages/account-more/main",
 					"query": ""
 				}
 			]
