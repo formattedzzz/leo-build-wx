@@ -3,3 +3,4 @@ config/*.js
 dist/
 node_modules/
 static/
+src/utils/

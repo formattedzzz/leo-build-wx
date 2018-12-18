@@ -16,6 +16,8 @@ export default {
 <style lang="stylus">
 button:before, button:after
   border none
+.button-hover
+  opacity 0.8
 page
   background #fff
   min-height 100vh
@@ -23,7 +25,7 @@ page
   box-sizing border-box
 div
   box-sizing border-box
-colors = #ffb344 #4B95EA #ee5500 #ff6688
+colors = #00cc00 #4B95EA #ee5500 #996633
 for clr,i in colors
   .background-{i}
     background clr

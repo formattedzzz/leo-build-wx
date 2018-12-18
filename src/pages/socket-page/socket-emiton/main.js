@@ -6,8 +6,8 @@ app.$mount()
 export default {
   config: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '视频列表测试',
-    navigationBarTextStyle: 'black'
+    navigationBarBackgroundColor: '#445',
+    navigationBarTitleText: '英语全能王',
+    navigationBarTextStyle: 'white'
   }
 }

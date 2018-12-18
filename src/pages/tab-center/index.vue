@@ -4,7 +4,7 @@
   <div class="banner-con background-cube"></div>
   <div style="height: 16vh;"></div>
   <div class="userinfo">
-    <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl">
+    <div class="user-avatar"><img v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl"></div>
     <h5 class="user-nickname"><span >Hi， {{userInfo.nickName}}！</span></h5>
   </div>
   <div class="other-info"></div>
@@ -61,6 +61,10 @@
     height 64px
     border-radius 50%
     margin-right 30px
+    overflow hidden
+    img
+      width 100%
+      height 100%
   .user-nickname
     font-size 20px
     font-weight 600

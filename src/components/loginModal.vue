@@ -15,26 +15,32 @@
     data () {
       return {
         logining: false,
-        show: false
+        show: false,
+        onlyAuth: false
       }
     },
     computed: {
     },
     onLoad () {
       console.log('loginmodal onload')
-      wx.getSetting({
-        success: (res) => {
-          if (!res.authSetting['scope.userInfo']) {
-            console.log('未授权，需要登录')
-            this.show = true
-            // this.$emit('update:show', true)
-          }
-        }
-      })
       if (!wx.getStorageSync('token')) {
         console.log('缓存无token，需要登录')
         // this.$emit('update:show', true)
         this.show = true
+      } else {
+        wx.getSetting({
+          success: (res) => {
+            if (!res.authSetting['scope.userInfo']) {
+              wx.showToast({
+                title: '检测到你还未授权本小小程序',
+                icon: 'none'
+              })
+              console.log('检测到你还未授权本小小程序')
+              this.show = true
+              this.onlyAuth = true
+            }
+          }
+        })
       }
       this.eventBus.$on('revokeLogin', (data) => {
         console.log(data)
@@ -69,7 +75,20 @@
         if (this.logining === true) {
           return
         }
-        if (e.target.errMsg === 'getUserInfo:fail auth deny') return
+        if (e.target.errMsg === 'getUserInfo:fail auth deny') {
+          wx.showToast({
+            title: '未授权 继续点',
+            icon: 'none'
+          })
+          return
+        } else {
+          if (this.onlyAuth === true) {
+            this.onlyAuth = false
+            this.show = false
+            this.eventBus.$emit('hideLogin', true)
+            return
+          }
+        }
         wx.showLoading({
           title: '登录ing..'
         })

@@ -5,8 +5,9 @@ import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-// const baseURL = 'http://localhost:7003'
-const baseURL = 'https://wx.nnleo.cn'
+const baseURL = 'http://localhost:7003'
+// const baseURL = 'https://wx.nnleo.cn'
+// const baseURL = 'http://134.175.168.18:7003'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.eventBus = new Event()
 Vue.prototype.store = store
@@ -64,15 +65,19 @@ app.$mount()
 export default {
   config: {
     pages: [
-      '^pages/account-index/main',
-      'pages/account-charts/main',
-      'pages/account-more/main',
-      'pages/account-center/main',
+      '^pages/tab-index/main',
+      'pages/tab-charts/main',
+      'pages/tab-more/main',
+      'pages/tab-center/main',
+
+      'pages/account-panel/main',
+
+      'pages/socket-page/socket-connect/main',
+      'pages/socket-page/socket-emiton/main',
       'pages/component-page/toggle-panel/main',
       'pages/component-page/img-cut/main',
       'pages/component-page/video-test/main',
-      'pages/component-page/slide-list/main',
-      'pages/component-page/video-list-test/main'
+      'pages/component-page/slide-list/main'
     ],
     window: {
       'navigationBarBackgroundColor': '#fff',
@@ -89,25 +94,25 @@ export default {
       'list': [
         {
           'text': 'Account',
-          'pagePath': 'pages/account-index/main',
+          'pagePath': 'pages/tab-index/main',
           'iconPath': '/static/tabbar-img/tab1.png',
           'selectedIconPath': '/static/tabbar-img/tab1-picked.png'
         },
         {
           'text': 'Charts',
-          'pagePath': 'pages/account-charts/main',
+          'pagePath': 'pages/tab-charts/main',
           'iconPath': '/static/tabbar-img/tab2.png',
           'selectedIconPath': '/static/tabbar-img/tab2-picked.png'
         },
         {
           'text': 'Discover',
-          'pagePath': 'pages/account-more/main',
+          'pagePath': 'pages/tab-more/main',
           'iconPath': '/static/tabbar-img/tab3.png',
           'selectedIconPath': '/static/tabbar-img/tab3-picked.png'
         },
         {
           'text': 'About',
-          'pagePath': 'pages/account-center/main',
+          'pagePath': 'pages/tab-center/main',
           'iconPath': '/static/tabbar-img/tab4.png',
           'selectedIconPath': '/static/tabbar-img/tab4-picked.png'
         }

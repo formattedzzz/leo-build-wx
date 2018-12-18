@@ -3,7 +3,7 @@
     <div hover-class="hover-year" hover-start-time="0" hover-stay-time="40" @click="toAccountPanel" class="account-btn">
       <img src="/static/svg/index-add.svg">
     </div>
-    <div class="year-info-null"></div>
+    <!-- <div class="year-info-null"></div> -->
     <div class="year-info">
       <picker :range="yearArr" v-model="currentYear"  @change="yearChange">
         <div hover-class="hover-year" hover-start-time="0" hover-stay-time="40" class="info-item">
@@ -51,10 +51,10 @@
               </span>
             </div>
             <div class="item-r">
-              <h5 class="date"><span class="day">{{dayArr[item.day]}} <span style="font-weight: 400;">{{item.date}}</span></span></h5>
+              <h5 class="date"><span class="day">{{dayArr[item.day-1]}} <span style="font-weight: 400;">{{item.date}}</span></span></h5>
               <h5 class="comment">备注：{{item.comment || '无'}}</h5>
             </div>
-            <div class="del-btn" :class="{'show': item.slide}" @click.stop="delItem(index, idx)">DELETE</div>
+            <div class="del-btn" :class="{'show': item.slide}" @click.stop="delItem(index, idx)">DEL</div>
           </div>
           </div>
         </div>
@@ -123,11 +123,13 @@ export default {
       let year = this.yearArr[e.target.value]
       this.getIndexData(year)
     },
-    getIndexData (year) {
+    getIndexData (year, refresh = 'load') {
       wx.removeStorageSync('updateAccount')
-      wx.showLoading({
-        title: '初始化中...'
-      })
+      if (refresh === 'load') {
+        wx.showLoading({
+          title: '初始化中...'
+        })        
+      }
       this.req({
         url: '/api/account-info',
         data: {
@@ -161,13 +163,17 @@ export default {
             }
           })
           this.monthList = monthList.reverse()
-          wx.hideLoading()
+          if (refresh === 'load') {
+            wx.hideLoading()     
+          }
         } else {
           wx.showToast({
             title: res.data.message,
             icon: 'none'
           })
-          wx.hideLoading()
+          if (refresh === 'load') {
+            wx.hideLoading()
+          }
         }
       })
     },
@@ -263,6 +269,13 @@ export default {
         wx.hideLoading()
       })
     }
+  },
+  onPullDownRefresh () {
+    let {currentYear} = this
+    this.getIndexData(currentYear, 'refresh')
+    setTimeout(() => {
+      wx.stopPullDownRefresh()
+    }, 800)
   }
 }
 </script>
@@ -306,8 +319,8 @@ export default {
   img 
     width 100%
     height 100%
-.year-info-null
-  height 72px
+// .year-info-null
+//   height 72px
 .year-info
   width 100%
   height 72px
@@ -319,7 +332,7 @@ export default {
   text-align center
   justify-content space-around
   align-items center
-  position fixed
+  position sticky
   left 0
   top 0
   border-bottom 1rpx solid #fff
@@ -350,7 +363,6 @@ export default {
 .account-item
   height 80px
   width 100%
-  border-radius 4px
   padding-right 10px
   display flex
   justify-content space-between
@@ -416,7 +428,6 @@ export default {
     right -75px
     top 0
     background #ff4400
-    border-radius 4px
     line-height 80px
     text-align center
     color #fff

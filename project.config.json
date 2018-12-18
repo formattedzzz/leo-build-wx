@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -46,7 +46,13 @@
 				{
 					"id": 2,
 					"name": "video-list-test",
-					"pathName": "pages/account-more/main",
+					"pathName": "pages/tab-more/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "左滑删除",
+					"pathName": "pages/component-page/slide-left/main",
 					"query": ""
 				}
 			]
