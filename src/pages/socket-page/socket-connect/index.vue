@@ -7,6 +7,7 @@
     <button class="match-btn background-1" @click="findMatch">匹配对手</button>
     <button class="match-btn background-3" open-type="share">邀请好友</button>
     <button class="match-btn background-2" @click="disconnect">断开连接</button>
+    <button class="match-btn background-2" @click="testjoin">调试入口</button>
     <!-- 寻找匹配模态框 -->
     <div class="matching-modal" :class="{'matching-modal-show': matching}">
       <div class="circles circlesup">
@@ -101,9 +102,6 @@
         } 
         socket.on('connect', () => {
           console.log('connected', socket.id)
-          socket.on('ontime', () => {
-            console.log('ontime')
-          })
           // socket.on('system_info', (msg) => {
           //   console.log('received system news: ', msg)
           // })
@@ -182,7 +180,7 @@
         if (socket.disconnected) {
           wx.showModal({
             title: '提示',
-            content: '检测到断开连接,对局已触发,您被判为逃跑～'
+            content: '检测到断开连接,对局已触发,您被判定为逃跑。'
           })
           return
         }
@@ -195,6 +193,28 @@
             url: `/pages/socket-page/socket-emiton/main?vsdata=${JSON.stringify(vsdata)}`
           })
         }, 2000)
+      },
+      testjoin () {
+        let vsdata = [
+          {
+            openid: 'o2vnr0BidnGEnf9HZdrGyBpgRD7Y',
+            nickname: 'leooo',
+            avatar: 'https://wx.qlogo.cn/mmopen/vi_32/x3Ree29lzCicbs3byf2icmriaToZ4C3XtyE2WiaB4QFNv8cOyUhPgib1EtIiczGWicmNfx4ibEAzia3zPd5ZdibyfcicwmExg/132',
+            socketid: socket.id,
+            self: true
+          },
+          {
+            openid: 'o2vnr0BidnGEnf9HZdrGyBpgRD7Y',
+            nickname: 'leoop',
+            avatar: 'https://wx.qlogo.cn/mmopen/vi_32/x3Ree29lzCicbs3byf2icmriaToZ4C3XtyE2WiaB4QFNv8cOyUhPgib1EtIiczGWicmNfx4ibEAzia3zPd5ZdibyfcicwmExg/132',
+            socketid: socket.id,
+            self: false
+          }
+        ]
+        this.eventBus.$emit('socket_emiton', socket)
+        wx.navigateTo({
+          url: `/pages/socket-page/socket-emiton/main?vsdata=${JSON.stringify(vsdata)}`
+        })
       },
       cancalMatch () {
         wx.showActionSheet({

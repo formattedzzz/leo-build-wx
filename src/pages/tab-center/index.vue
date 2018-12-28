@@ -40,6 +40,7 @@
 .tab-home
   height 100vh
   overflow hidden
+  background #eee
 .banner-con
   width 100%
   height 28vh
@@ -49,7 +50,7 @@
 .userinfo
   margin 10px
   height 120px
-  background rgba(250,250,250,0.9);
+  background #fff
   border-radius 4px
   position relative 
   display flex
@@ -72,7 +73,7 @@
 .other-info
   margin 10px
   border-radius 4px
-  background rgb(250,250,250)
+  background #fff
   height 60px
   padding 0 10px
 </style>

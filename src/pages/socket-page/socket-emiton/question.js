@@ -25,4 +25,17 @@ const questionArr = [
     key: 3
   }
 ]
+// class RunTimer {
+//   constructor (num = 10) {
+//     this.num = num
+//   }
+//   run () {
+//     let timer = setInterval(() => {
+//       if (this.num === 0) {
+//         clearInterval(timer)
+//       }
+//       this.num--
+//     }, 1000)
+//   }
+// }
 export default questionArr
