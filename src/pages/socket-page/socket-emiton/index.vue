@@ -1,16 +1,28 @@
 <template>
   <div class="page">
 
-    <div class="score-board" v-for="(item, index) in vsdata" :key="index" >
+    <div class="score-board">
       <div class="score-avatar">
-        <img :src="item.avatar">
+        <img :src="selfClient.avatar">
       </div>
-      <div class="score-bar"><div :style="item.self ? currentScoreBar : oppositeScoreBar" class="score-fill"></div></div>
+      <div class="score-bar"><div :style="currentScoreBar" class="score-fill"></div></div>
       <div class="score-award">
         <img src="/static/svg/trophy.svg">
-        <span class="score-num">{{item.self ? currentScore : oppositeScore}}</span>
+        <span class="score-num">{{currentScore}}</span>
       </div>
-      <div class="score-name">{{item.nickname}}</div>
+      <div class="score-name1">{{selfClient.nickname}}</div>
+    </div>
+
+    <div class="score-board">
+      <div class="score-award">
+        <img src="/static/svg/trophy.svg">
+        <span class="score-num">{{oppositeScore}}</span>
+      </div>
+      <div class="score-bar"><div :style="oppositeScoreBar" style="display:inline-block;float:right;" class="score-fill"></div></div>
+      <div class="score-avatar">
+        <img :src="oppositeClient.avatar">
+      </div>
+      <div class="score-name2">{{oppositeClient.nickname}}</div>
     </div>
 
     <div class="question-panel" :class="{'show': !resting}">
@@ -78,7 +90,8 @@
   export default {
     data () {
       return {
-        vsdata: [],
+        selfClient: {},
+        oppositeClient: {},
         questionArr,
 
         currentQ: 0,
@@ -86,7 +99,7 @@
         currentScore: 0,
         currentRes: ['', '', '', ''],
 
-        oppositeScore: 20,
+        oppositeScore: 0,
 
         resting: true,
         beginModalShow: false,
@@ -103,12 +116,26 @@
       }
     },
     onLoad (options) {
-      this.vsdata = JSON.parse(options.vsdata)
+      let vsdata = JSON.parse(options.vsdata)
+      if (Array.isArray(vsdata) && vsdata.length) {
+        vsdata.forEach((client) => {
+          if (client.self) {
+            this.selfClient = client
+          } else {
+            this.oppositeClient = client
+          }
+        })
+      }
       // this.eventBus.$on('socket_emiton', (data) => {
       //   socket = data
       // })
       // 不能挂在this上面 整个应用在/user路由只维护一个socket对象
       console.log(this.socket.id)
+      this.socket.off('private_msg')
+      this.socket.on('private_msg', (data) => {
+        console.log(data)
+        this.oppositeScore += Number(data.msg)
+      })
     },
     onShow () {
       this.initBeginModal()
@@ -169,6 +196,7 @@
           wx.showToast({
             title: '恭喜你答对了'
           })
+          this.updateScore(20)
         } else {
           this.$set(this.currentRes, key, 'wrong')
           this.$set(this.currentRes, an, 'right')
@@ -177,15 +205,24 @@
             icon: 'none'
           })
         }
+      },
+      updateScore (score) {
+        let {oppositeClient} = this 
+        this.socket.emit('update_score', {
+          score,
+          openid: oppositeClient.openid
+        })
       }
     },
     onUnload () {
+      console.log('onUnload')
       clearInterval(timer)
       this.currentQ = 0
       this.timerSec = 10
       this.currentA = -1
       this.currentRes = ['', '', '', '']
       this.currentScore = 0
+      this.oppositeScore = 0
     },
     onShareAppMessage (e) {
     }
@@ -237,7 +274,7 @@
       bottom -32px
       color #00cc00
       font-size 18px
-  .score-name
+  .score-name1
     position absolute
     padding-left 25px
     width 220px
@@ -246,6 +283,19 @@
     overflow hidden
     text-overflow ellipsis
     left 0
+    bottom 0
+    font-size 14px
+    color #4a4a4a
+  .score-name2
+    position absolute
+    padding-right 25px
+    width 220px
+    height 20px
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    text-align right
+    right 0
     bottom 0
     font-size 14px
     color #4a4a4a
@@ -270,7 +320,7 @@
     text-align center
     line-height 48px
     color #fff 
-    font-size 18px
+    font-size 20px
     transition background 1s ease-out
   .answers .answer
       padding 10px 20px

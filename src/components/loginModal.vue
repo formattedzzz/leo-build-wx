@@ -6,12 +6,6 @@
 
 <script>
   export default {
-    props: {
-      // show: {
-      //   type: Boolean,
-      //   default: false
-      // }
-    },
     data () {
       return {
         logining: false,
@@ -25,7 +19,6 @@
       console.log('loginmodal onload')
       if (!wx.getStorageSync('token')) {
         console.log('缓存无token，需要登录')
-        // this.$emit('update:show', true)
         this.show = true
       } else {
         wx.getSetting({
@@ -50,25 +43,6 @@
         console.log('other page has logined')
         this.show = false
       })
-      // wx.checkSession({
-      //   success (res) {
-      //     if (wx.getStorageSync('sessionID')) {
-      //       console.log('onLaunch session_key、sessionID有效', res)
-      //       vm.store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
-      //     } else {
-      //       console.log('sessionID失效', res)
-      //       wx.switchTab({
-      //         url: '/pages/account-center/main'
-      //       })
-      //     }
-      //   },
-      //   fail (res) {
-      //     console.log('onLaunch session_key失效', res)
-      //     wx.switchTab({
-      //       url: '/pages/account-center/main'
-      //     })
-      //   }
-      // })
     },
     methods: {
       onGotUserInfo (e) {
@@ -109,7 +83,6 @@
             }).then((res) => {
               let data = res.data
               if (data.code) {
-                // this.store.commit('shiftNeedLogin', {msg: '触发shiftLogin为false'})
                 wx.setStorageSync('token', data.token)
                 wx.showToast({
                   title: data.message
@@ -135,9 +108,6 @@
           }
         })
       }
-    },
-    components: {
-
     }
   }
 </script>

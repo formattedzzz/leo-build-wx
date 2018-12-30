@@ -7,23 +7,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
-    needLogin: true // 检查登录的标志
   },
   mutations: {
-    increment: (state) => {
-      const obj = state
-      obj.count += 1
-    },
-    decrement: (state) => {
-      const obj = state
-      obj.count -= 1
-    },
-    shiftNeedLogin: (state, data) => {
-      const obj = state
-      obj.needLogin = false
-      console.log(data.msg)
-    }
   }
 })
 

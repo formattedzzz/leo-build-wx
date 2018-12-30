@@ -41,6 +41,7 @@
       </div>
       </div>
     </div>
+    {{data}}
     <login-modal></login-modal>
   </div>
 </template>
@@ -52,6 +53,7 @@
     data () {
       return {
         matching: false, // 正在匹配对手的状态量
+        // hasmatched: false,
         showVSmodal: false, // VSmodal 显示控制即渲染数据
         VSmodalData: [
           {
@@ -70,7 +72,9 @@
       }
     },
     computed: {
-
+      data () {
+        return JSON.stringify(this.VSmodalData, null, 2)
+      }
     },
     onLoad () {
       this.connect()
@@ -80,6 +84,7 @@
     },
     onUnload () {
       this.matching = false
+      // this.hasmatched = false
     },
     onShareAppMessage (e) {
       if (e.from === 'button') {
@@ -102,6 +107,10 @@
         } 
         socket.on('connect', () => {
           console.log('connected', socket.id)
+          socket.on('beat_req', function (msg) {
+            console.log('beat req')
+            socket.emit('beat_res')
+          })
           // socket.on('system_info', (msg) => {
           //   console.log('received system news: ', msg)
           // })
@@ -144,10 +153,12 @@
           })
           return false
         }
+        if (this.matching) return
         this.matching = true
         socket.emit('need_match', true)
+        socket.off('matched')
         socket.on('matched', (data) => {
-          // data {nickname: 'leooo', headimgurl: '', openid: '', socket}
+          console.log('matched')
           if (Array.isArray(data) && data.length) {
             data.forEach((item) => {
               if (item.socketid === socket.id) {
@@ -177,6 +188,8 @@
       },
       getVSmodal () {
         // 触发对战界面 应该做成组件易于管理
+        // if (this.hasmatched) return
+        // this.hasmatched = true
         if (socket.disconnected) {
           wx.showModal({
             title: '提示',
