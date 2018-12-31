@@ -41,6 +41,36 @@
       ROUND{{currentQ + 1}} ！
     </div>
 
+    <div class="res-panel" :class="{'res-panel-show': resPanelShow}">
+      <div class="res-content" :class="{'res-content-show': resPanelShow}">
+        <div class="res-over">
+          <img class="res-award" src="/static/svg/award.svg">
+          <span class="res-winner">{{isWinner}}</span>
+        </div>
+        <div class="res-head">
+          <span>玩家</span><span>/</span>
+          <span>得分</span><span>/</span>
+          <span>评价</span>
+        </div>
+        <div class="res-item">
+          <div class="item-l">
+            <img class="item-avatar" :src="selfClient.avatar">
+            <h5 class="item-nickname">{{selfClient.nickname}}</h5>
+          </div>
+          <div class="item-m">{{currentScore}}"</div>
+          <div class="item-r">S</div>
+        </div>
+        <div class="res-item">
+          <div class="item-l">
+            <img class="item-avatar" :src="oppositeClient.avatar">
+            <h5 class="item-nickname">{{oppositeClient.nickname}}</h5>
+          </div>
+          <div class="item-m">{{oppositeScore}}"</div>
+          <div class="item-r">A</div>
+        </div>
+        <button class="continue-btn background-2" hover-class="handle-class" @click="continueQa">继续挑战</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -90,9 +120,9 @@
   export default {
     data () {
       return {
+        questionArr,
         selfClient: {},
         oppositeClient: {},
-        questionArr,
 
         currentQ: 0,
         currentA: -1,
@@ -104,15 +134,19 @@
         resting: true,
         beginModalShow: false,
         timerSec: 10,
-        bgcolors: getColorGradient('#00cc00', '#ff0000')
+        bgcolors: getColorGradient('#00cc00', '#ff0000'),
+        resPanelShow: false
       }
     },
     computed: {
       currentScoreBar () {
-        return `width: ${this.currentScore}%;`
+        return `width: ${this.currentScore / (this.questionArr.length * 0.2)}%;`
       },
       oppositeScoreBar () {
-        return `width: ${this.oppositeScore}%;`
+        return `width: ${this.oppositeScore / (this.questionArr.length * 0.2)}%;`
+      },
+      isWinner () {
+        return this.currentScore >= this.oppositeScore ? 'WINNER !' : 'FAILURE ~'
       }
     },
     onLoad (options) {
@@ -179,6 +213,10 @@
             title: '已答题完毕'
           })
           clearInterval(timer)
+          this.postRecord()
+          setTimeout(() => {
+            this.showResPanel()
+          }, 1000)
           return
         }
         setTimeout(() => {
@@ -192,11 +230,21 @@
         let an = Number(this.questionArr[this.currentQ].key)
         if (an === Number(key)) {
           this.$set(this.currentRes, key, 'right')
-          this.currentScore += 20
-          wx.showToast({
-            title: '恭喜你答对了'
-          })
-          this.updateScore(20)
+          let perFull = 20
+          let perSubFull = 12
+          if (this.timerSec >= 7) {
+            this.currentScore += perFull
+            this.updateScore(perFull)
+            wx.showToast({
+              title: `答对了，+ ${perFull}`
+            })
+          } else {
+            this.currentScore += perSubFull
+            this.updateScore(perSubFull)
+            wx.showToast({
+              title: `答对了，+ ${perSubFull}`
+            })
+          }
         } else {
           this.$set(this.currentRes, key, 'wrong')
           this.$set(this.currentRes, an, 'right')
@@ -212,6 +260,46 @@
           score,
           openid: oppositeClient.openid
         })
+      },
+      showResPanel () {
+        this.resPanelShow = true
+      },
+      continueQa () {
+        this.resPanelShow = false
+        setTimeout(() => {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 800)
+      },
+      postRecord () {
+        let res
+        if (this.currentScore > this.oppositeScore) {
+          res = 1
+        } else if (this.currentScore === this.oppositeScore) {
+          res = 2
+        } else {
+          res = 0
+        }
+        delete this.selfClient.socketid
+        delete this.oppositeClient.socketid
+        this.selfClient.score = this.currentScore
+        this.oppositeClient.score = this.oppositeScore
+        let postdata = {
+          record_self: JSON.stringify(this.selfClient),
+          record_match: JSON.stringify(this.oppositeClient),
+          record_winner: res,
+          record_qatype: 'T001'
+        }
+        this.req({
+          url: '/api/add-qarecord',
+          data: postdata,
+          method: 'POST'
+        }).then(({res}) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+        })
       }
     },
     onUnload () {
@@ -225,6 +313,7 @@
       this.oppositeScore = 0
     },
     onShareAppMessage (e) {
+
     }
   }
 </script>
@@ -353,4 +442,90 @@
   &.begin-modal-show 
     opacity 1
     visibility visible
+    
+.res-panel
+  width 100vw
+  height 100vh
+  background rgba(0, 0, 0, 0.8)
+  position fixed
+  left 0
+  top 0
+  z-index 9
+  visibility hidden
+  &.res-panel-show 
+    visibility visible
+.res-content
+  width 88%
+  height auto
+  padding 20px 0
+  background #fff
+  overflow hidden
+  left 50%
+  top 50%
+  position absolute
+  opacity 0
+  transition all 0.4s ease-out
+  transform translateX(-50%) translateY(-150%)
+  &.res-content-show
+    opacity 1
+    transform translateX(-50%) translateY(-50%)
+  .res-over
+    display flex
+    justify-content space-around
+    align-items center
+    padding-bottom 20px
+    .res-award
+      width 64px
+      height 64px
+    .res-winner
+      margin-left 20px
+      font-size 32px
+      color #ee5500
+  .res-head
+    width 100%
+    display flex
+    justify-content space-between
+    align-items center
+    font-size 18px
+    color #fff
+    padding 10px 20px
+    border-bottom 1rpx solid #ddd
+    background #555
+  .res-item
+    display flex
+    justify-content space-between
+    align-items center
+    padding 10px 20px
+    border-bottom 1rpx solid #ccc
+    background #f0f0f0
+    .item-l
+      width 80px
+      flex-shrink 0
+      position relative
+      .item-avatar
+        width 36px
+        height 36px
+        border-radius 50%
+      .item-nickname
+        font-size 16px
+        color #333
+        width 100%
+        text-overflow ellipsis
+        overflow hidden
+        white-space nowrap
+    .item-m
+      font-size 20px
+      color #00cc00
+      position relative
+      left -8px
+    .item-r
+      width 60px
+      flex-shrink 0
+      font-size 24px
+      color #ee5500
+      text-align right
+  .continue-btn
+    border-radius 0
+    margin 30px 30px 0
+    color #ffffff
 </style>

@@ -71,9 +71,11 @@ export default {
       'pages/tab-center/main',
 
       'pages/account-panel/main',
+      'pages/account-record/main',
 
       'pages/socket-page/socket-connect/main',
       'pages/socket-page/socket-emiton/main',
+
       'pages/component-page/toggle-panel/main',
       'pages/component-page/img-cut/main',
       'pages/component-page/video-test/main',

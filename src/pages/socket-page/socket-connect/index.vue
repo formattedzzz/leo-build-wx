@@ -3,11 +3,11 @@
     <div class="question-banner background-cube">
       <span class="question-title">英语全能王</span>
     </div>
-    <button class="match-btn background-0" @click="getVSmodal">自己玩吧</button>
+    <!-- <button class="match-btn background-0" hover-class="handle-class" @click="getVSmodal">自己玩吧</button> -->
     <button class="match-btn background-1" @click="findMatch">匹配对手</button>
     <button class="match-btn background-3" open-type="share">邀请好友</button>
     <button class="match-btn background-2" @click="disconnect">断开连接</button>
-    <button class="match-btn background-2" @click="testjoin">调试入口</button>
+    <!-- <button class="match-btn background-2" hover-class="handle-class" @click="testjoin">调试入口</button> -->
     <!-- 寻找匹配模态框 -->
     <div class="matching-modal" :class="{'matching-modal-show': matching}">
       <div class="circles circlesup">
@@ -41,13 +41,10 @@
       </div>
       </div>
     </div>
-    {{data}}
-    <login-modal></login-modal>
   </div>
 </template>
 <script>
   import IO from '@/../static/weapp.socket.io.js'
-  import loginModal from '@/components/loginModal'
   let socket = {}
   export default {
     data () {
@@ -72,15 +69,9 @@
       }
     },
     computed: {
-      data () {
-        return JSON.stringify(this.VSmodalData, null, 2)
-      }
     },
     onLoad () {
       this.connect()
-    },
-    onShow () {
-
     },
     onUnload () {
       this.matching = false
@@ -89,8 +80,8 @@
     onShareAppMessage (e) {
       if (e.from === 'button') {
         return {
-          title: 'leooo邀请你来应战英语全能王',
-          path: '/pages/component-page/socket/main?from=openid'
+          title: '邀请你来应战英语全能王',
+          path: '/pages/tab-more/main'
         }
       }
     },
@@ -244,9 +235,6 @@
       disconnect () {
         socket.close()
       }
-    },
-    components: {
-      loginModal
     }
   }
 </script>
@@ -437,5 +425,4 @@
   .nickname
     color #fff
     font-size 20px
-    
 </style>

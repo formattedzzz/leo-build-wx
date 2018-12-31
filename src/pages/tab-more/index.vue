@@ -22,15 +22,19 @@
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
     </div>
-    
+    <login-modal></login-modal>
+
   </div>
 </template>
 
 <script>
 // console.log(123, this)
+
+import loginModal from '@/components/loginModal'
 export default {
   data () {
     return {
+      resPanelShow: false
     }
   },
   computed: {
@@ -46,9 +50,8 @@ export default {
   },
   methods: {
   },
-  created () {
-    // 调用应用实例的方法获取全局数据
-    // this.getUserInfo()
+  components: {
+    loginModal
   }
 }
 </script>

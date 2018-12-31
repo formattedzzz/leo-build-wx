@@ -7,7 +7,7 @@
     <div class="user-avatar"><img v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl"></div>
     <h5 class="user-nickname"><span >Hi， {{userInfo.nickName}}！</span></h5>
   </div>
-  <div class="other-info"></div>
+  <div class="other-info" @click="toQarecord">我的对战记录</div>
   <login-modal></login-modal>
 </div>
 </template>
@@ -28,7 +28,14 @@
         this.userInfo = wx.getStorageSync('userInfo')
       })
     },
+    onShow () {
+    },
     methods: {
+      toQarecord () {
+        wx.navigateTo({
+          url: '/pages/account-record/main'
+        })
+      }
     },
     components: {
       loginModal
@@ -51,7 +58,6 @@
   margin 10px
   height 120px
   background #fff
-  border-radius 4px
   position relative 
   display flex
   padding 0 20px
@@ -72,8 +78,8 @@
     color #555
 .other-info
   margin 10px
-  border-radius 4px
   background #fff
-  height 60px
-  padding 0 10px
+  padding 10px
+  font-size 16px
+  color #4a4a4a
 </style>
