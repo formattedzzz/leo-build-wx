@@ -1,5 +1,10 @@
 <template>
- <div class='page'>
+ <div class="page">
+   <div class="record-head">
+     <span>我</span>
+     <span>得分</span>
+     <span>对手</span>
+   </div>
    <div class="record-item" v-for="(item, index) in records" :key="index">
     <div class="item-l">
       <div class="avatar">
@@ -8,11 +13,12 @@
       <h5 class="nickname">{{item.self.nickname}}</h5>
     </div>
     <div class="item-m">
-      <h5 class="item-mt" :class="{'fail': item.winner === 'FAILURE'}">{{item.winner}}</h5>
-      <h5 class="item-mm">
-        <span class="score score-l">{{item.self.score}}</span>  VS <span class="score score-r">{{item.oppo.score}}</span> 
-      </h5>
+      <span class="score score-l">{{item.self.score}}"</span> 
+      <h5 class="item-mt" 
+      :class="{'fail': item.winner === 'FAILURE','draw': item.winner === 'DRAW'}">{{item.winner}}</h5>
+      <h5 class="item-mm">VS</h5>
       <h5 class="item-mb">{{item.date}}</h5>
+      <span class="score score-r">{{item.oppo.score}}"</span> 
     </div>
     <div class="item-r">
       <div class="avatar">
@@ -77,6 +83,23 @@
 </script>
 
 <style lang="stylus">
+.page
+  padding-bottom 20px
+.record-head
+  width 100%
+  padding 6px 40px
+  height 40px
+  line-height 40px
+  display flex
+  justify-content space-between
+  align-items center
+  background #f0f0f0
+  font-size 16px
+  color #626262
+  position sticky
+  top 0
+  left 0
+  z-index 9
 .record-item
   width 100%
   display flex
@@ -108,27 +131,30 @@
       overflow hidden
       padding-top 8px
   .item-m
-    width 100px
+    width 120px
+    position relative
     .item-mt 
       font-size 16px
       color #0c0
       &.fail 
         color #f00
+      &.draw
+        color #444
     .item-mm
       font-size 24px
       color #e50
       transform scale(1.2)
-      .score
-        font-size 14px
-        position relative
-        bottom 0
-        color #0c0
-      .score-l
-        left -30px
-      .score-r
-        right -30px
     .item-mb
       font-size 12px
       color #9b9b9b
+    .score
+      font-size 20px
+      position absolute
+      bottom 20px
+      color #0c0
+    .score-l
+      left -30px
+    .score-r
+      right -30px
  
 </style>

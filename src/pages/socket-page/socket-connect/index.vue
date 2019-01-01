@@ -72,6 +72,7 @@
     },
     onLoad () {
       this.connect()
+      this.nickname = wx.getStorageSync('userInfo').nickName
     },
     onUnload () {
       this.matching = false
@@ -80,8 +81,8 @@
     onShareAppMessage (e) {
       if (e.from === 'button') {
         return {
-          title: '邀请你来应战英语全能王',
-          path: '/pages/tab-more/main'
+          title: this.nickname + '邀请你来应战英语全能王',
+          path: `/pages/tab-more/main?from=${this.nickname}&qa=${'专注力训练'}`
         }
       }
     },

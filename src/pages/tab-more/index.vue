@@ -42,7 +42,35 @@ export default {
       return this.baseURL
     }
   },
-  onLoad () {
+  onLoad (options) {
+    if (options.from) {
+      wx.showModal({
+        title: '邀请提醒',
+        content: `${options.from}邀请你挑战${options.qa}`,
+        confirmText: '接受',
+        concelText: '拒绝',
+        success: (res) => {
+          if (res.confirm) {
+            if (!wx.getStorageSync('token')) {
+              wx.showModal({
+                title: '提示',
+                content: '请先授权登录',
+                showCancel: false
+              })
+              this.eventBus.$on('hideLogin', () => {
+                wx.navigateTo({
+                  url: '/pages/socket-page/socket-connect/main'
+                })
+              })
+            } else {
+              wx.navigateTo({
+                url: '/pages/socket-page/socket-connect/main'
+              })
+            }
+          }
+        }
+      })
+    }
   },
   onShow () {
   },
