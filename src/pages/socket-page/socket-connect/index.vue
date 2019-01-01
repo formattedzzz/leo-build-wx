@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="question-banner background-cube">
-      <span class="question-title">英语全能王</span>
+      <span class="question-title">一站到底挑战赛</span>
     </div>
     <!-- <button class="match-btn background-0" hover-class="handle-class" @click="getVSmodal">自己玩吧</button> -->
     <button class="match-btn background-1" @click="findMatch">匹配对手</button>
@@ -24,7 +24,12 @@
         <div class="circle"></div>
         <div class="circle"></div>
       </div>
-      <div class="matching-text">matching...</div>
+      <div class="matching-text">
+        <span>matching</span>  
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
       <button @click="cancalMatch" class="match-btn cancel-btn background-2">取消匹配</button>
     </div>
 
@@ -81,7 +86,7 @@
     onShareAppMessage (e) {
       if (e.from === 'button') {
         return {
-          title: this.nickname + '邀请你来应战英语全能王',
+          title: this.nickname + '邀请你参与一站到底挑战赛',
           path: `/pages/tab-more/main?from=${this.nickname}&qa=${'专注力训练'}`
         }
       }
@@ -243,14 +248,28 @@
 .matching-text{
   position: absolute;
   display: inline-block;
-  width: 70px;
+  width: 140px;
   height: 30px;  
   left: 40%;
-  top: 50%;
-  /* transform: translateX(-50%) translateY(-50%); */
-	-webkit-animation: text 3s infinite;
-  animation: text 3s infinite;
+  top: 55%;
   color: #fff;
+}
+.dot{
+  display: inline-block;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+	-webkit-animation: text 2s infinite;
+	animation: text 2s infinite;
+  margin-left: 10px;
+}
+.dot:nth-child(2) {
+	-webkit-animation-delay: 250ms; 
+	animation-delay: 250ms;
+}
+.dot:nth-child(3) {
+	-webkit-animation-delay: 500ms; 
+	animation-delay: 500ms;
 }
 .circles{
   width: 50px;
@@ -333,10 +352,9 @@
 	100%{ transform:rotate(405deg);} 
 }
 @keyframes text {
-	0%{ transform:scale(0.6,0.6);animation-timing-function: ease-out; } 
-	50%{ transform:scale(1,1);animation-timing-function: ease-out;  }
-	60%{ transform:scale(1,1);animation-timing-function: ease-out;  }
-	100%{ transform:scale(0.6,0.6);} 
+	0%{ opacity: 0;}
+  50%{ opacity: 1;}
+	100%{ opacity: 0;}
 }
 </style>
 

@@ -58,7 +58,7 @@
             <h5 class="item-nickname">{{selfClient.nickname}}</h5>
           </div>
           <div class="item-m">{{currentScore}}"</div>
-          <div class="item-r">S</div>
+          <div class="item-r">{{currentScore >= oppositeScore ? 'S' : 'A'}}</div>
         </div>
         <div class="res-item">
           <div class="item-l">
@@ -66,7 +66,7 @@
             <h5 class="item-nickname">{{oppositeClient.nickname}}</h5>
           </div>
           <div class="item-m">{{oppositeScore}}"</div>
-          <div class="item-r">A</div>
+          <div class="item-r">{{oppositeScore >= currentScore ? 'S' : 'A'}}</div>
         </div>
         <button class="continue-btn background-2" hover-class="handle-class" @click="continueQa">继续挑战</button>
       </div>
@@ -146,7 +146,7 @@
         return `width: ${this.oppositeScore / (this.questionArr.length * 0.2)}%;`
       },
       isWinner () {
-        return this.currentScore >= this.oppositeScore ? 'WINNER !' : 'FAILURE ~'
+        return this.currentScore >= this.oppositeScore ? 'WINNER ^_^' : 'FAILURE ...'
       }
     },
     onLoad (options) {
@@ -236,13 +236,13 @@
             this.currentScore += perFull
             this.updateScore(perFull)
             wx.showToast({
-              title: `答对了，+ ${perFull}`
+              title: `又快又对,+ ${perFull}`
             })
           } else {
             this.currentScore += perSubFull
             this.updateScore(perSubFull)
             wx.showToast({
-              title: `答对了，+ ${perSubFull}`
+              title: `恭喜,+ ${perSubFull}`
             })
           }
         } else {
@@ -266,11 +266,11 @@
       },
       continueQa () {
         this.resPanelShow = false
-        setTimeout(() => {
-          wx.navigateBack({
-            delta: 1
-          })
-        }, 800)
+        // setTimeout(() => {
+        //   wx.navigateBack({
+        //     delta: 1
+        //   })
+        // }, 800)
       },
       postRecord () {
         let res
@@ -311,9 +311,7 @@
       this.currentRes = ['', '', '', '']
       this.currentScore = 0
       this.oppositeScore = 0
-    },
-    onShareAppMessage (e) {
-
+      this.resPanelShow = false
     }
   }
 </script>
@@ -507,7 +505,7 @@
         height 36px
         border-radius 50%
       .item-nickname
-        font-size 16px
+        font-size 12px
         color #333
         width 100%
         text-overflow ellipsis

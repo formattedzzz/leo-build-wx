@@ -18,7 +18,11 @@
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
       <navigator url="/pages/socket-page/socket-connect/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">英语单词王</div>
+        <div class="weui-cell__bd">一站到底</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+      <navigator url="/pages/socket-page/socket-connect/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+        <div class="weui-cell__bd">专注训练</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
     </div>
