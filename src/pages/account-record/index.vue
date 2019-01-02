@@ -1,35 +1,35 @@
 <template>
- <div class="page">
-   <div class="record-head">
-     <span>我</span>
-     <span>得分</span>
-     <span>对手</span>
-   </div>
-   <div class="record-item" v-for="(item, index) in records" :key="index">
-    <div class="item-l">
-      <div class="avatar">
-        <img :src="item.self.avatar">
+  <div class="page">
+    <div class="record-head">
+      <span>我</span>
+      <span>得分</span>
+      <span>对手</span>
+    </div>
+    <div class="record-item" v-for="(item, index) in records" :key="index">
+      <span class="winner-mark fail" v-if="item.winner === 'FAILURE'">失败</span><span class="winner-mark" v-else>胜利</span>
+      <div class="item-l">
+        <div class="avatar">
+          <img :src="item.self.avatar">
+        </div>
+        <h5 class="nickname">{{item.self.nickname}}</h5>
       </div>
-      <h5 class="nickname">{{item.self.nickname}}</h5>
-    </div>
-    <div class="item-m">
-      <span class="score score-l">{{item.self.score}}"</span> 
-      <h5 class="item-mt" 
-      :class="{'fail': item.winner === 'FAILURE','draw': item.winner === 'DRAW'}">{{item.winner}}</h5>
-      <h5 class="item-mm">VS</h5>
-      <h5 class="item-mb">{{item.date}}</h5>
-      <span class="score score-r">{{item.oppo.score}}"</span> 
-    </div>
-    <div class="item-r">
-      <div class="avatar">
-        <img :src="item.oppo.avatar">
+      <div class="item-m">
+        <span class="score score-l">{{item.self.score}}"</span>
+        <h5 class="item-mt">一站到底挑战赛</h5>
+        <h5 class="item-mm">VS</h5>
+        <h5 class="item-mb">{{item.date}}</h5>
+        <span class="score score-r">{{item.oppo.score}}"</span> 
       </div>
-      <h5 class="nickname">{{item.oppo.nickname}}</h5>
+      <div class="item-r">
+        <div class="avatar">
+          <img :src="item.oppo.avatar">
+        </div>
+        <h5 class="nickname">{{item.oppo.nickname}}</h5>
+      </div>
     </div>
-   </div>
 
-   <div v-if="!records.length" class="nothing-mind"><span class="line-l"></span><span>暂无对局记录诶</span><span class="line-r"></span></div>
- </div>
+    <div v-if="!records.length" class="nothing-mind"><span class="line-l"></span><span>暂无对局记录诶</span><span class="line-r"></span></div>
+  </div>
 </template>
 
 <script>
@@ -70,13 +70,7 @@
         }
       })
     },
-    onShow () {
-
-    },
     methods: {
-
-    },
-    components: {
 
     }
   }
@@ -104,12 +98,30 @@
   width 100%
   display flex
   padding 10px 0
+  height 110px
   justify-content space-between
-  align-items center
+  align-items flex-end
   text-align center
   border-top 1rpx solid #ccc
   border-bottom 1rpx solid #ccc
   margin-top 10px
+  position relative
+  overflow hidden
+  .winner-mark
+    display inline-block
+    width 82px
+    height 39px
+    line-height 50px
+    font-size 12px
+    color #fff
+    background #00cc00
+    position absolute
+    left -28px
+    transform rotate(-45deg)
+    top -7px
+    text-align center
+    &.fail
+      background #ff3100
   .item-l, .item-r
     flex-shrink 0
     width 100px
@@ -119,9 +131,11 @@
       border-radius 50%
       overflow hidden
       margin 0 auto
+      position relative
       img
         width 100%
         height 100%
+        border-radius 50%
     .nickname
       font-size 12px
       color #4a4a4a
@@ -133,13 +147,10 @@
   .item-m
     width 120px
     position relative
+    height 100%
     .item-mt 
       font-size 16px
-      color #0c0
-      &.fail 
-        color #f00
-      &.draw
-        color #444
+      color #ee5500
     .item-mm
       font-size 24px
       color #e50
@@ -150,7 +161,7 @@
     .score
       font-size 20px
       position absolute
-      bottom 20px
+      bottom 28px
       color #0c0
     .score-l
       left -30px

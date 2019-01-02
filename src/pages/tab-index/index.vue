@@ -68,6 +68,8 @@
 
 <script>
 import loginModal from '@/components/loginModal'
+
+import { formatTime } from '@/utils/index.js'
 import {outcomeList, incomeList, totalTpye} from '@/utils/typeList'
 let currentYEAR = new Date().getFullYear()
 let yearArr = [currentYEAR, currentYEAR - 1, currentYEAR - 2, currentYEAR - 3]
@@ -152,7 +154,8 @@ export default {
               item.forEach((inner, index) => {
                 inner.slide = false
                 inner.day = new Date(inner.date).getDay()
-                inner.date = inner.date.split('T')[0]
+                //  = inner.date.split('T')[0]
+                inner.date = formatTime(new Date(inner.date), '/', 'YYYY-MM-DD')
                 totalTpye.forEach((type) => {
                   if (inner.type === type.typeid) {
                     inner.typeicon = type.typeicon

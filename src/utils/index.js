@@ -3,7 +3,7 @@ function formatNumber (n) {
   return str[1] ? str : `0${str}`
 }
 
-export function formatTime (date, str='/') {
+export function formatTime (date, str='/', mode) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -11,11 +11,10 @@ export function formatTime (date, str='/') {
   const hour = date.getHours()
   const minute = date.getMinutes()
   // const second = date.getSeconds()
-
   const t1 = [year, month, day].map(formatNumber).join(str)
   const t2 = [hour, minute].map(formatNumber).join(':')
 
-  return `${t1} ${t2}`
+  return mode === 'YYYY-MM-DD' ? `${t1}` : `${t1} ${t2}`
 }
 
 export default {
