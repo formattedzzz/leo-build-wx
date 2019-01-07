@@ -23,7 +23,7 @@ page
   min-height 100vh
 * 
   box-sizing border-box
-div
+div, h5
   box-sizing border-box
 colors = #00cc00 #4B95EA #ee5500 #996633
 for clr,i in colors

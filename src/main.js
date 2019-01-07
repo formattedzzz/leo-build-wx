@@ -31,10 +31,6 @@ Vue.prototype.req = function (config) {
           return
         }
         if (res.data.code === -1) {
-          wx.showToast({
-            title: res.data.message,
-            icon: 'none'
-          })
           wx.clearStorageSync()
           Vue.prototype.eventBus.$emit('revokeLogin', true)
         }

@@ -57,9 +57,9 @@
 				},
 				{
 					"id": 4,
-					"name": "emiton",
-					"pathName": "pages/account-record/main",
-					"query": ""
+					"name": "connect",
+					"pathName": "pages/socket-page/socket-connect/main",
+					"query": "room=room_001"
 				}
 			]
 		}

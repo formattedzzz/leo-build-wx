@@ -4,11 +4,19 @@
       <span class="question-title">一站到底挑战赛</span>
     </div>
     <!-- <button class="match-btn background-0" hover-class="handle-class" @click="getVSmodal">自己玩吧</button> -->
-    <button class="match-btn background-1" @click="findMatch">匹配对手</button>
-    <button class="match-btn background-3" @click="toInvite">好友同玩</button>
-    <button class="match-btn background-2" @click="disconnect">断开连接</button>
+    <button class="match-btn match-btn1 background-1" :class="{'cant-begin': roomMates.length > 1}" @click="findMatch">匹配对手</button>
+    <button class="match-btn match-btn2 background-2" :class="{'can-begin': roomMates.length > 1}">好友同玩</button>
+    <div class="room-content background-3" :style="{height: roomMates.length >= 3 ? '400rpx' : '240rpx'}">
+      <div class="room-mate" v-for="(mate, index) in roomMates" :key="index">
+        <img class="avatar" :src="mate.avatar">
+        <h5 class="nickname">{{mate.nickname}}</h5>
+      </div>
+      <div v-if="roomMates.length <= 5" class="room-mate add-mate">
+        <div class="add-icon"><button class="share-btn" open-type="share"></button><img src="/static/svg/account-add.svg"></div>
+        <h5 class="nickname">添加</h5>
+      </div>
+    </div>
 
-    <!-- <button class="match-btn background-2" hover-class="handle-class" @click="testjoin">调试入口</button> -->
     <!-- 寻找匹配模态框 -->
     <div class="matching-modal" :class="{'matching-modal-show': matching}">
       <div class="gooey">
@@ -40,8 +48,8 @@
   </div>
 </template>
 <script>
-  import IO from '@/../static/weapp.socket.io.js'
-  let socket = {}
+  // import IO from '@/../static/weapp.socket.io.js'
+  // let socket = {}
   export default {
     data () {
       return {
@@ -61,96 +69,120 @@
             avatar: '',
             socketid: ''
           }
-        ]
+        ],
+        roomMates: []
+      }
+    },
+    computed: {
+      roomlen () {
+        return this.roomMates.length
       }
     },
     onLoad (options) {
+      if (this.socket.disconnected) {
+        wx.showToast({
+          title: '出现错误'
+        })
+      }
       this.query = options
-      this.connect()
-      this.nickname = wx.getStorageSync('userInfo').nickName
+      // this.connect()
+      let {nickName, avatarUrl} = wx.getStorageSync('userInfo')
+      this.nickname = nickName
+      this.avatar = avatarUrl
       this.getQuestion()
+      this.joinNewRoom()
     },
     onUnload () {
       this.matching = false
-      // this.hasmatched = false
+      if (this.query.room) {
+        this.socket.emit('exit_room', {room: this.roomName, init: false})
+      } else {
+        this.socket.emit('exit_room', {room: this.roomName, init: true})
+      }
+      this.roomMates = []
     },
-    // onShareAppMessage (e) {
-    //   if (e.from === 'button') {
-    //     return {
-    //       title: this.nickname + '邀请你参与一站到底挑战赛',
-    //       path: `/pages/tab-more/main?from=${this.nickname}&openid=${this.openid}&project=${'专注力训练'}`
-    //     }
-    //   }
-    // },
-    methods: {
-      connect () {
-        if (socket.connected) return
-        let token = wx.getStorageSync('token')
-        let URL = `${this.baseURL}/user?token=${token}`
-        socket = IO(URL)
-        this.eventBus.$emit('socket_emiton', socket)
-        try {
-          console.log(socket)
-        } catch (err) {
-          console.log(err)
+    onShareAppMessage (e) {
+      if (e.from === 'button') {
+        return {
+          title: this.nickname + '邀请你参与一站到底挑战赛',
+          path: `/pages/tab-more/main?from=${this.nickname}&room=${this.roomName}&project=${'专注力训练'}`
         }
-        socket.on('connect', () => {
-          console.log('connected', socket.id)
-          socket.on('beat_req', function (msg) {
-            console.log('beat req')
-            socket.emit('beat_res')
-          })
-          // socket.on('system_info', (msg) => {
-          //   console.log('received system news: ', msg)
-          // })
-          // socket.on('broadcast', () => {
-          //   console.log('broadcast')
-          // })
-          // socket.on('broadcast2', () => {
-          //   console.log('broadcast2')
-          // })
-          // socket.on('private_msg', (from, to, msg) => {
-          //   console.log(from, to, msg)
-          // })
-          // socket.emit('custom_info', {
-          //   title: 'this is a news from custom'
-          // })
+      }
+    },
+    methods: {
+      joinNewRoom () {
+        console.log(this.query)
+        let room = this.query.room
+        if (room) {
+          this.roomName = room
+          this.socket.emit('join_room', {room: room, init: false})
+        } else {
+          let roomName = 'room_' + Math.random().toString(36).substr(2)
+          this.roomName = roomName
+          this.socket.emit('join_room', {room: roomName, init: true})
+        }
+        this.socket.off('join_info')
+        this.socket.on('join_info', (roomarr) => {
+          this.roomMates = roomarr
         })
-        socket.on('error', () => {
+        this.socket.on('join_fail', (msg) => {
           wx.showModal({
             title: '提示',
-            content: '连接失败,可能是token出错了',
-            showCancel: false
+            content: msg,
+            showCancel: false,
+            success: () => {
+              wx.navigateBack()
+            }
           })
-          this.matching = false
         })
-        socket.on('disconnect', () => {
-          console.log('断开连接')
-          wx.showModal({
-            title: '提示',
-            content: '你已断开连接',
-            showCancel: false
-          })
-          this.matching = false
+        this.socket.on('exit_info', (info) => {
+          if (info.init) { // 如果房主掉线且为被邀请的房间
+            if (this.query.room) {
+              wx.showModal({
+                title: '提示',
+                content: '地主已退出房间，返回重新发起',
+                showCancel: false,
+                success: () => {
+                  wx.navigateBack()
+                }
+              })
+            } else {
+              // console.log('房主自己离开')
+              this.roomMates = []
+            }
+          } else {
+            // console.log('如果被邀请掉线所有房间-1')
+            this.roomMates = info.leftrooms
+          }
         })
       },
       findMatch () {
-        if (!socket.connected) {
+        if (this.roomMates.length > 1) {
           wx.showModal({
             title: '提示', 
-            content: '正在初始化连接..'
+            content: '你正在进行好友对局',
+            showCancel: false
+          })
+          return
+        }
+        if (!this.socket.connected) {
+          wx.showModal({
+            title: '提示', 
+            content: '正在初始化连接..',
+            showCancel: true
           })
           return false
         }
+        
         if (this.matching) return
         this.matching = true
-        socket.emit('need_match', true)
-        socket.off('matched')
-        socket.on('matched', (data) => {
-          console.log('matched')
+        this.socket.emit('need_match', true)
+        this.socket.off('matched')
+        this.socket.on('matched', (data) => {
+          // console.log('matched')
           if (Array.isArray(data) && data.length) {
             data.forEach((item) => {
-              if (item.socketid === socket.id) {
+              if (item.openid === this.openid) {
                 item.self = true
               } else {
                 item.self = false
@@ -164,22 +196,21 @@
           this.matching = false
           this.getVSmodal()
         })
-        socket.on('match_failed', () => {
-          // setTimeout(() => {
+        this.socket.on('match_failed', () => {
           this.matching = false
           wx.showModal({
             title: '提示',
             content: '好像找不到对手诶',
             showCancel: false
           })
-          // }, 4000)
         })
       },
       getVSmodal () {
         // 触发对战界面 应该做成组件易于管理
         // if (this.hasmatched) return
         // this.hasmatched = true
-        if (socket.disconnected) {
+        wx.vibrateLong()
+        if (this.socket.disconnected) {
           wx.showModal({
             title: '提示',
             content: '检测到断开连接,对局已触发,您被判定为逃跑。'
@@ -201,15 +232,12 @@
           itemList: ['确认退出匹配'],
           success: (res) => {
             this.matching = false
-            socket.emit('cancel_match', true)
+            this.socket.emit('cancel_match', true)
           },
           fail: (res) => {
             console.log('取消退出')
           }
         })
-      },
-      disconnect () {
-        socket.close()
       },
       getQuestion () {
         this.req({
@@ -217,6 +245,13 @@
         }).then(({data}) => {
           let res = data
           this.openid = res.openid
+          if (!this.roomMates.length) {
+            this.roomMates = [{
+              openid: res.openid,
+              nickname: this.nickname,
+              avatar: this.avatar
+            }]
+          }
           if (res.code) {
             if (res.data && res.data.length) {
               wx.setStorageSync('questions', res.data)
@@ -309,6 +344,78 @@
   border-radius 0
   margin 30px
   color #ffffff
+.match-btn1
+  opacity 1
+  &.cant-begin
+    opacity 0.2
+.match-btn2
+  opacity 0.2
+  &.can-begin
+    opacity 1
+
+.room-content
+  width 90%
+  position absolute
+  padding 12px
+  bottom 5%
+  left 5%
+  border-radius 30px
+  display flex
+  flex-wrap wrap
+  justify-content flex-start
+  transition height 0.4s ease-out
+  .begin-btn
+    width 120px
+    height 36px
+    line-height 36px
+    text-align center 
+    border-radius 4px
+    position absolute
+    font-size 14px
+    color #222
+    left 50%
+    top -26px
+    transform translateX(-50%)
+    background #fff
+    box-shadow 0 0 3px #ccc
+    opacity 0.6
+    &.begin-ok
+      opacity 1
+  .room-mate
+    width 33.3%
+    text-align center
+    height 78px
+    .avatar
+      width 48px
+      height 48px
+      border-radius 50%
+    .nickname
+      font-size 12px
+      color #fff
+      white-space nowrap
+      text-overflow ellipsis
+      overflow hidden
+    .add-icon
+      width 48px
+      height 48px
+      border-radius 50%
+      overflow hidden
+      border 1px dashed #fff
+      padding 10px
+      margin 0 auto
+      position relative
+      margin-bottom 7px
+      img
+        width 100%
+        height 100%
+      .share-btn
+        opacity 0
+        position absolute
+        width 100%
+        height 100%
+        z-index 9
+        left 0
+        top 0
 
 .matching-modal
   width 100vw

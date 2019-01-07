@@ -25,10 +25,10 @@
           success: (res) => {
             if (!res.authSetting['scope.userInfo']) {
               wx.showToast({
-                title: '检测到你还未授权本小小程序',
+                title: '本小小程序请求大人的授权',
                 icon: 'none'
               })
-              console.log('检测到你还未授权本小小程序')
+              console.log('本小小程序请求大人的授权')
               this.show = true
               this.onlyAuth = true
             }
@@ -51,7 +51,7 @@
         }
         if (e.target.errMsg === 'getUserInfo:fail auth deny') {
           wx.showToast({
-            title: '未授权 继续点',
+            title: '请授权 爽快点',
             icon: 'none'
           })
           return
