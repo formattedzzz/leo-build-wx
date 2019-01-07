@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="record-head">
-      <span>我</span>
-      <span>得分</span>
-      <span>对手</span>
+      <img class="head-icon" src="/static/svg/self.svg">
+      <img class="head-icon" src="/static/svg/panel.svg">
+      <img class="head-icon" src="/static/svg/oppo.svg">
     </div>
     <div class="record-item" v-for="(item, index) in records" :key="index">
       <span class="winner-mark fail" v-if="item.winner === 'FAILURE'">失败</span><span class="winner-mark" v-else>胜利</span>
@@ -81,7 +81,7 @@
   padding-bottom 20px
 .record-head
   width 100%
-  padding 6px 40px
+  padding 6px 36px
   height 40px
   line-height 40px
   display flex
@@ -94,6 +94,9 @@
   top 0
   left 0
   z-index 9
+  .head-icon
+    width 24px
+    height 24px
 .record-item
   width 100%
   display flex

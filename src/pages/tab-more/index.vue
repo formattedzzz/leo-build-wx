@@ -21,7 +21,7 @@
         <div class="weui-cell__bd">一站到底</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
-      <navigator url="/pages/socket-page/socket-connect/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
+      <navigator url="/pages/socket-page/socket-invite/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
         <div class="weui-cell__bd">专注训练</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
@@ -32,9 +32,9 @@
 </template>
 
 <script>
-// console.log(123, this)
-
 import loginModal from '@/components/loginModal'
+// import IO from '@/../static/weapp.socket.io.js'
+// let socket
 export default {
   data () {
     return {
@@ -50,7 +50,7 @@ export default {
     if (options.from) {
       wx.showModal({
         title: '邀请提醒',
-        content: `${options.from}邀请你挑战${options.qa}`,
+        content: `${options.from}邀请你挑战${options.project}`,
         confirmText: '接受',
         concelText: '拒绝',
         success: (res) => {
@@ -63,12 +63,12 @@ export default {
               })
               this.eventBus.$on('hideLogin', () => {
                 wx.navigateTo({
-                  url: '/pages/socket-page/socket-connect/main'
+                  url: `/pages/socket-page/socket-connect/main?inviter=${options.openid}`
                 })
               })
             } else {
               wx.navigateTo({
-                url: '/pages/socket-page/socket-connect/main'
+                url: `/pages/socket-page/socket-connect/main?inviter=${options.openid}`
               })
             }
           }
@@ -81,6 +81,9 @@ export default {
   onHide () {
   },
   methods: {
+    bounce () {
+      wx.vibrateLong()
+    }
   },
   components: {
     loginModal
