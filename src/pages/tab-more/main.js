@@ -5,6 +5,9 @@ const app = new Vue(App)
 app.eventBus.$on('socket_emiton', (data) => {
   Vue.prototype.socket = data
 })
+app.eventBus.$on('attach_openid', (openid) => {
+  Vue.prototype.openid = openid
+})
 app.$mount()
 export default {
   config: {

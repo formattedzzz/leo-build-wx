@@ -1,11 +1,12 @@
 <template>
   <div class="page">
     <div class="question-banner background-cube">
-      <span class="question-title">一站到底挑战赛</span>
+      <span class="question-title">{{projectMap[query.project].name}}</span>
     </div>
     <!-- <button class="match-btn background-0" hover-class="handle-class" @click="getVSmodal">自己玩吧</button> -->
     <button class="match-btn match-btn1 background-1" :class="{'cant-begin': roomMates.length > 1}" @click="findMatch">匹配对手</button>
-    <button class="match-btn match-btn2 background-2" :class="{'can-begin': roomMates.length > 1}">好友同玩</button>
+    <button v-if="!isInvitee" class="match-btn match-btn2 background-2" :class="{'can-begin': roomMates.length > 1}" @click="dissFriend">好友同玩</button>
+    <button @click="sendToRoom('房间消息')">sendToRoom</button>
     <div class="room-content background-3" :style="{height: roomMates.length >= 3 ? '400rpx' : '240rpx'}">
       <div class="room-mate" v-for="(mate, index) in roomMates" :key="index">
         <img class="avatar" :src="mate.avatar">
@@ -17,7 +18,6 @@
       </div>
     </div>
 
-    <!-- 寻找匹配模态框 -->
     <div class="matching-modal" :class="{'matching-modal-show': matching}">
       <div class="gooey">
         <span class="dot"></span>
@@ -48,14 +48,15 @@
   </div>
 </template>
 <script>
-  // import IO from '@/../static/weapp.socket.io.js'
-  // let socket = {}
+  let projectMap = {
+    concentrate: {name: '专注训练', path: '/pages/socket-page/socket-invite/main'},
+    question: {name: '一站到底挑战赛', path: '/pages/socket-page/socket-emiton/main'}
+  }
   export default {
     data () {
       return {
-        matching: false, // 正在匹配对手的状态量
-        // hasmatched: false,
-        showVSmodal: false, // VSmodal 显示控制即渲染数据
+        matching: false,
+        showVSmodal: false, 
         VSmodalData: [
           {
             openid: '',
@@ -70,27 +71,48 @@
             socketid: ''
           }
         ],
-        roomMates: []
+        roomMates: [],
+        isInvitee: false,
+        query: {},
+        projectMap
       }
     },
     computed: {
-      roomlen () {
-        return this.roomMates.length
-      }
     },
     onLoad (options) {
       if (this.socket.disconnected) {
-        wx.showToast({
-          title: '出现错误'
+        wx.showModal({
+          title: '提示',
+          content: '',
+          showCancel: false,
+          success: () => {
+            this.$nextTick(() => { wx.navigateBack() })
+          }
         })
       }
       this.query = options
-      // this.connect()
-      let {nickName, avatarUrl} = wx.getStorageSync('userInfo')
-      this.nickname = nickName
-      this.avatar = avatarUrl
-      this.getQuestion()
+      this.nickname = wx.getStorageSync('userInfo').nickName
+      this.initProjectData()
       this.joinNewRoom()
+      if (options.room) { this.isInvitee = true }
+
+      this.socket.off('diss_begin')
+      this.socket.off('room_msg')
+      this.socket.on('diss_begin', () => {
+        this.roomMates.forEach((mate) => {
+          if (mate.openid === this.openid) {
+            mate.self = true
+          } else {
+            mate.self = false
+          }
+        })
+        wx.navigateTo({
+          url: `${projectMap[this.query.project].path}?vsdata=${JSON.stringify(this.roomMates)}`
+        })
+      })
+      this.socket.on('room_msg', (msginfo) => {
+        this.getRoomMsg(msginfo)
+      })
     },
     onUnload () {
       this.matching = false
@@ -104,8 +126,8 @@
     onShareAppMessage (e) {
       if (e.from === 'button') {
         return {
-          title: this.nickname + '邀请你参与一站到底挑战赛',
-          path: `/pages/tab-more/main?from=${this.nickname}&room=${this.roomName}&project=${'专注力训练'}`
+          title: this.nickname + '邀请你参与' + projectMap[this.query.project].name,
+          path: `/pages/tab-more/main?from=${this.nickname}&room=${this.roomName}&project=${this.query.project}`
         }
       }
     },
@@ -136,7 +158,8 @@
           })
         })
         this.socket.on('exit_info', (info) => {
-          if (info.init) { // 如果房主掉线且为被邀请的房间
+          if (info.init) { 
+            // 如果房主掉线且为被邀请的房间
             if (this.query.room) {
               wx.showModal({
                 title: '提示',
@@ -159,7 +182,7 @@
       findMatch () {
         if (this.roomMates.length > 1) {
           wx.showModal({
-            title: '提示', 
+            title: '提示',
             content: '你正在进行好友对局',
             showCancel: false
           })
@@ -179,7 +202,6 @@
         this.socket.emit('need_match', true)
         this.socket.off('matched')
         this.socket.on('matched', (data) => {
-          // console.log('matched')
           if (Array.isArray(data) && data.length) {
             data.forEach((item) => {
               if (item.openid === this.openid) {
@@ -206,9 +228,7 @@
         })
       },
       getVSmodal () {
-        // 触发对战界面 应该做成组件易于管理
-        // if (this.hasmatched) return
-        // this.hasmatched = true
+        // 触发对战界面
         wx.vibrateLong()
         if (this.socket.disconnected) {
           wx.showModal({
@@ -223,7 +243,7 @@
           let vsdata = this.VSmodalData
           
           wx.navigateTo({
-            url: `/pages/socket-page/socket-emiton/main?vsdata=${JSON.stringify(vsdata)}`
+            url: `${projectMap[this.query.project].path}?vsdata=${JSON.stringify(vsdata)}`
           })
         }, 2000)
       },
@@ -233,25 +253,20 @@
           success: (res) => {
             this.matching = false
             this.socket.emit('cancel_match', true)
-          },
-          fail: (res) => {
-            console.log('取消退出')
           }
         })
+      },
+      initProjectData () {
+        if (this.query.project === 'question') {
+          this.getQuestion()
+          // console.log(this.openid, '不获取question')
+        }
       },
       getQuestion () {
         this.req({
           url: '/api/get-question'
         }).then(({data}) => {
           let res = data
-          this.openid = res.openid
-          if (!this.roomMates.length) {
-            this.roomMates = [{
-              openid: res.openid,
-              nickname: this.nickname,
-              avatar: this.avatar
-            }]
-          }
           if (res.code) {
             if (res.data && res.data.length) {
               wx.setStorageSync('questions', res.data)
@@ -259,9 +274,29 @@
           }
         })
       },
-      toInvite () {
-        wx.navigateTo({
-          url: '/pages/socket-page/socket-invite/main'
+      dissFriend () {
+        console.log('当前人数', this.roomMates.length)
+        if (this.roomMates.length === 1) return
+        if (this.query.project === 'question' && this.roomMates.length !== 2) { 
+          wx.showModal({
+            title: '此项目暂时只支持两个人',
+            showCancel: false
+          })
+          return
+        }
+        this.socket.emit('req_begin', this.roomName) 
+      },
+      sendToRoom (msg) {
+        this.socket.emit('room_msg', {
+          roomname: this.roomName,
+          msg: msg,
+          openid: this.openid
+        })
+      },
+      getRoomMsg (msginfo) {
+        wx.showToast({
+          title: msginfo.msg,
+          icon: 'none'
         })
       }
     }

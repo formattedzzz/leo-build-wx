@@ -1,37 +1,26 @@
 <template>
   <div class="container">
-    <div class="weui-cells weui-cells_after-title">
-      <!-- <navigator url="/pages/component-page/slide-list/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">滑动列表</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
-      <navigator url="/pages/component-page/img-cut/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">图片裁剪</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
-      <navigator url="/pages/component-page/toggle-panel/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">折叠面板</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator> -->
-      <navigator url="/pages/component-page/slide-left/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">左滑删除</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
-      <navigator url="/pages/socket-page/socket-connect/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">一站到底</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
-      <navigator url="/pages/socket-page/socket-invite/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">专注训练</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
-      <navigator url="/pages/socket-page/socket-connect/main?room=room_001" class="weui-cell weui-cell_access" hover-class="weui-cell_active" hover-stay-time="300">
-        <div class="weui-cell__bd">测试入口</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-      </navigator>
+    <div class="project-content">
+      <div class="content-l">
+        <a href="/pages/socket-page/socket-connect/main?project=question">
+        <img class="banner" mode="widthFix" src="https://i.loli.net/2019/01/08/5c34256add050.png">
+        <span class="content-name-banner">一站到底</span> 
+        </a>
+      </div>
+      <div class="content-r">
+        <div class="content-rt background-2">
+          <a href="/pages/socket-page/socket-connect/main?project=concentrate">
+          <span class="content-name">专注训练</span>
+          </a>
+        </div>
+        <div class="content-rb background-3">
+          <a href="/pages/component-page/slide-left/main">
+          <span class="content-name">slider</span>
+          </a>
+          </div>
+      </div>
     </div>
     <login-modal></login-modal>
-
   </div>
 </template>
 
@@ -42,7 +31,6 @@ let socket = {}
 export default {
   data () {
     return {
-      resPanelShow: false
     }
   },
   computed: {
@@ -67,18 +55,19 @@ export default {
               })
               this.eventBus.$on('hideLogin', () => {
                 wx.navigateTo({
-                  url: `/pages/socket-page/socket-connect/main?room=${options.room}`
+                  url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
                 })
               })
             } else {
               wx.navigateTo({
-                url: `/pages/socket-page/socket-connect/main?room=${options.room}`
+                url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
               })
             }
           }
         }
       })
     }
+    this.getopenid()
   },
   onShow () {
     if (wx.getStorageSync('token')) {
@@ -92,6 +81,16 @@ export default {
   onHide () {
   },
   methods: {
+    getopenid () {
+      this.req({
+        url: '/api/openid'
+      }).then(({data}) => {
+        let res = data
+        if (res.code) {
+          this.eventBus.$emit('attach_openid', res.openid)
+        }
+      })
+    },
     connect () {
       if (socket.connected) return
       let token = wx.getStorageSync('token')
@@ -105,22 +104,6 @@ export default {
         })
         console.log('connected', socket.id)
         socket.on('beat_req', (msg) => { socket.emit('beat_res') }) // 发送心跳包
-
-        // socket.on('system_info', (msg) => {
-        //   console.log('received system news: ', msg)
-        // })
-        // socket.on('broadcast', () => {
-        //   console.log('broadcast')
-        // })
-        // socket.on('broadcast2', () => {
-        //   console.log('broadcast2')
-        // })
-        // socket.on('private_msg', (from, to, msg) => {
-        //   console.log(from, to, msg)
-        // })
-        // socket.emit('custom_info', {
-        //   title: 'this is a news from custom'
-        // })
       })
       socket.on('error', () => {
         wx.showModal({
@@ -147,8 +130,52 @@ export default {
 </script>
 
 <style lang="stylus">
-.weui-cells
-  margin-top 20px
-.video
+.project-content
   width 100%
+  padding 25px
+  display flex
+  justify-content space-between
+  font-size 16px
+  color #fff
+  text-align center
+  overflow hidden
+  div
+    border-radius 8px
+  a 
+    display inline-block
+    width 100%
+    height 100%
+    position absolute
+    left 0
+    top 0
+  .banner
+    width 150px
+  .content-name
+    display inline-block
+    position absolute
+    left 50%
+    top 50%
+    transform translateX(-50%) translateY(-50%)
+  .content-name-banner
+    margin-top 12px
+  .content-l
+    width 150px
+    position relative
+    overflow hidden
+    box-shadow 0 0 4px #ccc
+    color #555
+  .content-r
+    width 150px
+    .content-rt
+      width 100%
+      height 80px
+      position relative
+      overflow hidden
+    .content-rb
+      margin-top 25px
+      width 100%
+      height 80px
+      position relative
+      overflow hidden
+  
 </style>
