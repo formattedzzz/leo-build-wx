@@ -3,10 +3,10 @@
     <div class="question-banner background-cube">
       <span class="question-title">{{projectMap[query.project].name}}</span>
     </div>
-    <!-- <button class="match-btn background-0" hover-class="handle-class" @click="getVSmodal">自己玩吧</button> -->
+    <button class="match-btn background-0" @click="messageShow = true">打开聊天框</button>
     <button class="match-btn match-btn1 background-1" :class="{'cant-begin': roomMates.length > 1}" @click="findMatch">匹配对手</button>
     <button v-if="!isInvitee" class="match-btn match-btn2 background-2" :class="{'can-begin': roomMates.length > 1}" @click="dissFriend">好友同玩</button>
-    <button @click="sendToRoom('房间消息')">sendToRoom</button>
+
     <div class="room-content background-3" :style="{height: roomMates.length >= 3 ? '400rpx' : '240rpx'}">
       <div class="room-mate" v-for="(mate, index) in roomMates" :key="index">
         <img class="avatar" :src="mate.avatar">
@@ -45,12 +45,34 @@
       </div>
     </div>
 
+    <div class="message-modal" :class="{'message-modal-show': messageShow}">
+      <div class="close-region" @click="messageShow = false"></div>
+      <div class="message-content" :class="{'message-content-show': messageShow}">
+        <scroll-view :scroll-top="scrollTop" scroll-y class="message-box">
+          <div  v-for="(msg, idx) in messageArr" :key="idx" :class="{'message-item': !msg.self, 'message-item-self': msg.self}">
+            <block v-if="!msg.self">
+              <img :src="msg.avatar" class="avatar">
+              <div class="msg">{{msg.message}}</div>
+            </block>
+            <block v-else>
+              <div class="msg">{{msg.message}}</div>
+              <img :src="msg.avatar" class="avatar">
+            </block>
+          </div>
+        </scroll-view>
+        <div class="emit-panel">
+          <input v-model="msgVal" cursor-spacing="6" class="panel-l" type="text" placeholder="对话框内容">
+          <button class="panel-r" @click="sendMsg">发 送</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
   let projectMap = {
     concentrate: {name: '专注训练', path: '/pages/socket-page/socket-invite/main'},
-    question: {name: '一站到底挑战赛', path: '/pages/socket-page/socket-emiton/main'}
+    question: {name: '答题挑战', path: '/pages/socket-page/socket-emiton/main'}
   }
   export default {
     data () {
@@ -74,16 +96,22 @@
         roomMates: [],
         isInvitee: false,
         query: {},
-        projectMap
+        projectMap,
+        // 对话框相关
+        messageShow: false,
+        messageArr: [],
+        msgVal: '',
+        scrollTop: 0
       }
     },
     computed: {
     },
     onLoad (options) {
+      console.log(options)
       if (this.socket.disconnected) {
         wx.showModal({
           title: '提示',
-          content: '',
+          content: '你已经失去连接,请删除小程序重新进入',
           showCancel: false,
           success: () => {
             this.$nextTick(() => { wx.navigateBack() })
@@ -91,13 +119,16 @@
         })
       }
       this.query = options
+      wx.setNavigationBarTitle({ title: projectMap[options.project].name })
       this.nickname = wx.getStorageSync('userInfo').nickName
+      this.avatar = wx.getStorageSync('userInfo').avatarUrl
       this.initProjectData()
       this.joinNewRoom()
       if (options.room) { this.isInvitee = true }
 
       this.socket.off('diss_begin')
       this.socket.off('room_msg')
+      // 接受房主的开局指令
       this.socket.on('diss_begin', () => {
         this.roomMates.forEach((mate) => {
           if (mate.openid === this.openid) {
@@ -110,7 +141,9 @@
           url: `${projectMap[this.query.project].path}?vsdata=${JSON.stringify(this.roomMates)}`
         })
       })
+      // 接受群发的消息
       this.socket.on('room_msg', (msginfo) => {
+        console.log(msginfo)
         this.getRoomMsg(msginfo)
       })
     },
@@ -122,6 +155,9 @@
         this.socket.emit('exit_room', {room: this.roomName, init: true})
       }
       this.roomMates = []
+      this.isInvitee = false
+      this.messageArr = []
+      this.messageShow = false
     },
     onShareAppMessage (e) {
       if (e.from === 'button') {
@@ -133,7 +169,6 @@
     },
     methods: {
       joinNewRoom () {
-        console.log(this.query)
         let room = this.query.room
         if (room) {
           this.roomName = room
@@ -159,7 +194,7 @@
         })
         this.socket.on('exit_info', (info) => {
           if (info.init) { 
-            // 如果房主掉线且为被邀请的房间
+            // 如果房主掉线则房间作废 被邀请的房间自动回退
             if (this.query.room) {
               wx.showModal({
                 title: '提示',
@@ -170,16 +205,17 @@
                 }
               })
             } else {
-              // console.log('房主自己离开')
+              // 如果房主掉线 则房主自己不做任何处理
               this.roomMates = []
             }
           } else {
-            // console.log('如果被邀请掉线所有房间-1')
+            // 如果被邀请退出 刷新所有房间的成员信息
             this.roomMates = info.leftrooms
           }
         })
       },
       findMatch () {
+        // 如果房间内由其他成员进入了 则无法发起普通匹配
         if (this.roomMates.length > 1) {
           wx.showModal({
             title: '提示',
@@ -228,7 +264,7 @@
         })
       },
       getVSmodal () {
-        // 触发对战界面
+        // 匹配到对手 触发对战界面
         wx.vibrateLong()
         if (this.socket.disconnected) {
           wx.showModal({
@@ -259,7 +295,6 @@
       initProjectData () {
         if (this.query.project === 'question') {
           this.getQuestion()
-          // console.log(this.openid, '不获取question')
         }
       },
       getQuestion () {
@@ -275,7 +310,8 @@
         })
       },
       dissFriend () {
-        console.log('当前人数', this.roomMates.length)
+        // console.log('当前人数', this.roomMates.length)
+        // 发起开始请求
         if (this.roomMates.length === 1) return
         if (this.query.project === 'question' && this.roomMates.length !== 2) { 
           wx.showModal({
@@ -286,18 +322,61 @@
         }
         this.socket.emit('req_begin', this.roomName) 
       },
-      sendToRoom (msg) {
+      sendToRoom (msg) { // 发送群发消息
         this.socket.emit('room_msg', {
           roomname: this.roomName,
           msg: msg,
           openid: this.openid
         })
       },
-      getRoomMsg (msginfo) {
-        wx.showToast({
-          title: msginfo.msg,
-          icon: 'none'
+      getRoomMsg (msginfo) { // 处理群发消息
+        let who = this.findWhoById(msginfo.from)
+        if (!this.messageShow) {
+          wx.vibrateLong()
+          this.messageShow = true
+        }
+        this.messageArr.push({
+          openid: msginfo.from,
+          avatar: who.avatar,
+          message: msginfo.msg,
+          self: false
         })
+        if (this.messageArr.length > 30) {
+          this.messageArr.shift()
+        }
+        this.msgVal = ''
+        this.scrollTop = 60 * this.messageArr.length
+      },
+      findWhoById (openid) {
+        let obj
+        this.roomMates.forEach((item, index) => {
+          if (item.openid === openid) {
+            obj = item
+          }
+        })
+        return obj
+      },
+      sendMsg () {
+        let val = this.msgVal
+        if (!/\S/.test(val)) {
+          wx.showToast({
+            title: '不能发送空消息',
+            icon: 'none'
+          })
+          return
+        }
+        this.messageArr.push({
+          openid: this.openid,
+          avatar: this.avatar,
+          message: val,
+          self: true
+        })
+        if (this.messageArr.length > 30) {
+          this.messageArr.shift()
+        }
+        this.sendToRoom(val)
+        this.msgVal = ''
+        this.scrollTop = 60 * this.messageArr.length
       }
     }
   }
@@ -377,7 +456,7 @@
     line-height 160px
 .match-btn
   border-radius 0
-  margin 30px
+  margin-top 10px
   color #ffffff
 .match-btn1
   opacity 1
@@ -387,7 +466,7 @@
   opacity 0.2
   &.can-begin
     opacity 1
-
+/* ----------------------房间模块----------------------*/
 .room-content
   width 90%
   position absolute
@@ -451,7 +530,7 @@
         z-index 9
         left 0
         top 0
-
+/* ----------------------匹配弹层----------------------*/
 .matching-modal
   width 100vw
   height 100vh
@@ -471,7 +550,7 @@
     left 30px
     bottom 30px
     margin 0
-
+/* ----------------------对战弹层----------------------*/
 .vs-modal
   width 100vw
   height 100vh
@@ -521,4 +600,134 @@
   .nickname
     color #fff
     font-size 20px
+/* ----------------------聊天弹层----------------------*/
+.message-modal
+  position fixed
+  width 100vw
+  height 100vh
+  background rgba(0, 0, 0, 0.5)
+  z-index 9
+  left 0
+  bottom 0
+  visibility hidden
+  &.message-modal-show 
+    visibility visible
+.close-region
+  width 100vw
+  height 50vh
+  opacity 0
+  position relative
+.message-content
+  width 100%
+  height 500px
+  position absolute
+  left 0
+  bottom 0
+  border-radius 10px 10px 0 0 
+  background #fff
+  overflow hidden
+  transition transform 0.3s ease-out
+  transform translateY(100%)
+  &.message-content-show 
+    transform translateY(0)
+  .message-box
+    width 100%
+    height 458px
+    color #f0f0f0
+    border-bottom 1rpx solid #ccc
+    padding 12px
+    background-color #555
+  .message-item
+    width 100%
+    height auto 
+    display flex
+    justify-content flex-start
+    align-items flex-start
+    margin-bottom 12px
+    position relative
+    .avatar 
+      width 36px
+      height 36px
+      border-radius 50%
+      margin-right 12px
+      flex-shrink 0
+      background #fff
+    .msg
+      border-radius 4px
+      background #fff
+      padding 0 12px
+      color #222
+      font-size 16px
+      line-height 28px
+      position relative
+      min-height 36px
+      padding-top 4px
+      &:before
+        content ''
+        display inline-block
+        width 12px
+        height 12px
+        position absolute
+        left -5px
+        top 12px
+        background #ffffff
+        transform rotate(45deg)
+  .message-item-self
+    width 100%
+    height auto 
+    display flex
+    justify-content flex-end
+    align-items flex-start
+    margin-bottom 12px
+    position relative
+    .avatar 
+      width 36px
+      height 36px
+      border-radius 50%
+      margin-left 12px
+      margin-right 0
+      flex-shrink 0
+      background #fff
+    .msg
+      border-radius 4px
+      background #62BA47
+      padding 0 12px
+      color #222
+      font-size 16px
+      line-height 28px
+      position relative
+      min-height 36px
+      padding-top 4px
+      &:before
+        content ''
+        display inline-block
+        width 12px
+        height 12px
+        position absolute
+        right -5px
+        top 12px
+        background #62BA47
+        transform rotate(45deg)
+  .emit-panel
+    height 42px
+    display flex
+    justify-content space-around
+    align-items center
+    .panel-l
+      width 250px
+      background #f0f0f0
+      border-radius 4px
+      height 32px
+      padding-left 12px
+      font-size 16px
+    .panel-r 
+      width 80px
+      padding 0
+      margin 0
+      font-size 16px
+      color #fff
+      background #ee5500
+      border-radius 6px
+      height 32px
+      line-height 32px
 </style>

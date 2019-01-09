@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -51,8 +51,8 @@
 				},
 				{
 					"id": 3,
-					"name": "左滑删除",
-					"pathName": "pages/account-record/main",
+					"name": "个人zhongxin ",
+					"pathName": "pages/tab-center/main",
 					"query": ""
 				},
 				{

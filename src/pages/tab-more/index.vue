@@ -2,15 +2,15 @@
   <div class="container">
     <div class="project-content">
       <div class="content-l">
-        <a href="/pages/socket-page/socket-connect/main?project=question">
+        <a href="/pages/socket-page/socket-connect/main?project=concentrate">
         <img class="banner" mode="widthFix" src="https://i.loli.net/2019/01/08/5c34256add050.png">
-        <span class="content-name-banner">一站到底</span> 
+        <span class="content-name-banner">专注训练</span> 
         </a>
       </div>
       <div class="content-r">
         <div class="content-rt background-2">
-          <a href="/pages/socket-page/socket-connect/main?project=concentrate">
-          <span class="content-name">专注训练</span>
+          <a href="/pages/socket-page/socket-connect/main?project=question">
+          <span class="content-name">一站到底</span>
           </a>
         </div>
         <div class="content-rb background-3">
@@ -66,6 +66,7 @@ export default {
           }
         }
       })
+      
     }
     this.getopenid()
   },
@@ -96,7 +97,7 @@ export default {
       let token = wx.getStorageSync('token')
       let URL = `${this.baseURL}/user?token=${token}`
       socket = IO(URL)
-      this.eventBus.$emit('socket_emiton', socket)
+      this.eventBus.$emit('attach_socket', socket)
       socket.on('connect', () => {
         wx.setTabBarBadge({
           index: 2,
@@ -111,15 +112,14 @@ export default {
           content: '连接失败,可能是token出错了',
           showCancel: false
         })
-        this.matching = false
       })
-      socket.on('disconnect', () => {
+      socket.on('disconnect', (reason) => {
         wx.setTabBarBadge({
           index: 2,
           text: '0'
         })
-        console.log('断开连接')
-        this.matching = false
+        console.log(reason, '正在重连')
+        socket.connect()
       })
     }
   },
@@ -150,6 +150,7 @@ export default {
     top 0
   .banner
     width 150px
+    height 120px
   .content-name
     display inline-block
     position absolute

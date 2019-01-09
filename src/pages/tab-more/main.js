@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './index'
 
 const app = new Vue(App)
-app.eventBus.$on('socket_emiton', (data) => {
+app.eventBus.$on('attach_socket', (data) => {
   Vue.prototype.socket = data
 })
 app.eventBus.$on('attach_openid', (openid) => {

@@ -18,13 +18,20 @@ button:before, button:after
   border none
 .button-hover
   opacity 0.8
+.input-placeholder
+  font-size 14px
+  color #626262
+  line-height 32px
 page
   background #fff
   min-height 100vh
 * 
   box-sizing border-box
-div, h5
+div, h1, h2, h3, h4, h5
   box-sizing border-box
+scroll-view
+  box-sizing border-box
+  
 colors = #00cc00 #4B95EA #ee5500 #996633
 for clr,i in colors
   .background-{i}
