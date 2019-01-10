@@ -51,8 +51,8 @@
 				},
 				{
 					"id": 3,
-					"name": "个人zhongxin ",
-					"pathName": "pages/tab-center/main",
+					"name": "方格",
+					"pathName": "pages/socket-page/socket-invite/main",
 					"query": ""
 				},
 				{

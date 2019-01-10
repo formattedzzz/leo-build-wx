@@ -45,9 +45,6 @@
 </template>
 
 <script>
-// Use Vuex
-// import IO from '@/../static/weapp.socket.io.js'
-// import store from '@/store'
 export default {
   data () {
     return {
@@ -67,25 +64,8 @@ export default {
     }
   },
   onLoad () {
-    // const socket = IO('http://localhost:7003')
-    // socket.on('systeminfo', function (data) {
-    //   console.log(data)
-    //   socket.emit('custominfo', 'this is data from weapp client')
-    // })
-    // this.req({
-    //   url: '/api/admin',
-    //   success (res) {
-    //     console.log(res)
-    //   }
-    // })
   },
   onShow () {
-    // wx.downloadFile({
-    //   url: 'http://localhost:7003/static/img/full1.jpg',
-    //   success (res) {
-    //     console.log(res)
-    //   }
-    // })
   },
   methods: {
     sendSocketMessage (msg) {
@@ -106,7 +86,6 @@ export default {
     },
     getRect (id) {
       wx.createSelectorQuery().select(id).boundingClientRect(function (rect) {
-        // console.log(rect)
       }).exec()
     },
     getAllRects (selector) {
@@ -124,10 +103,10 @@ export default {
       }).exec()
     },
     increment () {
-      this.store.commit('increment')
+      this.$store.commit('increment')
     },
     decrement () {
-      this.store.commit('decrement')
+      this.$store.commit('decrement')
     }
   }
 }

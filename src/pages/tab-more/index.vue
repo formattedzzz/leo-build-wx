@@ -20,6 +20,8 @@
           </div>
       </div>
     </div>
+    <div class="gary-51 colorful-stripe">51° 灰</div>
+    <div class="suite corner">舒尔特方格</div>
     <login-modal></login-modal>
   </div>
 </template>
@@ -178,5 +180,23 @@ export default {
       height 80px
       position relative
       overflow hidden
-  
+.gary-51
+  margin 0 auto 
+  width 325px
+  font-size 36px
+  height 100px
+  text-align center
+  line-height 100px
+  color #fff
+  border-radius 8px
+.suite
+  margin 25px auto 
+  width 325px
+  font-size 36px
+  height 90px
+  text-align center
+  line-height 90px
+  color #fff
+  border-radius 8px
+  position relative
 </style>
