@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="gary-51 colorful-stripe">51° 灰</div>
-    <div class="suite corner">舒尔特方格</div>
+    <div class="suite corner" @click="toShulte">小方格</div>
     <login-modal></login-modal>
   </div>
 </template>
@@ -122,6 +122,11 @@ export default {
         })
         console.log(reason, '正在重连')
         socket.connect()
+      })
+    },
+    toShulte () {
+      wx.navigateTo({
+        url: '/pages/socket-page/socket-shulte/main'
       })
     }
   },

@@ -3,7 +3,6 @@
     <div class="question-banner background-cube">
       <span class="question-title">{{projectMap[query.project].name}}</span>
     </div>
-    <button class="match-btn background-0" @click="messageShow = true">打开聊天框</button>
     <button class="match-btn match-btn1 background-1" :class="{'cant-begin': roomMates.length > 1}" @click="findMatch">匹配对手</button>
     <button v-if="!isInvitee" class="match-btn match-btn2 background-2" :class="{'can-begin': roomMates.length > 1}" @click="dissFriend">好友同玩</button>
 
@@ -51,7 +50,7 @@
         <scroll-view :scroll-top="scrollTop" scroll-y class="message-box">
           <div  v-for="(msg, idx) in messageArr" :key="idx" :class="{'message-item': !msg.self, 'message-item-self': msg.self}">
             <block v-if="!msg.self">
-              <img :src="msg.avatar" class="avatar">
+              <img :src="msg.avatar" @longtap="atSomeone(msg)" class="avatar">
               <div class="msg">{{msg.message}}</div>
             </block>
             <block v-else>
@@ -67,11 +66,15 @@
       </div>
     </div>
 
+    <div class="message-btn" @click="messageShow = true">
+      <img src="/static/svg/socket-chat.svg">
+    </div>
+
   </div>
 </template>
 <script>
   let projectMap = {
-    concentrate: {name: '专注训练', path: '/pages/socket-page/socket-invite/main'},
+    concentrate: {name: '专注训练', path: '/pages/socket-page/socket-shulte/main'},
     question: {name: '答题挑战', path: '/pages/socket-page/socket-emiton/main'}
   }
   export default {
@@ -322,11 +325,16 @@
         }
         this.socket.emit('req_begin', this.roomName) 
       },
+      atSomeone (msg) {
+        console.log(123)
+        this.msgVal = this.msgVal + '@' + msg.nickname
+      },
       sendToRoom (msg) { // 发送群发消息
         this.socket.emit('room_msg', {
           roomname: this.roomName,
           msg: msg,
-          openid: this.openid
+          openid: this.openid,
+          nickname: this.nickname
         })
       },
       getRoomMsg (msginfo) { // 处理群发消息
@@ -339,7 +347,8 @@
           openid: msginfo.from,
           avatar: who.avatar,
           message: msginfo.msg,
-          self: false
+          self: false,
+          nickname: msginfo.nickname
         })
         if (this.messageArr.length > 30) {
           this.messageArr.shift()
@@ -455,7 +464,8 @@
     color #fff
     line-height 160px
 .match-btn
-  border-radius 0
+  width 60%
+  border-radius 8px
   margin-top 10px
   color #ffffff
 .match-btn1
@@ -730,5 +740,18 @@
       border-radius 6px
       height 32px
       line-height 32px
+.message-btn
+  position fixed
+  width 44px
+  height 44px
+  padding 7px 5px 3px 
+  left 50%
+  transform translateX(-50%)
+  bottom 0
+  border-radius 22px 22px 0 0
+  background #ffffff
+  img
+    width 34px
+    height 34px
 </style>
 

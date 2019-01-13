@@ -94,8 +94,7 @@ export default {
     }
   },
   onLoad () {
-    console.log('calc onload')    
-
+    console.log('calc onload')
   },
   onShow () {
     console.log('calc onshow')

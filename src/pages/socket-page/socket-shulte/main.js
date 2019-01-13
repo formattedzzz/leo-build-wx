@@ -7,7 +7,7 @@ export default {
   config: {
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '邀请好友',
+    navigationBarTitleText: '方格小游戏',
     navigationBarTextStyle: 'black'
   }
 }

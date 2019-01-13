@@ -76,7 +76,7 @@
         }
       },
       doneHandle (data) {
-        if (Number(data.account_fund) >= 20000) {
+        if (Number(data.account_fund) >= 10000) {
           wx.showModal({
             title: '提示',
             content: '单笔记账2W以上土豪请自觉绕道',

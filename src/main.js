@@ -71,7 +71,7 @@ export default {
 
       'pages/socket-page/socket-connect/main',
       'pages/socket-page/socket-emiton/main',
-      'pages/socket-page/socket-invite/main',
+      'pages/socket-page/socket-shulte/main',
 
       'pages/component-page/toggle-panel/main',
       'pages/component-page/img-cut/main',

@@ -31,31 +31,35 @@
     <div class="sticky-con">
       <block v-for="(month, index) in monthList" :key="index">
       <block v-if="month.length">
-        <div class="month-title">{{currentYear}}-{{(12 - index) < 10 ? '0' + (12 - index) : (12 - index)}}</div>
+        <div class="month-title">
+          <span class="dot-circle"></span>
+          <span>{{(12 - index) < 10 ? '0' + (12 - index) : (12 - index)}}</span>
+          <span style="font-size:12px;">月 {{currentYear}}年</span>
+        </div>
         <div class="item-content">
-          <div 
-          v-for="(item, idx) in month" :key="item.id"
-          @click="restoreItem(index, idx)" class="event-wrap">
-          <div 
-          :data-index="index + '/' + idx"
-          @touchstart="itemStart"
-          @touchmove="itemMove"
-          @touchend="itemEnd"
-          :class="{'silde-left': item.slide}"
-          class="account-item">
-            <div class="item-l" :class="'background-' + idx % 4"><img :src="item.typeicon"></div>
-            <div class="item-m">
-              <span class="desc">{{item.typedesc}}</span><br>
-              <span class="fund" :class="item.income ? 'income' : 'outcome'">
-                <span style="font-size: 14px;">¥ </span>{{item.fund}}
-              </span>
+          <div
+            v-for="(item, idx) in month" :key="item.id"
+            @click="restoreItem(index, idx)" class="event-wrap">
+            <div
+              :data-index="index + '/' + idx"
+              @touchstart="itemStart"
+              @touchmove="itemMove"
+              @touchend="itemEnd"
+              :class="{'silde-left': item.slide}"
+              class="account-item">
+              <div class="item-l" :class="'background-' + idx % 4"><img :src="item.typeicon"></div>
+              <div class="item-m">
+                <span class="desc">{{item.typedesc}}</span><br>
+                <span class="fund" :class="item.income ? 'income' : 'outcome'">
+                  <span style="font-size: 14px;">¥ </span>{{item.fund}}
+                </span>
+              </div>
+              <div class="item-r">
+                <h5 class="date"><span class="day">{{dayArr[item.day-1]}} <span style="font-weight: 400;">{{item.date}}</span></span></h5>
+                <h5 class="comment">备注：{{item.comment || '无'}}</h5>
+              </div>
+              <div class="del-btn" :class="{'show': item.slide}" @click.stop="delItem(index, idx)">DEL</div>
             </div>
-            <div class="item-r">
-              <h5 class="date"><span class="day">{{dayArr[item.day-1]}} <span style="font-weight: 400;">{{item.date}}</span></span></h5>
-              <h5 class="comment">备注：{{item.comment || '无'}}</h5>
-            </div>
-            <div class="del-btn" :class="{'show': item.slide}" @click.stop="delItem(index, idx)">DEL</div>
-          </div>
           </div>
         </div>
       </block>
@@ -357,14 +361,47 @@ export default {
   font-size 20px
   color #222
   top 72px
+  font-weight 600
   background #f0f0f0
   z-index 9
+  .dot-circle
+    display inline-block
+    position absolute
+    width 9px
+    height 9px
+    border-radius 5px
+    background #fff
+    border 1rpx solid #999
+    left 5rpx
+    top 50%
+    transform translateY(-50%)
+  &:before 
+    content: ''
+    display inline-block
+    position absolute
+    width 1rpx
+    height 100%
+    left 7px
+    border-radius 3px
+    background #999
+    top 0
 .item-content
   width 100%
-  padding 10px 10px 0 10px
+  padding 10px 10px 0 14px
   overflow hidden
+  position relative
+  &:before 
+    content: ''
+    display inline-block
+    position absolute
+    width 1rpx
+    height 100%
+    left 7px
+    border-radius 3px
+    background #999
+    top 0
 .account-item
-  height 80px
+  height 64px
   width 100%
   padding-right 10px
   display flex
@@ -381,9 +418,9 @@ export default {
   &.silde-left
     transform translateX(-75px)
   .item-l
-    width 80px
-    height 80px
-    padding 20px
+    width 64px
+    height 64px
+    padding 16px
     flex-shrink 0
     // background linear-gradient(to right, #e50 0%, #EE7600 100%)
     img 
@@ -431,7 +468,7 @@ export default {
     right -75px
     top 0
     background #ff4400
-    line-height 80px
+    line-height 64px
     text-align center
     color #fff
     font-size 16px
