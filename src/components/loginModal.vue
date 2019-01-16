@@ -29,7 +29,7 @@
                 icon: 'none'
               })
               console.log('本小小程序请求大人的授权')
-              this.show = true
+              // this.show = true
               this.onlyAuth = true
             }
           }
