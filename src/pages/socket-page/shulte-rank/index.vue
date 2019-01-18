@@ -41,7 +41,8 @@
           if (res.data && res.data.length) {
             res.data.sort(function (item1, item2) {
               return Number(item1['hard' + options.hard]) - Number(item2['hard' + options.hard])
-            }).filter((item) => {
+            })
+            res.data = res.data.filter((item) => {
               return Number(item['hard' + options.hard]) > 0
             })
             res.data.forEach((item) => {
