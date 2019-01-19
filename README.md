@@ -1,21 +1,21 @@
-### mpvue小程序前端框架做的一个仿轻芒在线答题小程序
+### 基于mpvue小程序前端框架做的一个仿轻芒在线答题小程序
 
-- 整体功能
-一个账本小工具
-一个新闻推送系统 用户也可推出动态
-一个小型在线答题系统 支持自主答题、在线匹配答题、邀请好友一起答题 有房间聊天及全局私信功能
-一个方格小游戏
-- 整体技术栈
-前端：mpvue
-后端：express
-通讯：socket.io
-orm： sequelize
-登录：jsonwebtoken
-代理：nginx
-开发调试：nodemon
-开发调试：log4js(业务日志) + morgan(访问日志)
-后台运行：pm2
-自动部署：githooks
+#### 整体功能
+- 一个账本小工具
+- 一个新闻推送系统 用户也可推出动态
+- 一个小型在线答题系统 支持自主答题、在线匹配答题、邀请好友一起答题 有房间聊天及全局私信功能
+- 一个方格小游戏
+#### 整体技术栈
+- 前端：mpvue
+- 后端：express
+- 通讯：socket.io
+- orm： sequelize
+- 登录：jsonwebtoken
+- 代理：nginx
+- 开发调试：nodemon
+- 开发调试：log4js(业务日志) + morgan(访问日志)
+- 后台运行：pm2
+- 自动部署：githooks
 <!-- [![npm package](https://img.shields.io/npm/v/mpvue-entry.svg)](https://npmjs.org/package/mpvue-entry)
 [![npm downloads](https://img.shields.io/npm/dm/mpvue-entry.svg)](https://npmjs.org/package/mpvue-entry)
 [![build status](https://travis-ci.org/F-loat/mpvue-entry.svg?branch=master)](https://travis-ci.org/F-loat/mpvue-entry)
@@ -50,12 +50,13 @@ npm run dev
 ```
 
 #### 在线预览
-<div style="text-align:center;"><img src="https://i.loli.net/2019/01/20/5c434b5c6a01c.jpg" style="width:200px;height:200px;"></div>
+
+<img src="https://i.loli.net/2019/01/20/5c434b5c6a01c.jpg" width="200" height="200">
 
 #### 一些总结
 [小程序的完整（注册）登录流程总结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[小程序的touchstart touchmove touchend和tap间有哪些坑点？](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[小程序的touchstart touchmove touchend和tap间的一个坑点？](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
 [发布订阅模式在多页应用中的最佳实践](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
@@ -63,11 +64,11 @@ npm run dev
 
 [多页应用中socket对象的全局管理](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[加入心跳包机制让通讯连接更加稳定](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
 [摒弃socket.id机制 利用openid维护连接对象](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[怎样做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
+[利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
 
 [引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
