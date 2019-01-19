@@ -4,7 +4,7 @@
 - 一个账本小工具
 - 一个新闻推送系统 用户也可推出动态
 - 一个小型在线答题系统 支持自主答题、在线匹配答题、邀请好友一起答题 有房间聊天及全局私信功能
-- 一个方格小游戏
+- 一个方格小游戏（附带排行榜）
 #### 整体技术栈
 - 前端：mpvue
 - 后端：express
@@ -13,7 +13,7 @@
 - 登录：jsonwebtoken
 - 代理：nginx
 - 开发调试：nodemon
-- 开发调试：log4js(业务日志) + morgan(访问日志)
+- 日志系统：log4js(业务日志) + morgan(访问日志)
 - 后台运行：pm2
 - 自动部署：githooks
 <!-- [![npm package](https://img.shields.io/npm/v/mpvue-entry.svg)](https://npmjs.org/package/mpvue-entry)
@@ -69,6 +69,8 @@ npm run dev
 [摒弃socket.id机制 利用openid维护连接对象](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
 [利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
+
+[CSS利用对比度和模糊属性实现粘性加载效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
 [引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
