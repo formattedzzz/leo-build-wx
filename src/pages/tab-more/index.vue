@@ -56,9 +56,11 @@ export default {
                 showCancel: false
               })
               this.eventBus.$on('hideLogin', () => {
-                wx.navigateTo({
-                  url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
-                })
+                setTimeout(() => {
+                  wx.navigateTo({
+                    url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
+                  })
+                }, 200)
               })
             } else {
               wx.navigateTo({

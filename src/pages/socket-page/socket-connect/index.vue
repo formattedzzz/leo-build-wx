@@ -114,11 +114,8 @@
       if (this.socket.disconnected) {
         wx.showModal({
           title: '提示',
-          content: '你已经失去连接,请删除小程序重新进入',
-          showCancel: false,
-          success: () => {
-            this.$nextTick(() => { wx.navigateBack() })
-          }
+          content: '你已经失去连接,请尝试重新进入',
+          showCancel: false
         })
       }
       this.query = options
