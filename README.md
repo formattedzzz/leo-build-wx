@@ -1,4 +1,4 @@
-### 基于mpvue小程序前端框架做的一个仿轻芒在线答题小程序
+### 基于mpvue小程序前端框架做的一个仿轻芒在线答题小程序
 
 #### 整体功能
 - 一个账本小工具
@@ -66,14 +66,14 @@ npm run dev
 
 [加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[摒弃socket.id机制 利用openid维护连接对象](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[摒弃socket.id机制 利用openid维护连接对象](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
+[利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
 
-[引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[让你的debug控制台更加的生动](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[让你的debug控制台更加的生动](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
 [怎么样初始化一个答题记录这样和双方绑定的结构表](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
 
-[尝试用githook实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[尝试用githook实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
