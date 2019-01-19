@@ -22,7 +22,7 @@ OK 到这里最理想的情况已经走通了。但是还有很多其他情况�
 通过登录框组件形式嵌入页面的话 每个登录框各自维护一份状态。任何一个登录框完成了登录流程都应该及时告知其他登录框，同时建立全局登录态标志。因为mpvue框架打包采用的是一个vue实例驱动一个page。所以要保证每个页面实例都能访问到可以把 一个eventBus实例挂载到Vue.prototype上。通过核心API完成通讯
 ```js
 this.eventBus.$emit('eventName', data)
-this.eventBus.$on(eventName', (data) => { 
+this.eventBus.$on('eventName', (data) => { 
   // handling ...
 })
 ```
@@ -275,5 +275,5 @@ onLanuch (options) {
   }
 }
 ```
-onLanuch 执行完成之后会将分享页面压入空的路由栈（注意不是注册页面）然后check到缓存没有将redirectTo 到注册页面。同时带上已经获取参数（app.vue会被编译成启动页面，没有路由栈）。注册完成在redirectTo 到分享页面 这样就保证登录态 同时只有一个路由栈 就不会存在返回有看到注册页了
+onLanuch 执行完成之后会将分享页面压入空的路由栈（注意不是注册页面）然后check到缓存没有将redirectTo 到注册页面。同时带上已经获取参数（app.vue会被编译成启动页面，没有路由栈）。注册完成在redirectTo 到分享页面 这样就保证登录态 同时只有一个路由栈 就不会存在返回又看到注册页了
 
