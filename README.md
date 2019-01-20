@@ -26,7 +26,7 @@ git clone https://github.com/formattedzzz/leo-build-wx.git
 cd leo-build-wx
 npm install
 npm run dev
-# 真机调试需要改为自己的appid 同时修改服务端config.js中appid、secret_key字段
+# 真机调试需要改为自己的appid 同时修改服务端config.js中appid、secret_key字段
 ```
 
 - 服务端环境
