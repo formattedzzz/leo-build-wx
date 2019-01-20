@@ -50,7 +50,7 @@ npm run dev
 
 ### 一些总结
 
-[小程序的完整（注册）登录流程总结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/login.md)
+[小程序的完整（注册）登录流程总结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/register-login.md)
 
 [小程序的touchstart touchmove touchend和tap间的一个坑点](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/mp-event.md)
 
