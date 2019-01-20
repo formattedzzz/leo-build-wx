@@ -47,12 +47,12 @@
     </div>
 
     <div class="cell-con"
+      :style="{background: cellcolorArr[cellcolorIndex]}"
       :class="{'cell-con3x': size === 3,'cell-con4x': size === 4,'cell-con5x': size === 5, 'hide': shifting}">
       <div
       class="cell"
       v-for="(cell, index) in cellArr"
       :key="index"
-      :style="{background: cellcolorArr[cellcolorIndex]}"
       @click="processTap(cell)"
       hover-class="hover-cell"
       :hover-start-time="0"
@@ -92,7 +92,7 @@
         size: 3,
         cellArr: [],
         bgcolorArr,
-        bgcolorIndex: 10,
+        bgcolorIndex: 30,
         cellcolorArr,
         cellcolorIndex: 5,
         setting: {
@@ -392,6 +392,7 @@ page
   justify-content flex-start
   align-items center
   flex-wrap wrap
+  background #45B64A
   transition opacity 0.8s ease-out
   &.hide
     opacity 0
@@ -399,7 +400,6 @@ page
   .cell
     width 125px
     height @width
-    background #45B64A
     font-size 36px
     line-height 125px
     text-align center
@@ -414,7 +414,6 @@ page
   .cell
     width 25%
     height @width
-    background #45B64A
     font-size 32px
     line-height 94px
     text-align center
@@ -429,7 +428,6 @@ page
   .cell
     width 20%
     height @width
-    background #45B64A
     font-size 28px
     line-height 75px
     text-align center

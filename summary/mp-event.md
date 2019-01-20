@@ -1,0 +1,1 @@
+### 小程序的touchstart touchmove touchend和tap间的一个坑点
