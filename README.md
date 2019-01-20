@@ -64,7 +64,7 @@ npm run dev
 
 [利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
 
-[挑战细致的业务:高仿鲨鱼记账的个性化的键盘](https://github.com/formattedzzz/custom-keyboard.md)
+[挑战细致的业务:高仿鲨鱼记账的个性化的键盘](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/custom-keyboard.md)
 
 [CSS利用对比度和模糊属性实现粘性加载效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/stickiness-effect.md)
 
