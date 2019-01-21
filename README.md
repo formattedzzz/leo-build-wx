@@ -1,10 +1,23 @@
 ## 基于mpvue小程序前端框架做的一个仿轻芒在线答题小程序
 
 ### 整体功能
-- 一个账本小工具
-- 一个新闻推送系统 用户也可推出动态
-- 一个小型在线答题系统 支持自主答题、在线匹配答题、邀请好友一起答题 有房间聊天及全局私信功能
-- 一个方格小游戏（附带排行榜）
+
+- [x] 一个账本小工具
+- [ ] 一个信息推送系统
+- [ ] 用户发布动态
+- [ ] 评论系统
+
+> 一个仿轻芒在线答题系统
+
+- [ ] 自主答题模式[题库有限，暂不开放]
+- [x] 在线匹配答题
+- [x] 邀请好友答题
+- [x] 答题记录
+- [x] 房间聊天
+- [ ] 全局私信功能
+- [x] 一个方格小游戏
+- [x] 排行榜
+
 ### 整体技术栈
 - 前端：mpvue
 - 后端：express
@@ -60,7 +73,7 @@ npm run dev
 
 - [ ] [摒弃socketid 利用openid维护连接对象及全局管理](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-manager.md)
 
-- [ ] [加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-beats.md)
+- [x] [加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-beats.md)
 
 - [x] [利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
 
@@ -68,7 +81,7 @@ npm run dev
 
 - [x] [CSS利用对比度和模糊属性实现粘性加载效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/stickiness-effect.md)
 
-- [ ] [node处理静态资源、实现视频云点播的效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/video-flow.md)
+- [x] [node处理静态资源、实现视频云点播的效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/video-flow.md)
 
 - [ ] [引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/node-logs.md)
 

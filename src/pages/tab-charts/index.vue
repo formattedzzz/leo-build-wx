@@ -46,6 +46,12 @@
   <div v-if="imgrespath.length">
     <img style="width: 50%;" mode="widthFix" v-for="(item, index) in imgrespath" :key="index" :src="baseURL + item">    
   </div>
+  <!-- <video
+    src="http://localhost:7003/upload/test.mp4"
+    class="video"
+    @waiting="videoWating"
+    controls>
+  </video> -->
 </div>
 </template>
 

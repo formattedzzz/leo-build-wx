@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -46,7 +46,7 @@
 				{
 					"id": 2,
 					"name": "tab-more",
-					"pathName": "pages/tab-more/main",
+					"pathName": "pages/tab-charts/main",
 					"query": ""
 				},
 				{

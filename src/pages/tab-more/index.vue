@@ -74,7 +74,7 @@ export default {
     }
     this.getopenid()
     /* eslint-disable */
-    console.log(this.__proto__)
+    // console.log(this.__proto__)
   },
   onShow () {
     if (wx.getStorageSync('token')) {
