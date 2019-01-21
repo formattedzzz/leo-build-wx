@@ -11,7 +11,7 @@
     custom-cache="false"
     danmu-btn
     controls>
-  </video>
+  </video> 
   <button @click="sendDanmu" style="margin: 10px;" type="primary">发送弹幕</button> -->
   <video
     v-if="tempath"

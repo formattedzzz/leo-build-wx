@@ -50,30 +50,30 @@ npm run dev
 
 ### 一些总结
 
-[小程序的完整（注册）登录流程总结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/register-login.md)
+- [x] [小程序的完整（注册）登录流程总结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/register-login.md)
 
-[小程序的touchstart touchmove touchend和tap间的一个坑点](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/mp-event.md)
+- [x] [小程序的touch事件和tap事件间的需要留心的一些点](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/mp-event.md)
 
-[EVENTBUS在多页应用中的最佳实践](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/event-bus.md)
+- [x] [EVENTBUS在多页应用中的最佳实践](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/event-bus.md)
 
-[给你的socket连接加入连接中间件](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-middleware.md)
+- [x] [给你的socket连接加入连接中间件](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-middleware.md)
 
-[摒弃socketid 利用openid维护连接对象及全局管理](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-manager.md)
+- [ ] [摒弃socketid 利用openid维护连接对象及全局管理](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-manager.md)
 
-[加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-beats.md)
+- [ ] [加入心跳包机制来优化通讯连接](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/socket-beats.md)
 
-[利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
+- [x] [利用move-view做一个优雅、无数据负担的小程序左滑删除组件](https://github.com/formattedzzz/smooth-slider4mp)
 
-[挑战细致的业务:高仿鲨鱼记账的个性化的键盘](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/custom-keyboard.md)
+- [ ] [挑战细致的业务:仿鲨鱼记账的个性化的键盘](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/custom-keyboard.md)
 
-[CSS利用对比度和模糊属性实现粘性加载效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/stickiness-effect.md)
+- [x] [CSS利用对比度和模糊属性实现粘性加载效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/stickiness-effect.md)
 
-[node处理静态资源、实现视频云点播的效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/video-flow.md)
+- [ ] [node处理静态资源、实现视频云点播的效果](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/video-flow.md)
 
-[引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/node-logs.md)
+- [ ] [引入log4js分离业务日志并快速在线访问](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/node-logs.md)
 
-[简简单单的、让你的debug控制台生动起来](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/colorful-debug.md)
+- [x] [简简单单的、让你的debug控制台生动起来](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/colorful-debug.md)
 
-[存、取两名玩家答题记录的API怎么设计比较合理](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/qa-records.md)
+- [ ] [存、取两名玩家答题记录的API设计](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/qa-records.md)
 
-[尝试用githooks实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/git-hooks.md)
+- [x] [尝试用githooks实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/git-hooks.md)

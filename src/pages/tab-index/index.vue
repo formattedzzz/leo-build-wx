@@ -107,11 +107,11 @@ export default {
   },
   onLoad () {    
     let {currentYear} = this
-    this.getIndexData(currentYear)    
-    // this.eventBus.$on('updateAccount', (data) => {
-    //   let {currentYear} = this
-    //   this.getIndexData(currentYear)
-    // })
+    this.getIndexData(currentYear)
+    // 登录完成刷新数据
+    this.eventBus.$on('hideLogin', (data) => {
+      this.getIndexData(currentYear)
+    })
   },
   onShow () {
     let update = wx.getStorageSync('updateAccount')
@@ -191,6 +191,7 @@ export default {
       wx.removeStorageSync('account')
     },
     itemStart (e) {
+      console.log('start', e)
       if (e.touches.length === 1) {
         this.startX = e.touches[0].clientX
         this.startTime = e.timeStamp
@@ -204,14 +205,14 @@ export default {
       }
     },
     itemMove (e) {
-      // console.log('move')
+      console.log('move')
       if (e.touches.length === 1) {
         this.disX = e.touches[0].clientX - this.startX
         this.disT = e.timeStamp - this.startTime
       }
     },
     itemEnd (e) {
-      // console.log('end', e)
+      console.log('end', e)
       // console.log(this.disX)
       if (Math.abs(this.disX) <= 5) return
       let [index, idx] = e.currentTarget.dataset.index.split('/')
@@ -224,7 +225,7 @@ export default {
       this.disX = 0
     },
     restoreItem (index1, index2) {
-      // console.log('tap')
+      console.log('tap')
       let account = this.monthList[index1][index2]
       let {slide} = account
       this.monthList[index1][index2].slide = false
