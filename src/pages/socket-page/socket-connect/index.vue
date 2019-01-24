@@ -126,8 +126,6 @@
       this.joinNewRoom()
       if (options.room) { this.isInvitee = true }
 
-      this.socket.off('diss_begin')
-      this.socket.off('room_msg')
       // 接受房主的开局指令
       this.socket.on('diss_begin', () => {
         this.roomMates.forEach((mate) => {
@@ -158,6 +156,8 @@
       this.isInvitee = false
       this.messageArr = []
       this.messageShow = false
+      this.socket.off('diss_begin')
+      this.socket.off('room_msg')
     },
     onShareAppMessage (e) {
       if (e.from === 'button') {

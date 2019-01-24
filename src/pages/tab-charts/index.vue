@@ -1,18 +1,5 @@
 <template>
 <div class="charts-page">
-  <!-- <video 
-    id="testVideo" 
-    class="video"
-    src="https://vodkgeyttp8.vod.126.net/cloudmusic/JDQgMCAlMCBkMCQgMDAgIA==/mv/5500070/517910b2413896785f271f89e36001ce.mp4?wsSecret=cc889e42c3fbce17cd2df3574e9c3a0d&wsTime=1539762297"
-    :danmu-list="danmuList"
-    enable-danmu
-    @waiting="videoWating"
-    @error="videoError"
-    custom-cache="false"
-    danmu-btn
-    controls>
-  </video> 
-  <button @click="sendDanmu" style="margin: 10px;" type="primary">发送弹幕</button> -->
   <video
     v-if="tempath"
     :src="tempath"
@@ -46,16 +33,14 @@
   <div v-if="imgrespath.length">
     <img style="width: 50%;" mode="widthFix" v-for="(item, index) in imgrespath" :key="index" :src="baseURL + item">    
   </div>
-  <!-- <video
-    src="http://localhost:7003/upload/test.mp4"
-    class="video"
-    @waiting="videoWating"
-    controls>
-  </video> -->
+  <login-modal></login-modal>
 </div>
 </template>
 
 <script>
+  import loginModal from '@/components/loginModal'
+  import IO from '@/../static/weapp.socket.io.js'
+  let socket = {}
   let getRandomColor = function () {
     const rgb = []
     for (let i = 0; i < 3; ++i) {
@@ -91,10 +76,44 @@
         return this.baseURL
       }
     },
+    onLoad () {
+      this.connect()
+    },
     onReady () {
       this.videoContext = wx.createVideoContext('testVideo')
     },
+    components: {
+      loginModal
+    },
     methods: {
+      connect () {
+        if (socket.connected) return
+        let token = wx.getStorageSync('token')
+        let URL = `${this.baseURL}/leo?token=${token}`
+        socket = IO(URL)
+        /* eslint-disable */
+        this.__proto__.leochat = socket
+        socket.on('connect', () => {
+          wx.showTabBarRedDot({
+            index: 1
+          })
+          console.log('connected', socket.id)
+          socket.on('beat_req', (msg) => { socket.emit('beat_res') })
+        })
+        socket.on('error', () => {
+          wx.showModal({
+            title: '提示',
+            content: '连接失败,可能是token出错了',
+            showCancel: false
+          })
+        })
+        socket.on('disconnect', (reason) => {
+          wx.hideTabBarRedDot({
+            index: 1
+          })
+          this.connect()
+        })
+      },
       sendDanmu () {
         this.videoContext.sendDanmu({
           text: '这是实验弹幕',

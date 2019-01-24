@@ -76,6 +76,8 @@
 <script>
   import questionArr from './question.js'
   let timer = null
+  let timer2 = null
+  let timer3 = null
   function getColorGradient(from, to, gradient = 10, mode = 'linear') {
     let start = from
     let end = to
@@ -165,9 +167,7 @@
       // })
       // 不能挂在this上面 整个应用在/user路由只维护一个socket对象
       console.log(this.socket.id)
-      this.socket.off('private_msg')
-      this.socket.on('private_msg', (data) => {
-        console.log(data)
+      this.socket.on('update_score', (data) => {
         this.oppositeScore += Number(data.msg)
       })
     },
@@ -179,7 +179,7 @@
       initBeginModal () {
         this.beginModalShow = true
         this.resting = true
-        setTimeout(() => {
+        timer2 = setTimeout(() => {
           this.timerSec = 10
           this.currentA = -1
           this.currentRes = ['', '', '', '']
@@ -219,7 +219,7 @@
           }, 1000)
           return
         }
-        setTimeout(() => {
+        timer3 = setTimeout(() => {
           this.currentQ++
           this.initBeginModal()
         }, 2000)
@@ -305,6 +305,8 @@
     onUnload () {
       console.log('onUnload')
       clearInterval(timer)
+      clearInterval(timer2)
+      clearInterval(timer3)
       this.currentQ = 0
       this.timerSec = 10
       this.currentA = -1
@@ -312,6 +314,7 @@
       this.currentScore = 0
       this.oppositeScore = 0
       this.resPanelShow = false
+      this.socket.off('update_score')
     }
   }
 </script>

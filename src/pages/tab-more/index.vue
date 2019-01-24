@@ -22,6 +22,7 @@
     </div>
     <div class="gary-51 colorful-stripe">51° 灰</div>
     <div class="suite corner" @click="toShulte">小方格</div>
+    <span class="connect-mark" v-if="connected"></span>
     <login-modal></login-modal>
   </div>
 </template>
@@ -33,6 +34,7 @@ let socket = {}
 export default {
   data () {
     return {
+      connected: false
     }
   },
   computed: {
@@ -57,15 +59,31 @@ export default {
               })
               this.eventBus.$on('hideLogin', () => {
                 setTimeout(() => {
+                  if (!socket.connected) {
+                    wx.showModal({
+                      content: '还未连接，请重新进入',
+                      showCancel: false
+                    })
+                    return 
+                  }
                   wx.navigateTo({
                     url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
                   })
-                }, 200)
+                }, 800)
               })
             } else {
-              wx.navigateTo({
-                url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
-              })
+              setTimeout(() => {
+                if (!socket.connected) {
+                  wx.showModal({
+                    content: '还未连接，请重新进入',
+                    showCancel: false
+                  })
+                  return 
+                }
+                wx.navigateTo({
+                  url: `/pages/socket-page/socket-connect/main?room=${options.room}&project=${options.project}`
+                })
+              }, 800)
             }
           }
         }
@@ -94,7 +112,8 @@ export default {
       }).then(({data}) => {
         let res = data
         if (res.code) {
-          this.eventBus.$emit('attach_openid', res.openid)
+          // this.eventBus.$emit('attach_openid', res.openid)
+          this.__proto__.openid = res.openid
         }
       })
     },
@@ -103,12 +122,13 @@ export default {
       let token = wx.getStorageSync('token')
       let URL = `${this.baseURL}/user?token=${token}`
       socket = IO(URL)
-      this.eventBus.$emit('attach_socket', socket)
+      // this.eventBus.$emit('attach_socket', socket)
+      this.__proto__.socket = socket
       socket.on('connect', () => {
-        wx.setTabBarBadge({
-          index: 2,
-          text: '1'
+        wx.showTabBarRedDot({
+          index: 2
         })
+        this.connected = true
         console.log('connected', socket.id)
         socket.on('beat_req', (msg) => { socket.emit('beat_res') }) // 发送心跳包
       })
@@ -120,12 +140,11 @@ export default {
         })
       })
       socket.on('disconnect', (reason) => {
-        wx.setTabBarBadge({
-          index: 2,
-          text: '0'
+        wx.hideTabBarRedDot({
+          index: 2
         })
+        this.connected = false
         console.log(reason, '正在重连')
-        socket.connect()
       })
     },
     toShulte () {
@@ -208,4 +227,13 @@ export default {
   color #fff
   border-radius 8px
   position relative
+.connect-mark
+  display inline-block
+  position fixed
+  width 10px
+  height 10px
+  background #ee5500
+  left 0
+  top 0
+  z-index 99
 </style>

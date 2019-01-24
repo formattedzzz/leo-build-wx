@@ -5,8 +5,8 @@ import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const baseURL = 'http://localhost:7003'
-// const baseURL = 'https://wx.nnleo.cn'
+// const baseURL = 'http://localhost:7003'
+const baseURL = 'https://wx.nnleo.cn'
 // const baseURL = 'http://134.175.168.18:7003'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.eventBus = new Event()
@@ -73,9 +73,9 @@ export default {
       'pages/socket-page/socket-emiton/main',
       'pages/socket-page/socket-shulte/main',
 
-      'pages/component-page/toggle-panel/main',
-      'pages/component-page/img-cut/main',
-      'pages/component-page/video-test/main',
+      // 'pages/component-page/toggle-panel/main',
+      // 'pages/component-page/img-cut/main',
+      // 'pages/component-page/video-test/main',
       'pages/component-page/slide-list/main'
     ],
     window: {

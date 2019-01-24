@@ -21,19 +21,19 @@
         console.log('缓存无token，需要登录')
         this.show = true
       } else {
-        wx.getSetting({
-          success: (res) => {
-            if (!res.authSetting['scope.userInfo']) {
-              wx.showToast({
-                title: '本小小程序请求大人的授权',
-                icon: 'none'
-              })
-              console.log('本小小程序请求大人的授权')
-              // this.show = true
-              this.onlyAuth = true
-            }
-          }
-        })
+        // wx.getSetting({
+        //   success: (res) => {
+        //     if (!res.authSetting['scope.userInfo']) {
+        //       wx.showToast({
+        //         title: '本小小程序请求大人的授权',
+        //         icon: 'none'
+        //       })
+        //       console.log('本小小程序请求大人的授权')
+        //       // this.show = true
+        //       this.onlyAuth = true
+        //     }
+        //   }
+        // })
       }
       this.eventBus.$on('revokeLogin', (data) => {
         console.log(data)
