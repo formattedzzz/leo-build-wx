@@ -88,7 +88,7 @@ export default {
     tabBar: {
       'color': '#999999',
       'selectedColor': '#00cc00',
-      'borderStyle': '#999999',
+      'borderStyle': 'black',
       'backgroundColor': '#fff',
       'list': [
         {

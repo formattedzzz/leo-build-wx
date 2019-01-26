@@ -17,7 +17,7 @@ githook的原理几乎是一样的。区别在githook是在云服务器上新建
 直接上操作：
 
 ```bash
-# 进入云服务器
+# 连接服务器
 ssh leo@134.175.168.18
 # cd 到项目平级的目录下 新建一个裸仓库
 git init --bare xxx-bare.git
@@ -85,3 +85,5 @@ git remote add production ubuntu@134.175.168.18:/home/ubuntu/account-server-bare
 ```
 
 这样我们运行一下 npm run prod 几秒钟之后就服务器上就跑着最新的代码了。特别是对于小程序项目，手机上进行调试只能访问线上的接口。
+
+<img src="https://leo-1256956442.cos.ap-shanghai.myqcloud.com/deploy.png" width="400" />

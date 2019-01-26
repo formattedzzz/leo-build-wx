@@ -63,4 +63,4 @@ module.exports = debug
 
 #### 显示效果
 
-![](https://s2.ax1x.com/2019/01/21/kPOW7V.md.png)
+![](https://leo-1256956442.cos.ap-shanghai.myqcloud.com/colorful-debug.png)

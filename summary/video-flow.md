@@ -148,9 +148,9 @@ HTTP/1.1 206状态码表示的是：客户端通过发送范围请求头Range抓
 - 使用工具例如lftp, wget, telnet测试断点续传
 - 测试将一个大文件分割成多个部分同时下载
 
-<img src="https://wx2.sinaimg.cn/mw690/005Ox1wply1fzedsvqg8gj30r210qmzg.jpg" width="360" />
+<img src="https://leo-1256956442.cos.ap-shanghai.myqcloud.com/client206.png" width="360" />
 
-<img src="https://wx1.sinaimg.cn/mw690/005Ox1wply1fzedsvptk5j310e0oi3zs.jpg" width="360" />
+<img src="https://leo-1256956442.cos.ap-shanghai.myqcloud.com/server206.png" width="360" />
 
 
 > fs.createReadStream(path, [options])
