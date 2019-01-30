@@ -8,7 +8,7 @@
     <h5 class="user-nickname"><span >Hi， {{userInfo.nickName}}！</span></h5>
   </div>
   <div class="other-info" @click="toQarecord">我的对战记录</div>
-  <!-- <div class="other-info" @click="toSuite">舒尔特方格</div> -->
+  <div class="other-info" @click="toAlbum">我的相册</div>
   <login-modal></login-modal>
 </div>
 </template>
@@ -40,6 +40,11 @@
       toSuite () {
         wx.navigateTo({
           url: '/pages/socket-page/socket-shulte/main'
+        })
+      },
+      toAlbum () {
+        wx.navigateTo({
+          url: '/pages/sub-album/main'
         })
       }
     },

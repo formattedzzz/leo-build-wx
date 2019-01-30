@@ -3,11 +3,12 @@ import App from './index'
 
 const app = new Vue(App)
 app.$mount()
+
 export default {
   config: {
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '树洞广场',
+    navigationBarTitleText: '我的相册',
     navigationBarTextStyle: 'black'
   }
 }

@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 5,
 			"list": [
 				{
 					"id": 0,
@@ -38,16 +38,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "summary",
-					"pathName": "pages/course-summary/main",
-					"query": ""
-				},
-				{
 					"id": 2,
-					"name": "tab-more",
-					"pathName": "pages/tab-charts/main",
-					"query": ""
+					"name": "tab2",
+					"pathName": "pages/tab-issue/main",
+					"query": "",
+					"scene": null
 				},
 				{
 					"id": 3,
@@ -56,10 +51,25 @@
 					"query": ""
 				},
 				{
-					"id": 4,
+					"id": 3,
 					"name": "connect",
 					"pathName": "pages/socket-page/socket-connect/main",
-					"query": "room=room_001"
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "tab3",
+					"pathName": "pages/tab-more/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "tab4",
+					"pathName": "pages/tab-center/main",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

@@ -7,7 +7,7 @@ export default {
   config: {
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#445',
-    navigationBarTitleText: '英语全能王',
+    navigationBarTitleText: '挑战现场',
     navigationBarTextStyle: 'white'
   }
 }

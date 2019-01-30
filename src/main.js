@@ -5,9 +5,8 @@ import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-// const baseURL = 'http://localhost:7003'
-const baseURL = 'https://wx.nnleo.cn'
-// const baseURL = 'http://134.175.168.18:7003'
+const baseURL = 'http://localhost:7003'
+// const baseURL = 'https://wx.nnleo.cn'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.eventBus = new Event()
 Vue.prototype.$store = store
@@ -62,12 +61,13 @@ export default {
   config: {
     pages: [
       '^pages/tab-index/main',
-      'pages/tab-charts/main',
+      'pages/tab-issue/main',
       'pages/tab-more/main',
       'pages/tab-center/main',
 
       'pages/account-panel/main',
       'pages/account-record/main',
+      'pages/sub-album/main',
 
       'pages/socket-page/socket-connect/main',
       'pages/socket-page/socket-emiton/main',
@@ -80,7 +80,7 @@ export default {
     ],
     window: {
       'navigationBarBackgroundColor': '#fff',
-      'navigationBarTitleText': '鲨鱼记账',
+      'navigationBarTitleText': 'leo小筑',
       'navigationBarTextStyle': 'black',
       'backgroundColor': '#eeeeee',
       'backgroundTextStyle': 'dark'
@@ -99,7 +99,7 @@ export default {
         },
         {
           'text': 'Charts',
-          'pagePath': 'pages/tab-charts/main',
+          'pagePath': 'pages/tab-issue/main',
           'iconPath': '/static/tabbar-img/tab2.png',
           'selectedIconPath': '/static/tabbar-img/tab2-picked.png'
         },

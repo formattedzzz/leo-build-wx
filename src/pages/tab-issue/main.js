@@ -7,7 +7,7 @@ export default {
   config: {
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: '树洞广场',
+    navigationBarTitleText: '压图小工具',
     navigationBarTextStyle: 'black'
   }
 }
