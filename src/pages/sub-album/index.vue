@@ -79,29 +79,52 @@ export default {
         return item.checked
       }).map(img => img.path)
       if (!arr.length) return
-      wx.showLoading()
-      this.req({
-        url: '/api/del-album',
-        method: 'POST',
-        data: {
-          delArr: arr
-        }
-      }).then(({data}) => {
-        let res = data
-        wx.hideLoading()
-        if (res.code) {
-          wx.showToast({
-            title: '删除成功'
-          })
-          this.pathArr = this.pathArr.filter((item) => {
-            return !item.checked
-          })
-          this.showDel = false
+      wx.showModal({
+        content: '删除不可恢复,确认删除？',
+        success: (res) => {
+          if (res.confirm) {
+            wx.showLoading()
+            this.req({
+              url: '/api/del-album',
+              method: 'POST',
+              data: {
+                delArr: arr
+              }
+            }).then(({data}) => {
+              let res = data
+              wx.hideLoading()
+              if (res.code) {
+                wx.showToast({
+                  title: '删除成功'
+                })
+                this.pathArr = this.pathArr.filter((item) => {
+                  return !item.checked
+                })
+                this.showDel = false
+              } else {
+                wx.showToast({
+                  title: '删除失败',
+                  icon: 'none'
+                })
+              }
+            })
+          }
         }
       })
     },
     checkLink () {
-
+      let pathstr = ''
+      this.pathArr.forEach((item) => {
+        pathstr += (this.baseURL + item.path + '\n')
+      })
+      wx.setClipboardData({
+        data: pathstr,
+        success: () => {
+          wx.showToast({
+            title: '已复制到剪贴板'
+          })
+        }
+      })
     }
   },
   components: {

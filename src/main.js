@@ -5,8 +5,8 @@ import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const baseURL = 'http://localhost:7003'
-// const baseURL = 'https://wx.nnleo.cn'
+// const baseURL = 'http://localhost:7003'
+const baseURL = 'https://wx.nnleo.cn'
 Vue.prototype.baseURL = baseURL
 Vue.prototype.eventBus = new Event()
 Vue.prototype.$store = store

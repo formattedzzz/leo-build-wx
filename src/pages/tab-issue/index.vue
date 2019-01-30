@@ -49,18 +49,13 @@
         tempArr: [],
         showName: false,
         tempAdding: false,
-        resArr: [
-          // {
-          //   name: 'aaa.png',
-          //   path: 'http://aaaaaaaaadddddmmmaaaaaaaaj.png',
-          //   rate: 36,
-          //   sizeTxt: '234K'
-          // }
-        ]
+        resArr: [],
+        hasImglength: 0
       }
     },
     onLoad () {
       this.getopenid()
+      this.getImgNum()
     },
     methods: {
       getopenid () {
@@ -71,6 +66,17 @@
           if (res.code) {
             /* eslint-disable */
             this.__proto__.openid = res.openid
+          }
+        })
+      },
+      getImgNum () {
+        this.req({
+          url: '/api/get-album'
+        }).then(({data}) => {
+          let res = data
+          if (res.code) {
+            let pathArr = JSON.parse(res.data)
+            this.hasImglength = pathArr.length
           }
         })
       },
@@ -121,6 +127,13 @@
         }
       },
       handleUpload () {
+        if (this.hasImglength >= 50) {
+          wx.showToast({
+            title: '超出限额,请前往相册自行删除',
+            icon: 'none'
+          })
+          return
+        }
         let {tempArr} = this
         if (!tempArr.length || this.tempAdding) return
         if (!this.openid) {
@@ -190,6 +203,7 @@
         })
       },
       clearAll () {
+        if (this.tempAdding) return
         wx.showModal({
           content: '清空面板继续上传,请到我的相册查看压缩好的照片',
           success: (res) => {
@@ -198,36 +212,19 @@
               this.resArr = []
               current = 0
               wx.setClipboardData({
-                data: '',
-                success: () => {
-                }
+                data: ''
               })
             }
           }
         })
       },
       copyLink (link) {
-        wx.getClipboardData({
-          success: (res) => {
-            if (/http/.test(res.data)) {
-              wx.setClipboardData({
-                data: res.data + ' ' +link,
-                success: () => {
-                  wx.showToast({
-                    title: '已复制到剪贴板'
-                  })
-                }
-              })
-            } else {
-              wx.setClipboardData({
-                data: link,
-                success: () => {
-                  wx.showToast({
-                    title: '已复制到剪贴板'
-                  })
-                }
-              })
-            }
+        wx.setClipboardData({
+          data: link,
+          success: () => {
+            wx.showToast({
+              title: '已复制到剪贴板'
+            })
           }
         })
       }
