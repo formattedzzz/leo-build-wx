@@ -23,7 +23,7 @@
 - [x] 邀请好友答题
 - [x] 答题记录
 - [x] 房间聊天
-- [ ] ~~全局私信功能~~
+- [ ] ~~全局私信功能~~
 - [x] 一个方格小游戏
 - [x] 排行榜
 
@@ -98,6 +98,6 @@ npm run dev
 
 - [ ] [存、取两名玩家答题记录的API设计](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/qa-records.md)
 
-- [ ] [图片处理的路径、存储小结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/img-handle.md)
+- [ ] [图片处理的路径、存储小结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/img-handle.md)
 
 - [x] [尝试用githooks实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/git-hooks.md)
