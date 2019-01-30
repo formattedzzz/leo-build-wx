@@ -3,9 +3,18 @@
 ### 整体功能
 
 - [x] 一个账本小工具
-- [ ] 一个信息推送系统
-- [ ] 用户发布动态
-- [ ] 评论系统
+- [ ] ~~一个信息发布系统~~
+
+> 一个压图小工具
+
+- [x] 处理前后大小、展示压缩率
+- [x] 批量、顺序上传
+- [x] 自定义图片名称
+- [x] 图床存取【资源有限,个人限额50】
+- [x] 快速提取图片外链
+- [x] 图片预览
+- [x] 图片删除
+- [ ] 图片分组
 
 > 一个仿轻芒在线答题系统
 
@@ -14,7 +23,7 @@
 - [x] 邀请好友答题
 - [x] 答题记录
 - [x] 房间聊天
-- [ ] 全局私信功能
+- [ ] ~~全局私信功能~~
 - [x] 一个方格小游戏
 - [x] 排行榜
 
@@ -88,5 +97,7 @@ npm run dev
 - [x] [简简单单的、让你的debug控制台生动起来](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/colorful-debug.md)
 
 - [ ] [存、取两名玩家答题记录的API设计](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/qa-records.md)
+
+- [ ] [图片处理的路径、存储小结](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/img-handle.md)
 
 - [x] [尝试用githooks实现零配置的自动化部署](https://github.com/formattedzzz/leo-build-wx/blob/master/summary/git-hooks.md)
