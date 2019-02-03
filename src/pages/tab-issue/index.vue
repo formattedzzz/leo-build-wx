@@ -56,6 +56,12 @@
     onLoad () {
       this.getopenid()
       this.getImgNum()
+      this.eventBus.$on('updataImgNum', () => {
+        this.getImgNum()
+      })
+      this.eventBus.$on('hideLogin', (data) => {
+        this.getopenid()
+      })
     },
     methods: {
       getopenid () {
@@ -211,9 +217,6 @@
               this.tempArr = []
               this.resArr = []
               current = 0
-              wx.setClipboardData({
-                data: ''
-              })
             }
           }
         })

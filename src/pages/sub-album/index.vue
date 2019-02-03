@@ -100,6 +100,7 @@ export default {
                 this.pathArr = this.pathArr.filter((item) => {
                   return !item.checked
                 })
+                this.eventBus.$emit('updataImgNum', true)
                 this.showDel = false
               } else {
                 wx.showToast({
@@ -126,9 +127,6 @@ export default {
         }
       })
     }
-  },
-  components: {
-    
   }
 }
 </script>
