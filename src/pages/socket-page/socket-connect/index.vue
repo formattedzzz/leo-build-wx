@@ -12,7 +12,7 @@
         <h5 class="nickname">{{mate.nickname}}</h5>
       </div>
       <div v-if="roomMates.length <= 5" class="room-mate add-mate">
-        <div class="add-icon"><button class="share-btn" open-type="share"></button><img src="/static/svg/account-add.svg"></div>
+        <div class="add-icon"><button class="share-btn" data-info="leoo" open-type="share"></button><img src="/static/svg/account-add.svg"></div>
         <h5 class="nickname">添加</h5>
       </div>
     </div>
