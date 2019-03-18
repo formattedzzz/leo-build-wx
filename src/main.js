@@ -68,6 +68,8 @@ export default {
       'pages/account-panel/main',
       'pages/account-record/main',
       'pages/sub-album/main',
+      'pages/sub-welcome/main',
+      'pages/sub-pupteer/main',
 
       'pages/socket-page/socket-connect/main',
       'pages/socket-page/socket-emiton/main',

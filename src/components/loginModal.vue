@@ -49,17 +49,20 @@
         if (this.logining === true) {
           return
         }
+        this.logining = true
         if (e.target.errMsg === 'getUserInfo:fail auth deny') {
           wx.showToast({
             title: '请授权 爽快点',
             icon: 'none'
           })
+          this.logining = false
           return
         } else {
           if (this.onlyAuth === true) {
             this.onlyAuth = false
             this.show = false
             this.eventBus.$emit('hideLogin', true)
+            this.logining = false
             return
           }
         }

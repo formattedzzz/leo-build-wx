@@ -241,7 +241,7 @@
 <style lang="stylus">
 .issue-page
   background #555
-  height 1000px
+  min-height 100vh
 .temp-box
   width 100%
   padding 15px

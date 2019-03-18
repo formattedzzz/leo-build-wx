@@ -9,6 +9,8 @@
   </div>
   <div class="other-info" @click="toQarecord">我的对战记录</div>
   <div class="other-info" @click="toAlbum">我的相册</div>
+  <div class="other-info" @click="toWelcome">welcome</div>
+  <div class="other-info" @click="toTest">puppeteer</div>
   <login-modal></login-modal>
 </div>
 </template>
@@ -45,6 +47,16 @@
       toAlbum () {
         wx.navigateTo({
           url: '/pages/sub-album/main'
+        })
+      },
+      toWelcome () {
+        wx.navigateTo({
+          url: '/pages/sub-welcome/main'
+        })
+      },
+      toTest () {
+        wx.navigateTo({
+          url: '/pages/sub-pupteer/main'
         })
       }
     },

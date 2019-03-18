@@ -158,6 +158,7 @@
       this.messageShow = false
       this.socket.off('diss_begin')
       this.socket.off('room_msg')
+      this.cancalMatch(1)
     },
     onShareAppMessage (e) {
       if (e.from === 'button') {
@@ -283,7 +284,12 @@
           })
         }, 2000)
       },
-      cancalMatch () {
+      cancalMatch (type) {
+        if (type === 1) {
+          this.matching = false
+          this.socket.emit('cancel_match', true)
+          return
+        }
         wx.showActionSheet({
           itemList: ['确认退出匹配'],
           success: (res) => {
