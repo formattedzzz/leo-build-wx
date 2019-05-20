@@ -11,6 +11,8 @@
   <div class="other-info" @click="toAlbum">我的相册</div>
   <div class="other-info" @click="toWelcome">welcome</div>
   <div class="other-info" @click="toTest">puppeteer</div>
+  <div class="other-info" @click="toEvent('leo')">test</div>
+  <div class="other-info" @click="toEvent('sss')">test</div>
   <login-modal></login-modal>
 </div>
 </template>
@@ -30,6 +32,7 @@
       this.eventBus.$on('updateUserInfo', () => {
         this.userInfo = wx.getStorageSync('userInfo')
       })
+      this.eventBus.$emit('test', 'emit before on')
     },
     onShow () {
     },
@@ -57,6 +60,11 @@
       toTest () {
         wx.navigateTo({
           url: '/pages/sub-pupteer/main'
+        })
+      },
+      toEvent (id) {
+        wx.navigateTo({
+          url: '/pages/sub-test/main?from=' + id
         })
       }
     },
@@ -100,7 +108,7 @@
     font-weight 600
     color #555
 .other-info
-  margin 10px
+  margin 4px 10px
   background #fff
   padding 10px
   font-size 16px

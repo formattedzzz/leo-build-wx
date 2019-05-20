@@ -100,7 +100,7 @@ export default {
     } else {
       this.eventBus.$on('hideLogin', () => {
         this.connect()
-      })
+      }, 1)
     }
   },
   onHide () {

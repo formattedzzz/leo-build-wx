@@ -58,10 +58,10 @@
       this.getImgNum()
       this.eventBus.$on('updataImgNum', () => {
         this.getImgNum()
-      })
+      }, 1)
       this.eventBus.$on('hideLogin', (data) => {
         this.getopenid()
-      })
+      }, 1)
     },
     methods: {
       getopenid () {

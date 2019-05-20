@@ -105,17 +105,18 @@ export default {
       })
     }
   },
-  onLoad () {    
+  onLoad () {   
+    console.log(this.eventBus)
     let {currentYear} = this
     if (wx.getStorageSync('token')) {
       this.getIndexData(currentYear)
     } else {
       // 登录完成刷新数据
       this.eventBus.$on('hideLogin', (data) => {
+        console.log('index init')
         this.getIndexData(currentYear)
-      })
+      }, '')
     }
-    
   },
   onShow () {
     let update = wx.getStorageSync('updateAccount')

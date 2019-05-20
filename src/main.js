@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import Event from './utils/event'
+// import Event from './utils/event'
+import Event from './utils/eventHub'
 import store from './store/index'
 Vue.config.productionTip = false
 App.mpType = 'app'
@@ -70,6 +71,7 @@ export default {
       'pages/sub-album/main',
       'pages/sub-welcome/main',
       'pages/sub-pupteer/main',
+      'pages/sub-test/main',
 
       'pages/socket-page/socket-connect/main',
       'pages/socket-page/socket-emiton/main',

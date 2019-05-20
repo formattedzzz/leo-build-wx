@@ -25,10 +25,10 @@
         //   success: (res) => {
         //     if (!res.authSetting['scope.userInfo']) {
         //       wx.showToast({
-        //         title: '本小小程序请求大人的授权',
+        //         title: '本小小程序请求授权',
         //         icon: 'none'
         //       })
-        //       console.log('本小小程序请求大人的授权')
+        //       console.log('本小小程序请求授权')
         //       // this.show = true
         //       this.onlyAuth = true
         //     }
