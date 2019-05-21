@@ -6,6 +6,9 @@ export default class Event {
     this.cached = {}
   }
   $on (name, func, id = '', useCached = false) {
+    // name 事件名称 func 函数调用栈(参数、上下文在监听的时候唯一确定) id func标志位
+    // 如果没有标志位或没有相同标志位的调用栈 直接push 否则替换 更新为最新参数、上下文的调用栈
+    // useCached 默认不使用缓存 若明确存在可能先触发后监听的情况在手动打开
     if (this.store[name]) {
       if (id === '' || !this.store[name].some((v) => v.id === id)) {
         this.store[name].push({ func, id })
