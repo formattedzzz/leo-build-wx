@@ -31,7 +31,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 6,
 			"list": [
 				{
 					"id": 0,
@@ -74,9 +74,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "welcome",
-					"pathName": "pages/sub-welcome/main",
+					"pathName": "pages/sub-test/main",
 					"query": "",
 					"scene": null
 				},
@@ -91,6 +91,7 @@
 					"id": -1,
 					"name": "calender",
 					"pathName": "pages/sub-pupteer/main",
+					"query": "",
 					"scene": null
 				}
 			]
