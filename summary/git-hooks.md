@@ -1,19 +1,21 @@
-### 尝试用githooks实现零配置的自动化部署
+# 尝试用 githooks 实现零配置的自动化部署
 
 关于自动化部署现在已经有很多很多方案。
+
 - [WebHook](https://segmentfault.com/a/1190000005644039)
 - [fjpublish](https://github.com/zczhangchao51/fjpublish)
 - pm2 (ecosystem.json) 好像很不错
 - ~~jenkins~~ 好像配置很繁琐
 - ~~Fabric~~ 没了解过
 
-有很多关于WebHook的案例，他的原理是在业务中嵌入代码另外起一个服务来监听远程仓库的推送提交然后执行部署脚本。这样真的很麻烦：
+有很多关于 WebHook 的案例，他的原理是在业务中嵌入代码另外起一个服务来监听远程仓库的推送提交然后执行部署脚本。这样真的很麻烦：
+
 - 需要引入额外包
 - 需要另外起服务
 - 需要在远程仓库做配置
-- 因为新起了服务还需要对niginx改配置
+- 因为新起了服务还需要对 niginx 改配置
 
-githook的原理几乎是一样的。区别在githook是在云服务器上新建一个裸仓库，用裸仓库来充当远程服务器。这样就绕过了上面所有的限制。
+githook 的原理几乎是一样的。区别在 githook 是在云服务器上新建一个裸仓库，用裸仓库来充当远程服务器。这样就绕过了上面所有的限制。
 直接上操作：
 
 ```bash
@@ -28,12 +30,13 @@ git init --bare
 # xxx-bare.git 最好是：你实际的项目名-bare.git
 ```
 
-裸仓库与 git init 初使化的仓库不太一样，裸仓库其实相当于通过克隆来的仓库里的.git文件夹，整个裸仓库中只有git索引（index），不包含工作目录。简单来说它是一个有灵魂没有肉体的仓库，包含所有版本、分支信息。
-接下来cd到xxx-bare.git/hooks。我们看下都有啥：
+裸仓库与 git init 初使化的仓库不太一样，裸仓库其实相当于通过克隆来的仓库里的.git 文件夹，整个裸仓库中只有 git 索引（index），不包含工作目录。简单来说它是一个有灵魂没有肉体的仓库，包含所有版本、分支信息。
+接下来 cd 到 xxx-bare.git/hooks。我们看下都有啥：
 
-![](https://i.loli.net/2019/01/21/5c4541f0ba880.png)
+![pic](https://i.loli.net/2019/01/21/5c4541f0ba880.png)
 
-提交、推送、更新一大堆乱七八糟的。因为这是在服务器上的仓库，一般我们会触发的钩子也就是推送。复制并重命名post-update.sample文件:
+提交、推送、更新一大堆乱七八糟的。因为这是在服务器上的仓库，一般我们会触发的钩子也就是推送。复制并重命名 post-update.sample 文件:
+
 ```bash
 cp post-update.sample post-update
 vim post-update
@@ -58,18 +61,18 @@ git clean -df
 git pull origin2 master
 
 #pm2重启项目即可
-pm2 restart app.js 
+pm2 restart app.js
 ```
 
-> 注意： 一定要unset GIT_DIR清除变量， 不然会引起remote: fatal: Not a git repository: ‘.’错误。
+> 注意： 一定要 unset GIT_DIR 清除变量， 不然会引起 remote: fatal: Not a git repository: ‘.’错误。
 
-给post-update开个光，添加执行权限：
+给 post-update 开个光，添加执行权限：
 
 ```bash
 chmod +x post-update
 ```
 
-本地仓库添加remote源
+本地仓库添加 remote 源
 
 ```bash
 git remote add production ubuntu@134.175.168.18:/home/ubuntu/account-server-bare.git

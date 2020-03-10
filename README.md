@@ -28,6 +28,7 @@
 - [x] 排行榜
 
 ### 整体技术栈
+
 - 前端：mpvue
 - 后端：express
 - 通讯：socket.io
@@ -43,7 +44,7 @@
 
 - 前端环境
 
-``` bash
+```bash
 git clone https://github.com/formattedzzz/leo-build-wx.git
 cd leo-build-wx
 npm install
@@ -53,7 +54,7 @@ npm run dev
 
 - 服务端环境
 
-``` bash
+```bash
 git clone https://github.com/formattedzzz/leo-build-server.git
 
 # 启动之前手动建立数据库并修改数据库密码 打开终端或可视化工具
